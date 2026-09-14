@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#143a4a">
+  <title>Cellul'Explorateur - Mission microscope</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="bg-cells" aria-hidden="true"></div>
+  <main class="app" id="app">
+    <header class="topbar">
+      <button class="brand" id="homeBtn" aria-label="Revenir à l'accueil"><span class="brand-icon">◉</span> Cellul'Explorateur</button>
+      <div class="hud hidden" id="hud">
+        <span id="missionLabel">Mission 1/11</span>
+        <div class="progress" aria-label="Progression"><i id="progressBar"></i></div>
+        <span class="score"><b id="score">0</b> pts</span>
+      </div>
+    </header>
+
+    <section class="screen active hero" id="homeScreen">
+      <div class="hero-copy">
+        <span class="eyebrow">Cellules et échelles · Seconde</span>
+        <h1>Observe. Mesure.<br><em>Calcule.</em></h1>
+        <p>Onze missions pour comparer cellules végétales, cellules animales et bactéries, puis maîtriser l’estimation et le calcul d’une taille réelle.</p>
+        <div class="hero-facts"><span>11 missions</span><span>2 mesures interactives</span><span>≈ 12 min</span></div>
+        <button class="primary big" id="startBtn">Lancer l’exploration <span>→</span></button>
+        <p class="microcopy">Aucune donnée enregistrée</p>
+      </div>
+      <div class="hero-visual" aria-label="Scientifique excentrique observant des cellules au microscope">
+        <div class="hero-picture"><img src="illustrations/intro-laboratoire-cartoon-v2.webp" alt="Scientifique excentrique utilisant un microscope dans un laboratoire coloré"></div>
+        <div class="floating-tag tag-a">Cellules</div>
+        <div class="floating-tag tag-b">Échelles</div>
+      </div>
+    </section>
+
+    <section class="screen mission" id="gameScreen">
+      <div class="mission-card" id="missionCard"></div>
+    </section>
+
+    <section class="screen result" id="resultScreen">
+      <div class="result-card">
+        <div class="badge" id="resultBadge">🔬</div>
+        <span class="eyebrow">Mission accomplie</span>
+        <h1 id="resultTitle">Expert du microscope</h1>
+        <p id="resultText"></p>
+        <div class="final-score"><strong id="finalScore">0</strong><span>/ 1 100 points</span></div>
+        <div class="result-actions">
+          <button class="primary" id="retryBtn">Rejouer</button>
+          <button class="secondary" id="reviewBtn">Voir les notions clés</button>
+        </div>
+        <div class="recap hidden" id="recap">
+          <h2>La méthode qui marche</h2>
+          <ol>
+            <li>Mesurer l’objet sur le document.</li>
+            <li>Mesurer le segment d’échelle avec la même unité.</li>
+            <li>Calculer : taille dessin objet ÷ taille dessin segment.</li>
+            <li>Multiplier le résultat par la valeur réelle du segment.</li>
+          </ol>
+          <p><b>À retenir :</b> 1 mm = 1 000 µm ; une feuille de papier mesure environ 100 µm d’épaisseur.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
