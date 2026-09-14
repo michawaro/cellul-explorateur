@@ -1,5 +1,5 @@
-CELLUL'EXPLORATEUR
-==================
+CELLULOSCOPE
+===========
 
 Installation
 1. Décompresser le dossier complet.
