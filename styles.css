@@ -78,8 +78,8 @@ html.handheld .actions{margin-top:8px;flex:0 0 auto}
 html.handheld .formula{margin:0 0 8px;padding:8px;gap:6px;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,.9fr) auto;font-size:13px}
 html.handheld .formula input{padding:8px 6px;font-size:14px}
 html.handheld .formula span{transform:none}
-html.handheld .keypad{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
-html.handheld .key{min-height:40px;border:0;border-radius:10px;background:#e7f3ef;color:var(--ink);font:800 16px inherit}
+html.handheld .keypad{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;flex:0 0 auto;margin-top:6px}
+html.handheld .key{min-height:0;height:clamp(28px,9vh,40px);border:0;border-radius:10px;background:#e7f3ef;color:var(--ink);font:800 16px inherit}
 html.handheld .scale-lab{display:flex;flex-direction:column;flex:1;min-height:0}
 html.handheld .cell-stage{flex:1;min-height:0;aspect-ratio:auto;height:auto}
 html.handheld .scale-help{padding:6px 2px 0;font-size:12px;flex-direction:row;align-items:center}
@@ -96,6 +96,12 @@ html.handheld .toast{bottom:max(12px,env(safe-area-inset-bottom))}
 html.handheld.landscape .mission-main.has-media{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:stretch}
 html.handheld.landscape .mission-main.has-media .image-panel,html.handheld.landscape .mission-main.has-media .scale-lab{height:100%;max-height:none}
 html.handheld.landscape .mission-quiz{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+html.handheld.landscape .mission-main.has-media.is-calc{grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);grid-template-rows:minmax(0,1fr) auto}
+html.handheld.landscape .mission-main.has-media.is-calc .image-panel{grid-column:1;grid-row:1;height:auto;max-height:100%}
+html.handheld.landscape .mission-main.has-media.is-calc .mission-quiz{grid-column:2;grid-row:1}
+html.handheld.landscape .mission-main.has-media.is-calc .keypad{grid-column:1/-1;grid-row:2;margin-top:4px}
+html.handheld.compact .is-calc .question{font-size:12px;line-height:1.25;margin:0 0 6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+html.handheld .is-calc .formula{margin:0}
 html.handheld.landscape .options{grid-template-columns:1fr 1fr;flex:1}
 html.handheld.landscape .compare{grid-template-columns:1fr;flex:1}
 html.handheld.landscape .hero-visual{display:grid!important}
@@ -108,7 +114,7 @@ html.handheld .formula span{white-space:nowrap}
   html.handheld .mission-head h1{font-size:16px}
   html.handheld .question{font-size:13px}
   html.handheld .option{min-height:36px;padding:6px 8px;font-size:12px}
-  html.handheld .key{min-height:34px}
+  html.handheld .key{height:clamp(26px,8vh,34px);min-height:0}
   html.handheld .formula{grid-template-columns:repeat(6,minmax(0,1fr))}
 }
 

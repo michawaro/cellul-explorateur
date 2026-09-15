@@ -93,9 +93,9 @@ function render(){
   }
   if(m.type==="calc"){
     quiz+=`<div class="formula"><input id="drawSize" value="${String(m.drawSize).replace('.',',')}" readonly aria-label="Longueur du dessin"><span>÷</span><input id="scaleDraw" value="${String(m.scaleDraw).replace('.',',')}" readonly aria-label="Longueur dessinée du segment"><span>× ${String(m.scaleReal).replace('.',',')} µm =</span><input id="calcAnswer" inputmode="${handheld?"none":"decimal"}" autocomplete="off" placeholder="Réponse en µm" aria-label="Taille réelle en micromètres"><button class="primary" id="calcBtn">Vérifier</button></div>`;
-    if(handheld) quiz+=keypadHTML();
   }
-  $("#missionCard").innerHTML=head(m)+`<div class="mission-main${hasMedia?" has-media":""}">${m.type==="scale"?scaleLab(m):image(m)}<div class="mission-quiz">${quiz}</div></div><div class="feedback" id="feedback"></div><div class="actions"><button class="primary hidden" id="nextBtn">${current===missions.length-1?"Voir mon résultat":"Mission suivante →"}</button></div>`;
+  const pad=m.type==="calc"&&handheld?keypadHTML():"";
+  $("#missionCard").innerHTML=head(m)+`<div class="mission-main${hasMedia?" has-media":""}${m.type==="calc"?" is-calc":""}">${m.type==="scale"?scaleLab(m):image(m)}<div class="mission-quiz">${quiz}</div>${pad}</div><div class="feedback" id="feedback"></div><div class="actions"><button class="primary hidden" id="nextBtn">${current===missions.length-1?"Voir mon résultat":"Mission suivante →"}</button></div>`;
   document.querySelectorAll(".option").forEach(b=>b.onclick=()=>answerOption(+b.dataset.i));
   if(m.type==="scale") initScaleLab(m);
   if(m.type==="calc"){
