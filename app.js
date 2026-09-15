@@ -6,7 +6,7 @@ const missions=[
  {title:"Déroule l’échelle",sub:"Manipuler avant de calculer",type:"scale",question:"Place le segment de 15 µm au début de la cellule, puis tire sur sa poignée jusqu’à l’autre extrémité. Combien de segments entiers entrent dans sa longueur ?",options:["Entre 7 et 8 segments","Entre 5 et 6 segments","Entre 8 et 9 segments","Entre 10 et 11 segments"],answer:0,explain:"On peut placer 7 segments complets, mais pas un huitième : la longueur correspond donc à un peu plus de 7 segments et à moins de 8.",image:"illustrations/elodee-estimation-interactive.webp",scaleReal:15,segmentFraction:.077,stretch:true,subject:"cellule d’Élodée"},
  {title:"Encadre la taille",sub:"Passer des segments aux micromètres",type:"qcm",question:"Le segment représente 15 µm. La cellule contient entre 7 et 8 segments. Quel intervalle de taille réelle peux-tu prévoir ?",options:["105 µm < taille < 120 µm","7 µm < taille < 8 µm","15 µm < taille < 105 µm","120 µm < taille < 135 µm"],answer:0,explain:"7 × 15 = 105 µm et 8 × 15 = 120 µm. Le résultat précis devra obligatoirement être compris entre ces deux valeurs.",image:"illustrations/elodee-encadrement-15um.webp",calculator:true},
  {title:"Combien de segments ?",sub:"Diviser pour mesurer",type:"calc",calcMode:"ratio",question:"Combien de fois le segment d’échelle entre-t-il dans la longueur dessinée de la cellule ? Complète : 12,2 ÷ … = … (valeur exacte ou arrondie au dixième).",answer:7.625,roundedAnswer:7.6,drawSize:12.2,scaleDraw:1.6,explain:"12,2 ÷ 1,6 = 7,625, soit 7,6 au dixième. La cellule contient donc un peu plus de 7 segments d’échelle.",image:"illustrations/elodee-division-mesures.webp",calculator:true},
- {title:"La taille précise",sub:"Multiplier par la valeur réelle",type:"calc",calcMode:"scale",question:"Tu as 12,2 ÷ 1,6. Multiplie maintenant par la valeur réelle du segment pour obtenir la taille de la cellule. Valeur exacte ou arrondie au dixième.",answer:114.375,roundedAnswer:114.4,drawSize:12.2,scaleDraw:1.6,scaleReal:15,explain:"12,2 ÷ 1,6 = 7,625, puis 7,625 × 15 = 114,375 µm, soit environ 114,4 µm.",image:"illustrations/elodee-division-mesures.webp",calculator:true},
+ {title:"La taille précise",sub:"Multiplier par la valeur réelle",type:"calc",calcMode:"scale",question:"Complète le calcul de la taille réelle : 12,2 ÷ 1,6 × … = … µm. Valeur exacte ou arrondie au dixième.",answer:114.375,roundedAnswer:114.4,drawSize:12.2,scaleDraw:1.6,scaleReal:15,explain:"12,2 ÷ 1,6 × 15 = 114,375 µm (ou 114,4 µm au dixième). Étapes : 12,2 ÷ 1,6 = 7,625, puis 7,625 × 15 = 114,375.",image:"illustrations/elodee-division-mesures.webp",calculator:true},
  {title:"L’épaisseur d’une feuille",sub:"Donner du sens au micromètre",type:"scale",question:"Les 10 feuilles mesurent 1 mm, soit 1 000 µm. Place le segment de 100 µm sur une feuille, puis tire jusqu’au bout de la pile. Combien de segments de 100 µm dans 1 mm ?",options:["10 segments : une feuille ≈ 100 µm","100 segments : une feuille ≈ 10 µm","1 segment : une feuille ≈ 1 mm","2 segments : une feuille ≈ 500 µm"],answer:0,explain:"10 × 100 µm = 1 000 µm = 1 mm. Une feuille mesure donc environ 100 µm — presque la longueur de la cellule d’Élodée (114,4 µm).",image:"illustrations/pile-feuilles-zoom.webp",scaleReal:100,segmentFraction:.038,stretch:true,tapeLeft:"31%",tapeTop:"50%",subject:"pile de feuilles",scaleHelp:"Glisse le segment bleu sur une feuille, puis tire sur la poignée orange jusqu’au bout de la pile."},
  {title:"Une échelle plus grande",sub:"Comparer avant de calculer",type:"scale",question:"Glisse le segment de 2 µm le long de la bactérie. Que peux-tu conclure ?",options:["La bactérie est plus petite que le segment, mais dépasse sa moitié","La bactérie contient entre 1 et 2 segments entiers","La bactérie est exactement deux fois plus longue que le segment","La bactérie est plus petite que la moitié du segment"],answer:0,explain:"Le segment entier est plus long que la bactérie, mais sa moitié est plus courte : la bactérie mesure donc entre 0,5 et 1 segment.",image:"illustrations/bacterie-mesure.webp",scaleReal:2,segmentFraction:.60,stretch:false,subject:"bactérie"},
  {title:"Encadre la bactérie",sub:"Passer aux micromètres",type:"qcm",question:"La bactérie mesure entre 0,5 et 1 segment, et un segment représente 2 µm. Quel est son intervalle de taille ?",options:["1 µm < taille < 2 µm","0,5 µm < taille < 1 µm","2 µm < taille < 4 µm","0 µm < taille < 0,5 µm"],answer:0,explain:"0,5 × 2 = 1 µm et 1 × 2 = 2 µm. La bactérie mesure donc entre 1 et 2 µm.",calculator:true},
@@ -234,15 +234,16 @@ function answerCalc(){
     if(!divRaw.trim()||!quotRaw.trim()){toast("Complète les deux cases : 12,2 ÷ … = …");return}
     freeze();
     const ok=numOk(divRaw,m.scaleDraw,m.scaleDraw)&&numOk(quotRaw,m.answer,m.roundedAnswer);
-    finish(ok,m.explain+(ok?"":" Tu dois trouver 12,2 ÷ 1,6 = 7,625 (ou 7,6 au dixième)."));
+    finish(ok,(ok?"":`Tu as écrit 12,2 ÷ ${divRaw.trim()||"…"} = ${quotRaw.trim()||"…"}. `)+m.explain);
     return;
   }
   if(mode==="scale"){
     const realRaw=$("#scaleRealInput").value, resRaw=$("#calcAnswer").value;
     if(!realRaw.trim()||!resRaw.trim()){toast("Indique × ? µm et le résultat.");return}
     freeze();
-    const ok=numOk(realRaw,m.scaleReal,m.scaleReal)&&numOk(resRaw,m.answer,m.roundedAnswer);
-    finish(ok,m.explain+(ok?"":" Multiplie 7,625 par 15 µm : tu dois obtenir 114,375 µm (ou 114,4 µm)."));
+    const realOk=numOk(realRaw,m.scaleReal,m.scaleReal), resOk=numOk(resRaw,m.answer,m.roundedAnswer), ok=realOk&&resOk;
+    const shown=`12,2 ÷ 1,6 × ${realRaw.trim()||"…"} = ${resRaw.trim()||"…"}`;
+    finish(ok,(ok?"":`Tu as écrit ${shown}. `)+m.explain);
     return;
   }
   const raw=$("#calcAnswer").value.trim().replace(",","."),c=parseFloat(raw);
