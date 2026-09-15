@@ -13,23 +13,115 @@ const missions=[
 ];
 let current=0,score=0,locked=false,currentAnswer=0;
 const $=s=>document.querySelector(s), screens=["#homeScreen","#gameScreen","#resultScreen"];
-function show(id){screens.forEach(s=>$(s).classList.toggle("active",s===id));$("#hud").classList.toggle("hidden",id!=="#gameScreen")}
-function start(){current=0;score=0;locked=false;$("#score").textContent=0;show("#gameScreen");render()}
+function isHandheld(){
+  return navigator.maxTouchPoints>0
+    || window.matchMedia("(pointer: coarse)").matches
+    || /Mobi|Android|iPhone|iPad|iPod|SamsungBrowser|Mobile/i.test(navigator.userAgent);
+}
+function fitLayout(){
+  const h=Math.round(window.visualViewport?visualViewport.height:window.innerHeight);
+  const w=Math.round(window.visualViewport?visualViewport.width:window.innerWidth);
+  const handheld=isHandheld();
+  const portrait=h>w;
+  const compact=h<=520;
+  document.documentElement.style.setProperty("--vh",h+"px");
+  document.documentElement.classList.toggle("handheld",handheld);
+  document.documentElement.classList.toggle("portrait",portrait);
+  document.documentElement.classList.toggle("landscape",!portrait);
+  document.documentElement.classList.toggle("compact",compact);
+  document.documentElement.classList.toggle("is-fullscreen",!!(document.fullscreenElement||document.webkitFullscreenElement));
+  const overlay=$("#rotateOverlay");
+  if(!overlay)return;
+  const show=handheld&&portrait;
+  overlay.classList.toggle("show",show);
+  overlay.setAttribute("aria-hidden",show?"false":"true");
+  overlay.inert=!show;
+  document.body.classList.toggle("locked-portrait",show);
+}
+async function enterImmersive(){
+  if(!isHandheld())return;
+  const root=document.documentElement;
+  const withTimeout=(p,ms=450)=>Promise.race([Promise.resolve(p).catch(()=>{}),new Promise(r=>setTimeout(r,ms))]);
+  const req=root.requestFullscreen||root.webkitRequestFullscreen;
+  if(req&&!document.fullscreenElement&&!document.webkitFullscreenElement){
+    await withTimeout(req.call(root,{navigationUI:"hide"}));
+  }
+  try{
+    if(screen.orientation&&screen.orientation.lock) await withTimeout(screen.orientation.lock("landscape"));
+  }catch(_){}
+  fitLayout();
+}
+function show(id){
+  screens.forEach(s=>$(s).classList.toggle("active",s===id));
+  $("#hud").classList.toggle("hidden",id!=="#gameScreen");
+  document.body.classList.toggle("on-result",id==="#resultScreen");
+}
+async function start(){
+  await enterImmersive();
+  current=0;score=0;locked=false;$("#score").textContent=0;show("#gameScreen");render();
+}
 function head(m){return `<div class="mission-head"><div class="mission-num">${current+1}</div><div><span class="eyebrow">Mission ${current+1} sur ${missions.length}</span><h1>${m.title}</h1><p>${m.sub}</p></div></div>`}
 function image(m){return m.image?`<div class="image-panel"><img src="${m.image}" alt="Support d'observation pour la question"></div>`:""}
 function scaleLab(m){return `<div class="scale-lab"><div class="cell-stage" id="cellStage"><img src="${m.image}" alt="Support de mesure : ${m.subject}"><div class="scale-tape${m.stretch?"":" fixed"}" id="scaleTape" aria-label="Segment d’échelle déplaçable"><span class="tape-value">${m.scaleReal} µm</span>${m.stretch?'<b class="tape-handle" id="tapeHandle" title="Tirer pour dérouler"></b>':""}</div></div><div class="scale-help"><span>↔️ ${m.stretch?"Glisse le segment bleu, puis tire sur la poignée orange.":"Glisse le segment bleu pour le comparer à la bactérie."}</span><button class="secondary mini" id="resetTape" type="button">Recommencer</button></div></div>`}
+function keypadHTML(){return `<div class="keypad" id="keypad" aria-label="Clavier numérique">${["1","2","3","4","5","6","7","8","9",",","0","⌫"].map(k=>`<button type="button" class="key" data-k="${k}">${k}</button>`).join("")}</div>`}
 function shuffledOptions(m){const choices=m.options.map((text,index)=>({text,correct:index===m.answer}));for(let i=choices.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[choices[i],choices[j]]=[choices[j],choices[i]]}currentAnswer=choices.findIndex(choice=>choice.correct);return choices}
-function render(){locked=false;const m=missions[current];$("#missionLabel").textContent=`Mission ${current+1}/${missions.length}`;$("#progressBar").style.width=`${current/missions.length*100}%`;let body=head(m)+(m.type==="scale"?scaleLab(m):image(m))+`<div class="question">${m.question}</div>`;
- if(m.type==="qcm"||m.type==="compare"||m.type==="scale"){const choices=shuffledOptions(m);body+=`<div class="${m.type==="compare"?"compare":"options"}">${choices.map((choice,i)=>`<button class="option" data-i="${i}">${choice.text}</button>`).join("")}</div>`}
- if(m.type==="calc") body+=`<div class="formula"><input id="drawSize" value="${String(m.drawSize).replace('.',',')}" readonly aria-label="Longueur du dessin"><span>÷</span><input id="scaleDraw" value="${String(m.scaleDraw).replace('.',',')}" readonly aria-label="Longueur dessinée du segment"><span>× ${String(m.scaleReal).replace('.',',')} µm =</span><input id="calcAnswer" inputmode="decimal" autocomplete="off" placeholder="Réponse en µm" aria-label="Taille réelle en micromètres"><button class="primary" id="calcBtn">Vérifier</button></div>`;
- body+=`<div class="feedback" id="feedback"></div><div class="actions"><button class="primary hidden" id="nextBtn">${current===missions.length-1?"Voir mon résultat":"Mission suivante →"}</button></div>`;$("#missionCard").innerHTML=body;
- document.querySelectorAll(".option").forEach(b=>b.onclick=()=>answerOption(+b.dataset.i));if(m.type==="scale")initScaleLab(m);if(m.type==="calc"){$("#calcBtn").onclick=answerCalc;$("#calcAnswer").onkeydown=e=>{if(e.key==="Enter")answerCalc()};$("#calcAnswer").focus()}$("#nextBtn").onclick=next;window.scrollTo({top:0,behavior:"smooth"});}
+function render(){
+  locked=false;
+  const m=missions[current];
+  const handheld=document.documentElement.classList.contains("handheld");
+  $("#missionLabel").textContent=`Mission ${current+1}/${missions.length}`;
+  $("#progressBar").style.width=`${current/missions.length*100}%`;
+  const hasMedia=m.type==="scale"||!!m.image;
+  let quiz=`<div class="question">${m.question}</div>`;
+  if(m.type==="qcm"||m.type==="compare"||m.type==="scale"){
+    const choices=shuffledOptions(m);
+    quiz+=`<div class="${m.type==="compare"?"compare":"options"}">${choices.map((choice,i)=>`<button class="option" data-i="${i}">${choice.text}</button>`).join("")}</div>`;
+  }
+  if(m.type==="calc"){
+    quiz+=`<div class="formula"><input id="drawSize" value="${String(m.drawSize).replace('.',',')}" readonly aria-label="Longueur du dessin"><span>÷</span><input id="scaleDraw" value="${String(m.scaleDraw).replace('.',',')}" readonly aria-label="Longueur dessinée du segment"><span>× ${String(m.scaleReal).replace('.',',')} µm =</span><input id="calcAnswer" inputmode="${handheld?"none":"decimal"}" autocomplete="off" placeholder="Réponse en µm" aria-label="Taille réelle en micromètres"><button class="primary" id="calcBtn">Vérifier</button></div>`;
+    if(handheld) quiz+=keypadHTML();
+  }
+  $("#missionCard").innerHTML=head(m)+`<div class="mission-main${hasMedia?" has-media":""}">${m.type==="scale"?scaleLab(m):image(m)}<div class="mission-quiz">${quiz}</div></div><div class="feedback" id="feedback"></div><div class="actions"><button class="primary hidden" id="nextBtn">${current===missions.length-1?"Voir mon résultat":"Mission suivante →"}</button></div>`;
+  document.querySelectorAll(".option").forEach(b=>b.onclick=()=>answerOption(+b.dataset.i));
+  if(m.type==="scale") initScaleLab(m);
+  if(m.type==="calc"){
+    const input=$("#calcAnswer");
+    $("#calcBtn").onclick=answerCalc;
+    input.onkeydown=e=>{if(e.key==="Enter")answerCalc()};
+    if(handheld){
+      input.readOnly=true;
+      input.blur();
+      document.querySelectorAll(".key").forEach(btn=>btn.onclick=()=>{
+        if(locked)return;
+        const k=btn.dataset.k;
+        if(k==="⌫") input.value=input.value.slice(0,-1);
+        else if(k==="," && (input.value.includes(",")||input.value.includes("."))) return;
+        else input.value+=k;
+      });
+    }else input.focus();
+  }
+  $("#nextBtn").onclick=next;
+  if(!handheld) window.scrollTo({top:0,behavior:"smooth"});
+}
 function initScaleLab(m){const stage=$("#cellStage"),tape=$("#scaleTape"),handle=$("#tapeHandle");let action=null,startX=0,startY=0,startLeft=0,startTop=0,startWidth=0,segment=0;const reset=()=>{segment=stage.clientWidth*m.segmentFraction;tape.style.setProperty("--segment",`${segment}px`);tape.style.width=`${segment}px`;tape.style.left="3%";tape.style.top="78%"};const down=(e,mode)=>{e.preventDefault();action=mode;startX=e.clientX;startY=e.clientY;startLeft=tape.offsetLeft;startTop=tape.offsetTop;startWidth=tape.offsetWidth;tape.setPointerCapture(e.pointerId)};tape.onpointerdown=e=>{if(e.target!==handle)down(e,"move")};if(handle)handle.onpointerdown=e=>down(e,"resize");tape.onpointermove=e=>{if(!action)return;if(action==="resize"){const max=stage.clientWidth-tape.offsetLeft-5;tape.style.width=`${Math.max(segment,Math.min(max,startWidth+e.clientX-startX))}px`}else{const left=Math.max(0,Math.min(stage.clientWidth-tape.offsetWidth,startLeft+e.clientX-startX));const top=Math.max(0,Math.min(stage.clientHeight-tape.offsetHeight,startTop+e.clientY-startY));tape.style.left=`${left}px`;tape.style.top=`${top}px`}};tape.onpointerup=tape.onpointercancel=()=>action=null;$("#resetTape").onclick=reset;reset()}
 function answerOption(i){if(locked)return;const m=missions[current];locked=true;document.querySelectorAll(".option").forEach((b,j)=>{b.disabled=true;if(j===currentAnswer)b.classList.add("good");if(j===i&&i!==currentAnswer)b.classList.add("bad")});finish(i===currentAnswer,m.explain)}
 function n(v){return parseFloat(v.trim().replace(",","."))}
-function answerCalc(){if(locked)return;const m=missions[current],raw=$("#calcAnswer").value.trim().replace(",","."),c=parseFloat(raw);if(Number.isNaN(c)){toast("Saisis ton résultat dans la dernière case.");return}locked=true;const decimals=(raw.split(".")[1]||"").length,exact=Math.abs(c-m.answer)<.0005,rounded=decimals===1&&Math.abs(c-m.roundedAnswer)<.0005,ok=exact||rounded;["#drawSize","#scaleDraw","#calcAnswer"].forEach(s=>$(s).disabled=true);$("#calcBtn").disabled=true;finish(ok,m.explain+(ok?"":" Reprends : longueur de l’objet ÷ longueur du segment × valeur réelle du segment."))}
+function answerCalc(){if(locked)return;const m=missions[current],raw=$("#calcAnswer").value.trim().replace(",","."),c=parseFloat(raw);if(Number.isNaN(c)){toast("Saisis ton résultat dans la dernière case.");return}locked=true;const decimals=(raw.split(".")[1]||"").length,exact=Math.abs(c-m.answer)<.0005,rounded=decimals===1&&Math.abs(c-m.roundedAnswer)<.0005,ok=exact||rounded;["#drawSize","#scaleDraw","#calcAnswer"].forEach(s=>$(s).disabled=true);$("#calcBtn").disabled=true;const pad=$("#keypad");if(pad)pad.classList.add("hidden");finish(ok,m.explain+(ok?"":" Reprends : longueur de l’objet ÷ longueur du segment × valeur réelle du segment."))}
 function finish(ok,text){if(ok){score+=100;$("#score").textContent=score}$("#feedback").innerHTML=`<b>${ok?"✓ Bien vu !":"✗ Pas tout à fait."}</b> ${text}`;$("#feedback").style.background=ok?"#e6faef":"#fff1ed";$("#nextBtn").classList.remove("hidden")}
 function next(){current++;if(current<missions.length)render();else result()}
 function result(){show("#resultScreen");$("#finalScore").textContent=score;$("#progressBar").style.width="100%";let title,text,badge;if(score>=900){title="Expert du microscope";text="Tu sais relier observation, ordre de grandeur et calcul d’échelle. L’échantillon n’a plus de secret pour toi.";badge="🏆"}else if(score>=650){title="Explorateur confirmé";text="Les bases sont solides. Rejoue une fois pour verrouiller la méthode de calcul et le vocabulaire.";badge="🔬"}else{title="Apprenti observateur";text="Tu progresses. Relis les corrections, puis retente les missions : elles changent vite de difficulté quand la méthode est comprise.";badge="🌱"}$("#resultTitle").textContent=title;$("#resultText").textContent=text;$("#resultBadge").textContent=badge;$("#recap").classList.add("hidden")}
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1800)}
-$("#startBtn").onclick=start;$("#retryBtn").onclick=start;$("#reviewBtn").onclick=()=>$("#recap").classList.toggle("hidden");$("#homeBtn").onclick=()=>show("#homeScreen");
+$("#startBtn").onclick=start;
+$("#retryBtn").onclick=start;
+$("#reviewBtn").onclick=()=>$("#recap").classList.toggle("hidden");
+$("#homeBtn").onclick=()=>show("#homeScreen");
+fitLayout();
+addEventListener("resize",fitLayout);
+addEventListener("orientationchange",()=>setTimeout(fitLayout,80));
+document.addEventListener("fullscreenchange",fitLayout);
+if(window.visualViewport) visualViewport.addEventListener("resize",fitLayout);
+document.addEventListener("touchmove",e=>{
+  if(!document.documentElement.classList.contains("handheld"))return;
+  if(e.target.closest(".recap, .cell-stage, .scale-tape"))return;
+  e.preventDefault();
+},{passive:false});

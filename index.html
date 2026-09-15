@@ -2,13 +2,24 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#143a4a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Celluloscope">
   <title>Celluloscope - Mission microscope</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="bg-cells" aria-hidden="true"></div>
+  <div class="rotate-overlay" id="rotateOverlay" role="dialog" aria-modal="true" aria-labelledby="rotateTitle" aria-hidden="true" inert>
+    <div class="rotate-card">
+      <div class="rotate-icon" aria-hidden="true"><i></i></div>
+      <h2 id="rotateTitle">Passe en paysage</h2>
+      <p>Tourne ton téléphone ou ta tablette à l’horizontale : tout tient à l’écran, sans défiler.</p>
+    </div>
+  </div>
   <main class="app" id="app">
     <header class="topbar">
       <button class="brand" id="homeBtn" aria-label="Revenir à l'accueil"><span class="brand-icon">◉</span> Celluloscope</button>
