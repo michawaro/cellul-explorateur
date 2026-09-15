@@ -49,8 +49,11 @@
     <header class="topbar">
       <button class="brand" id="homeBtn" aria-label="Revenir à l'accueil"><span class="brand-icon">◉</span> Celluloscope</button>
       <div class="hud hidden" id="hud">
-        <span id="missionLabel">Mission 1/11</span>
+        <span id="missionLabel">Mission 1/12</span>
         <div class="progress" aria-label="Progression"><i id="progressBar"></i></div>
+        <button class="calc-toggle hidden" id="calcToggle" type="button" aria-label="Ouvrir la calculette" aria-expanded="false">
+          <span class="calc-glyph" aria-hidden="true"></span>
+        </button>
         <span class="score"><b id="score">0</b> pts</span>
       </div>
     </header>
@@ -59,8 +62,8 @@
       <div class="hero-copy">
         <span class="eyebrow">Cellules et échelles · Seconde</span>
         <h1>Observe. Mesure.<br><em>Calcule.</em></h1>
-        <p>Onze missions pour comparer cellules végétales, cellules animales et bactéries, puis maîtriser l’estimation et le calcul d’une taille réelle.</p>
-        <div class="hero-facts"><span>11 missions</span><span>2 mesures interactives</span><span>≈ 12 min</span></div>
+        <p>Douze missions pour comparer cellules végétales, cellules animales et bactéries, puis maîtriser l’estimation et le calcul d’une taille réelle.</p>
+        <div class="hero-facts"><span>12 missions</span><span>2 mesures interactives</span><span>≈ 14 min</span></div>
         <button class="primary big" id="startBtn">Lancer l’exploration <span>→</span></button>
         <p class="microcopy">Aucune donnée enregistrée</p>
       </div>
@@ -81,7 +84,7 @@
         <span class="eyebrow">Mission accomplie</span>
         <h1 id="resultTitle">Expert du microscope</h1>
         <p id="resultText"></p>
-        <div class="final-score"><strong id="finalScore">0</strong><span>/ 1 100 points</span></div>
+        <div class="final-score"><strong id="finalScore">0</strong><span>/ 1 200 points</span></div>
         <div class="result-actions">
           <button class="primary" id="retryBtn">Rejouer</button>
           <button class="secondary" id="reviewBtn">Voir les notions clés</button>
@@ -100,6 +103,32 @@
     </section>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="calc-pop" id="calcPop" hidden>
+    <div class="calc-toy" role="group" aria-label="Calculette">
+      <div class="calc-face" aria-hidden="true"><i></i><i></i></div>
+      <div class="calc-screen" id="calcScreen">0</div>
+      <div class="calc-keys">
+        <button type="button" data-k="C" class="ck op">C</button>
+        <button type="button" data-k="⌫" class="ck op">⌫</button>
+        <button type="button" data-k="÷" class="ck op">÷</button>
+        <button type="button" data-k="×" class="ck op">×</button>
+        <button type="button" data-k="7" class="ck">7</button>
+        <button type="button" data-k="8" class="ck">8</button>
+        <button type="button" data-k="9" class="ck">9</button>
+        <button type="button" data-k="-" class="ck op">−</button>
+        <button type="button" data-k="4" class="ck">4</button>
+        <button type="button" data-k="5" class="ck">5</button>
+        <button type="button" data-k="6" class="ck">6</button>
+        <button type="button" data-k="+" class="ck op">+</button>
+        <button type="button" data-k="1" class="ck">1</button>
+        <button type="button" data-k="2" class="ck">2</button>
+        <button type="button" data-k="3" class="ck">3</button>
+        <button type="button" data-k="=" class="ck eq">=</button>
+        <button type="button" data-k="0" class="ck zero">0</button>
+        <button type="button" data-k="," class="ck">,</button>
+      </div>
+    </div>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>

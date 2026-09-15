@@ -71,7 +71,7 @@ html.handheld.compact .mission-head p{display:none}
 html.handheld.compact .mission-head h1{font-size:18px}
 html.handheld.compact .question{font-size:15px}
 html.handheld.compact .option{min-height:42px;padding:8px 10px;font-size:13px}
-html.handheld #calcAnswer{color:var(--ink);background:#fff;border-color:#9ec9c0}
+html.handheld #calcAnswer,html.handheld #scaleRealInput,html.handheld #scaleDraw:not([readonly]){color:var(--ink);background:#fff;border-color:#9ec9c0}
 html.handheld .mission-main{flex:1 1 auto;min-height:0;gap:10px}
 html.handheld .image-panel,html.handheld .scale-lab{margin:0;padding:8px;min-height:0}
 html.handheld .image-panel{display:flex;align-items:center;justify-content:center;flex:1}
@@ -138,5 +138,28 @@ html.in-app.portrait .screen,html.in-app.portrait .mission-card,html.in-app.port
 html.in-app.portrait .hero{flex-direction:column;height:auto;align-items:flex-start}
 html.in-app.portrait .hero-visual,html.in-app.portrait .hero:before{display:none!important}
 html.in-app.portrait .options,html.in-app.portrait .compare{grid-template-columns:1fr}
-html.in-app.portrait .keypad{position:sticky;bottom:0;z-index:2;background:#fff;padding:6px 0 8px}
+.formula input.armed{border-color:var(--teal);box-shadow:0 0 0 3px #16a08533;background:#fff}
+.formula.ratio{grid-template-columns:auto auto minmax(72px,1fr) auto minmax(90px,1.2fr) auto}
+.formula.scale{grid-template-columns:auto auto auto auto minmax(64px,1fr) auto minmax(88px,1.2fr) auto}
+
+.calc-toggle{width:40px;height:40px;border:3px solid #20104c;border-radius:12px;background:#ffd75a;cursor:pointer;padding:0;box-shadow:3px 3px 0 #20104c;flex:0 0 auto}
+.calc-toggle:hover{transform:translateY(-1px)}
+.calc-glyph{display:block;width:18px;height:22px;margin:auto;border:2px solid #20104c;border-radius:4px;background:#fff;background-image:linear-gradient(#20104c,#20104c),linear-gradient(#20104c,#20104c),linear-gradient(#20104c,#20104c),linear-gradient(#20104c,#20104c);background-size:5px 4px;background-repeat:no-repeat;background-position:3px 8px,10px 8px,3px 14px,10px 14px}
+.calc-pop{position:fixed;z-index:35;width:min(252px,calc(100vw - 24px))}
+.calc-pop[hidden]{display:none!important}
+html:not(.handheld) .calc-pop{top:78px;right:max(16px,env(safe-area-inset-right))}
+html.handheld.landscape .calc-pop{left:max(8px,env(safe-area-inset-left));bottom:max(8px,env(safe-area-inset-bottom));top:auto;right:auto}
+html.handheld.portrait .calc-pop{left:50%;bottom:max(10px,env(safe-area-inset-bottom));transform:translateX(-50%)}
+.calc-toy{background:linear-gradient(160deg,#5d35a6,#2b146d);border:4px solid #20104c;border-radius:22px 16px 26px 18px;padding:10px;box-shadow:7px 8px 0 #f39a32,0 16px 28px #26145855;transform:rotate(-1.4deg)}
+.calc-face{height:12px;display:flex;justify-content:center;gap:18px;margin-bottom:4px}
+.calc-face i{width:8px;height:8px;background:#ffd75a;border-radius:50%;border:2px solid #20104c}
+.calc-screen{background:#e6faef;border:3px solid #20104c;border-radius:10px;padding:8px 10px;text-align:right;font:800 22px ui-rounded,Inter,sans-serif;color:#15313d;margin-bottom:8px;min-height:40px}
+.calc-keys{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.ck{min-height:36px;border:2px solid #20104c;border-radius:10px;background:#fff;color:#20104c;font:800 15px inherit;cursor:pointer}
+.ck.op{background:#63d8b5}
+.ck.eq{background:#ff9f43;grid-row:span 2}
+.ck.zero{grid-column:span 2}
+html.handheld .calc-toggle{width:34px;height:34px;border-width:2px;box-shadow:2px 2px 0 #20104c}
+html.handheld .formula.ratio,html.handheld .formula.scale{display:flex;flex-wrap:wrap;align-items:center;grid-template-columns:none}
+html.handheld .formula.ratio input,html.handheld .formula.scale input{flex:1 1 64px;min-width:58px}
 
