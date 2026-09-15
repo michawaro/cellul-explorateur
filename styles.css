@@ -79,7 +79,7 @@ html.handheld #calcAnswer,html.handheld #scaleRealInput,html.handheld #scaleDraw
 html.handheld .mission-main{flex:1 1 auto;min-height:0;gap:10px}
 html.handheld .image-panel,html.handheld .scale-lab{margin:0;padding:8px;min-height:0}
 html.handheld .image-panel{display:flex;align-items:center;justify-content:center;flex:1}
-html.handheld .image-panel img{max-height:100%;width:auto;height:auto;object-fit:contain}
+html.handheld .image-panel img{max-height:100%;width:100%;height:100%;object-fit:contain}
 html.handheld .question{font-size:15px;line-height:1.3;margin:0 0 8px}
 html.handheld .options,html.handheld .compare{gap:8px}
 html.handheld .option{min-height:42px;padding:8px 10px;font-size:13px;border-radius:12px}
@@ -106,7 +106,7 @@ html.handheld .toast{bottom:max(12px,env(safe-area-inset-bottom))}
 html.handheld.landscape .mission-main.has-media{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:stretch}
 html.handheld.landscape .mission-main.has-media .image-panel,html.handheld.landscape .mission-main.has-media .scale-lab{height:100%;max-height:none}
 html.handheld.landscape .mission-quiz{display:flex;flex-direction:column;min-height:0;overflow:hidden}
-html.handheld.landscape .mission-main.has-media.is-calc{grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);grid-template-rows:minmax(0,1fr) auto}
+html.handheld.landscape .mission-main.has-media.is-calc{grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr);grid-template-rows:minmax(0,1fr) auto}
 html.handheld.landscape .mission-main.has-media.is-calc .image-panel{grid-column:1;grid-row:1;height:auto;max-height:100%}
 html.handheld.landscape .mission-main.has-media.is-calc .mission-quiz{grid-column:2;grid-row:1}
 html.handheld.landscape .mission-main.has-media.is-calc .keypad{grid-column:1/-1;grid-row:2;margin-top:4px}
@@ -183,7 +183,7 @@ html.fit .mission-main{flex:1 1 auto;min-height:0;gap:12px}
 html.fit .feedback,html.fit .actions{flex:0 0 auto}
 html.fit .image-panel,html.fit .scale-lab{margin:0;padding:8px;min-height:0}
 html.fit .image-panel{display:flex;align-items:center;justify-content:center;flex:1}
-html.fit .image-panel img{max-height:100%;width:auto;height:auto;object-fit:contain}
+html.fit .image-panel img{max-height:100%;width:100%;height:100%;object-fit:contain}
 html.fit .scale-lab{display:flex;flex-direction:column;flex:1;min-height:0}
 html.fit .cell-stage{flex:1;min-height:0;aspect-ratio:auto;height:auto}
 html.fit .hero{height:100%;align-items:center;gap:24px;padding:8px 8px 8px 4px}
@@ -192,7 +192,7 @@ html.fit .scale-help{padding:6px 2px 0;flex-direction:row;align-items:center}
 html.fit.landscape .mission-main.has-media{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:stretch}
 html.fit.landscape .mission-main.has-media .image-panel,html.fit.landscape .mission-main.has-media .scale-lab{height:100%;max-height:none}
 html.fit.landscape .mission-quiz{display:flex;flex-direction:column;min-height:0;overflow:hidden}
-html.fit.landscape .mission-main.has-media.is-calc{grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);grid-template-rows:minmax(0,1fr) auto}
+html.fit.landscape .mission-main.has-media.is-calc{grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr);grid-template-rows:minmax(0,1fr) auto}
 html.fit.landscape .mission-main.has-media.is-calc .image-panel{grid-column:1;grid-row:1;height:auto;max-height:100%}
 html.fit.landscape .mission-main.has-media.is-calc .mission-quiz{grid-column:2;grid-row:1}
 html.fit.landscape .mission-main.has-media.is-calc .keypad{grid-column:1/-1;grid-row:2;margin-top:4px}
