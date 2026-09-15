@@ -18,6 +18,10 @@ function isHandheld(){
     || window.matchMedia("(pointer: coarse)").matches
     || /Mobi|Android|iPhone|iPad|iPod|SamsungBrowser|Mobile/i.test(navigator.userAgent);
 }
+function fullscreenLikely(){
+  if(/iPhone|iPod/.test(navigator.userAgent)) return false;
+  return !!(document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen);
+}
 function fitLayout(){
   const h=Math.round(window.visualViewport?visualViewport.height:window.innerHeight);
   const w=Math.round(window.visualViewport?visualViewport.width:window.innerWidth);
@@ -29,14 +33,23 @@ function fitLayout(){
   document.documentElement.classList.toggle("portrait",portrait);
   document.documentElement.classList.toggle("landscape",!portrait);
   document.documentElement.classList.toggle("compact",compact);
-  document.documentElement.classList.toggle("is-fullscreen",!!(document.fullscreenElement||document.webkitFullscreenElement));
+  const fullscreen=!!(document.fullscreenElement||document.webkitFullscreenElement);
+  document.documentElement.classList.toggle("is-fullscreen",fullscreen);
   const overlay=$("#rotateOverlay");
-  if(!overlay)return;
-  const show=handheld&&portrait;
-  overlay.classList.toggle("show",show);
-  overlay.setAttribute("aria-hidden",show?"false":"true");
-  overlay.inert=!show;
-  document.body.classList.toggle("locked-portrait",show);
+  if(overlay){
+    const showRotate=handheld&&portrait;
+    overlay.classList.toggle("show",showRotate);
+    overlay.setAttribute("aria-hidden",showRotate?"false":"true");
+    overlay.inert=!showRotate;
+    document.body.classList.toggle("locked-portrait",showRotate);
+  }
+  const gate=$("#fsGate");
+  if(gate){
+    const showGate=handheld&&!portrait&&!fullscreen&&!document.documentElement.classList.contains("fs-tried")&&fullscreenLikely();
+    gate.classList.toggle("show",showGate);
+    gate.setAttribute("aria-hidden",showGate?"false":"true");
+    gate.inert=!showGate;
+  }
 }
 async function enterImmersive(){
   if(!isHandheld())return;
@@ -49,6 +62,7 @@ async function enterImmersive(){
   try{
     if(screen.orientation&&screen.orientation.lock) await withTimeout(screen.orientation.lock("landscape"));
   }catch(_){}
+  document.documentElement.classList.add("fs-tried");
   fitLayout();
 }
 function show(id){
@@ -115,10 +129,12 @@ $("#startBtn").onclick=start;
 $("#retryBtn").onclick=start;
 $("#reviewBtn").onclick=()=>$("#recap").classList.toggle("hidden");
 $("#homeBtn").onclick=()=>show("#homeScreen");
+document.addEventListener("pointerdown",()=>{if(isHandheld()) enterImmersive();},{passive:true});
 fitLayout();
 addEventListener("resize",fitLayout);
 addEventListener("orientationchange",()=>setTimeout(fitLayout,80));
 document.addEventListener("fullscreenchange",fitLayout);
+document.addEventListener("webkitfullscreenchange",fitLayout);
 if(window.visualViewport) visualViewport.addEventListener("resize",fitLayout);
 document.addEventListener("touchmove",e=>{
   if(!document.documentElement.classList.contains("handheld"))return;

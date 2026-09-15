@@ -22,6 +22,16 @@ button,.option,.key{touch-action:manipulation}
 html.landscape .rotate-overlay,html:not(.handheld) .rotate-overlay{display:none!important}
 html.handheld.portrait .rotate-overlay{display:flex!important}
 
+.fs-gate{display:none;position:fixed;inset:0;z-index:45;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#123a47,#1b6b63 55%,#2b146d);color:#fff;text-align:center;cursor:pointer}
+.fs-gate h2,.rotate-overlay h2{margin:0 0 10px;font-size:28px;letter-spacing:-.03em}
+.fs-gate p{margin:0;font-size:17px;line-height:1.45;opacity:.92}
+.fs-icon{width:72px;height:72px;margin:0 auto 22px;border:4px solid #fff;border-radius:14px;position:relative}
+.fs-icon:before,.fs-icon:after{content:"";position:absolute;width:14px;height:14px;border:solid #fff}
+.fs-icon:before{left:10px;top:10px;border-width:3px 0 0 3px}
+.fs-icon:after{right:10px;bottom:10px;border-width:0 3px 3px 0}
+html.handheld .fs-gate.show{display:flex}
+html:not(.handheld) .fs-gate,html.is-fullscreen .fs-gate,html.fs-tried .fs-gate,html.handheld.portrait .fs-gate{display:none!important}
+
 html.handheld,html.handheld body{height:var(--vh,100dvh);max-height:var(--vh,100dvh);overflow:hidden;overscroll-behavior:none}
 html.handheld body{position:fixed;inset:0;width:100%}
 html.handheld .app{display:flex;flex-direction:column;height:100%;min-height:0;max-width:none;padding:max(8px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))}
