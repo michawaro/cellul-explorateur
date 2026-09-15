@@ -507,8 +507,13 @@ addEventListener("orientationchange",()=>setTimeout(fitLayout,80));
 document.addEventListener("fullscreenchange",fitLayout);
 document.addEventListener("webkitfullscreenchange",fitLayout);
 if(window.visualViewport) visualViewport.addEventListener("resize",fitLayout);
+const ytBell=$("#ytBell");
+if(ytBell) ytBell.addEventListener("click",()=>{
+  ytBell.classList.add("is-tip");
+  setTimeout(()=>ytBell.classList.remove("is-tip"),5200);
+});
 document.addEventListener("touchmove",e=>{
   if(!document.documentElement.classList.contains("fit"))return;
-  if(e.target.closest(".recap, .cell-stage, .scale-tape, .feedback"))return;
+  if(e.target.closest(".recap, .cell-stage, .scale-tape, .feedback, .yt-dock"))return;
   e.preventDefault();
 },{passive:false});
