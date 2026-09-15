@@ -53,21 +53,22 @@ html.handheld .progress{order:0;width:min(140px,22vw);height:8px}
 html.handheld .score{padding:6px 9px}
 html.handheld .screen{flex:1 1 auto;min-height:0;height:auto;overflow:hidden}
 html.handheld .screen.active{display:flex}
-html.handheld .hero{gap:18px;padding:8px 8px 8px 4px;height:100%;align-items:center}
-html.handheld .hero:before{right:-10px;top:8px;width:46%;height:92%}
-html.handheld .hero-copy{max-width:none}
+html.handheld .hero.active{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);justify-content:center;align-items:center;column-gap:clamp(16px,3vw,40px);padding:8px 16px 16px;height:100%;width:100%;max-width:1180px;margin:0 auto}
+html.handheld .hero:before{display:none}
+html.handheld .hero-copy{max-width:none;width:100%;min-width:0;position:relative;z-index:2}
 html.handheld .hero h1{margin:6px 0 8px;font-size:clamp(28px,5.4vw,52px)}
 html.handheld .hero p{font-size:15px;line-height:1.35;max-width:none}
 html.handheld .hero-facts{margin:12px 0 4px}
 html.handheld .hero-facts span{padding:6px 9px;font-size:12px}
 html.handheld .big{margin-top:8px;padding:12px 18px;font-size:16px}
 html.handheld .microcopy{margin:6px 0 0}
-html.handheld .hero-visual{display:grid;min-width:0;width:min(38vw,320px);height:min(78%,320px);flex:0 0 auto}
-html.handheld .hero-picture{width:100%;height:100%;border-width:6px;border-radius:28px 16px 34px 14px;box-shadow:8px 9px 0 #f39a32,0 16px 36px #26145855}
-html.handheld .hero .floating-tag{padding:6px 9px;font-size:12px}
+html.handheld .hero-visual{display:grid;position:relative;z-index:1;min-width:0;width:100%;height:min(78%,420px);flex:none;place-items:center}
+html.handheld .hero-visual:before{content:"";position:absolute;z-index:0;inset:-10% -18% -12% -14%;border-radius:42% 24% 37% 19%;background:linear-gradient(145deg,#2b146d,#5d35a6 58%,#159f8c);clip-path:polygon(9% 3%,96% 0,100% 83%,82% 100%,3% 91%,0 20%);transform:rotate(2deg);box-shadow:0 24px 60px #32187338;pointer-events:none}
+html.handheld .hero-picture{position:relative;z-index:1;width:min(100%,360px);height:min(100%,360px);border-width:6px;border-radius:28px 16px 34px 14px;box-shadow:8px 9px 0 #f39a32,0 16px 36px #26145855}
+html.handheld .hero .floating-tag{z-index:2;padding:6px 9px;font-size:12px}
 html.handheld .mission{padding:0;align-items:stretch}
-html.handheld .mission-card,html.handheld .result-card{width:100%;height:100%;max-width:none;padding:12px 14px;border-radius:18px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
-html.handheld .mission-head{gap:10px;align-items:center;margin-bottom:8px;flex:0 0 auto}
+html.handheld .mission-card,html.handheld .result-card{width:100%;height:100%;max-width:none;padding:10px 12px 14px;border-radius:18px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+html.handheld .mission-head{gap:10px;align-items:center;margin-bottom:6px;flex:0 0 auto}
 html.handheld .mission-num{flex:0 0 34px;height:34px;border-radius:10px;font-size:14px}
 html.handheld .mission-head h1{margin:0;font-size:22px;line-height:1.15}
 html.handheld .mission-head p{margin:0;color:#58707a;font-size:13px}
@@ -76,14 +77,14 @@ html.handheld.compact .mission-head h1{font-size:18px}
 html.handheld.compact .question{font-size:15px}
 html.handheld.compact .option{min-height:42px;padding:8px 10px;font-size:13px}
 html.handheld #calcAnswer,html.handheld #scaleRealInput,html.handheld #scaleDraw:not([readonly]){color:var(--ink);background:#fff;border-color:#9ec9c0}
-html.handheld .mission-main{flex:1 1 auto;min-height:0;gap:10px}
-html.handheld .image-panel,html.handheld .scale-lab{margin:0;padding:8px;min-height:0}
-html.handheld .image-panel{display:flex;align-items:center;justify-content:center;flex:1}
-html.handheld .image-panel img{max-height:100%;width:100%;height:100%;object-fit:contain}
+html.handheld .mission-main{flex:1 1 auto;min-height:0;gap:8px;justify-content:center}
+html.handheld .image-panel,html.handheld .scale-lab{margin:0;padding:4px;min-height:0}
+html.handheld .image-panel{display:flex;align-items:center;justify-content:center;flex:1 1 0;min-height:0}
+html.handheld .image-panel img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
 html.handheld .question{font-size:15px;line-height:1.3;margin:0 0 8px}
 html.handheld .options,html.handheld .compare{gap:8px}
 html.handheld .option{min-height:42px;padding:8px 10px;font-size:13px;border-radius:12px}
-html.handheld .feedback{margin-top:8px;padding:8px 10px;font-size:13px;flex:0 0 auto;max-height:22%;overflow:auto}
+html.handheld .feedback{margin-top:6px;padding:10px 12px;font-size:14px;line-height:1.45;flex:0 0 auto;max-height:28%;overflow:auto}
 html.handheld .actions{margin-top:8px;flex:0 0 auto}
 html.handheld .formula{margin:0 0 8px;padding:8px;gap:6px;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,.9fr) auto;font-size:13px}
 html.handheld .formula input{padding:8px 6px;font-size:14px}
@@ -103,19 +104,16 @@ html.handheld .result-actions{flex-direction:row;margin-top:12px;flex-wrap:wrap}
 html.handheld .recap{margin-top:10px;padding:12px;font-size:14px;overflow:auto;max-height:40%}
 html.handheld .toast{bottom:max(12px,env(safe-area-inset-bottom))}
 
-html.handheld.landscape .mission-main.has-media{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:stretch}
-html.handheld.landscape .mission-main.has-media .image-panel,html.handheld.landscape .mission-main.has-media .scale-lab{height:100%;max-height:none}
-html.handheld.landscape .mission-quiz{display:flex;flex-direction:column;min-height:0;overflow:hidden}
-html.handheld.landscape .mission-main.has-media.is-calc{grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr);grid-template-rows:minmax(0,1fr) auto}
-html.handheld.landscape .mission-main.has-media.is-calc .image-panel{grid-column:1;grid-row:1;height:auto;max-height:100%}
-html.handheld.landscape .mission-main.has-media.is-calc .mission-quiz{grid-column:2;grid-row:1}
-html.handheld.landscape .mission-main.has-media.is-calc .keypad{grid-column:1/-1;grid-row:2;margin-top:4px}
+html.handheld.landscape .mission-main.has-media{display:flex;flex-direction:column;justify-content:center}
+html.handheld.landscape .mission-main.has-media .image-panel,html.handheld.landscape .mission-main.has-media .scale-lab{flex:1 1 0;height:auto;max-height:68%;min-height:0}
+html.handheld.landscape .mission-quiz{display:flex;flex-direction:column;flex:0 0 auto;min-height:0;overflow:auto;width:min(920px,100%);margin-inline:auto}
+html.handheld.landscape .mission-main.has-media.is-calc .image-panel{max-height:52%}
+html.handheld.landscape .mission-main.has-media.is-calc .keypad{flex:0 0 auto;margin-top:4px}
 html.handheld.compact .is-calc .question{font-size:12px;line-height:1.25;margin:0 0 6px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 html.handheld .is-calc .formula{margin:0}
 html.handheld.landscape .options{grid-template-columns:1fr 1fr;flex:1}
 html.handheld.landscape .compare{grid-template-columns:1fr;flex:1}
 html.handheld.landscape .hero-visual{display:grid!important}
-html.handheld.landscape .hero:before{display:block}
 html.handheld .formula span{white-space:nowrap}
 
 @media(max-height:430px){
@@ -129,8 +127,7 @@ html.handheld .formula span{white-space:nowrap}
 }
 
 @media(min-width:761px) and (max-width:1180px) and (orientation:landscape){
-  html.handheld .hero-visual{width:min(34vw,360px)}
-  html.handheld .hero:before{display:block}
+  html.handheld .hero-visual{height:min(70%,320px)}
 }
 
 body.locked-portrait .app{visibility:hidden;pointer-events:none}
@@ -178,24 +175,27 @@ html.fit .screen{flex:1 1 auto;min-height:0;height:auto;overflow:hidden}
 html.fit .screen.active{display:flex}
 html.fit .mission{padding:0;align-items:stretch}
 html.fit .mission-card,html.fit .result-card{width:100%;height:100%;max-width:none;display:flex;flex-direction:column;min-height:0;overflow:hidden}
-html.fit .mission-head{flex:0 0 auto;margin-bottom:8px;align-items:center}
-html.fit .mission-main{flex:1 1 auto;min-height:0;gap:12px}
+html.fit .mission-head{flex:0 0 auto;margin-bottom:6px;align-items:center}
+html.fit .mission-main{flex:1 1 auto;min-height:0;gap:8px;justify-content:center}
 html.fit .feedback,html.fit .actions{flex:0 0 auto}
-html.fit .image-panel,html.fit .scale-lab{margin:0;padding:8px;min-height:0}
-html.fit .image-panel{display:flex;align-items:center;justify-content:center;flex:1}
-html.fit .image-panel img{max-height:100%;width:100%;height:100%;object-fit:contain}
+html.fit .image-panel,html.fit .scale-lab{margin:0;padding:2px;min-height:0;background:transparent}
+html.fit .image-panel{display:flex;align-items:center;justify-content:center;flex:1 1 0;min-height:0}
+html.fit .image-panel img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
 html.fit .scale-lab{display:flex;flex-direction:column;flex:1;min-height:0}
 html.fit .cell-stage{flex:1;min-height:0;aspect-ratio:auto;height:auto}
-html.fit .hero{height:100%;align-items:center;gap:24px;padding:8px 8px 8px 4px}
-html.fit .hero-copy{max-width:none}
+html.fit .hero.active{display:grid;grid-template-columns:minmax(0,36rem) minmax(0,42rem);justify-content:center;align-items:center;column-gap:clamp(28px,4vw,52px);height:100%;width:100%;max-width:1400px;margin:0 auto;padding:8px 28px 12px;overflow:hidden}
+html.fit .hero:before{display:none}
+html.fit .hero-copy{max-width:none;width:100%;min-width:0;position:relative;z-index:2}
+html.fit .hero-visual{position:relative;z-index:1;width:100%;height:min(82%,540px);display:grid;place-items:center}
+html.fit .hero-visual:before{content:"";position:absolute;z-index:0;inset:-8% -16% -10% -12%;border-radius:42% 24% 37% 19%;background:linear-gradient(145deg,#2b146d,#5d35a6 58%,#159f8c);clip-path:polygon(9% 3%,96% 0,100% 83%,82% 100%,3% 91%,0 20%);transform:rotate(2deg);box-shadow:0 24px 60px #32187338;pointer-events:none}
+html.fit .hero-picture{position:relative;z-index:1}
+html.fit .hero .floating-tag{z-index:2}
 html.fit .scale-help{padding:6px 2px 0;flex-direction:row;align-items:center}
-html.fit.landscape .mission-main.has-media{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:stretch}
-html.fit.landscape .mission-main.has-media .image-panel,html.fit.landscape .mission-main.has-media .scale-lab{height:100%;max-height:none}
-html.fit.landscape .mission-quiz{display:flex;flex-direction:column;min-height:0;overflow:hidden}
-html.fit.landscape .mission-main.has-media.is-calc{grid-template-columns:minmax(0,1.35fr) minmax(0,.85fr);grid-template-rows:minmax(0,1fr) auto}
-html.fit.landscape .mission-main.has-media.is-calc .image-panel{grid-column:1;grid-row:1;height:auto;max-height:100%}
-html.fit.landscape .mission-main.has-media.is-calc .mission-quiz{grid-column:2;grid-row:1}
-html.fit.landscape .mission-main.has-media.is-calc .keypad{grid-column:1/-1;grid-row:2;margin-top:4px}
+html.fit .mission-quiz{display:flex;flex-direction:column;flex:0 0 auto;min-height:0;overflow:auto;width:min(980px,100%);margin-inline:auto}
+html.fit.landscape .mission-main.has-media{display:flex;flex-direction:column;justify-content:center}
+html.fit.landscape .mission-main.has-media .image-panel,html.fit.landscape .mission-main.has-media .scale-lab{flex:1 1 0;height:auto;max-height:74%;min-height:0}
+html.fit.landscape .mission-main.has-media.is-calc .image-panel{max-height:56%}
+html.fit.landscape .mission-main.has-media.is-calc .keypad{flex:0 0 auto;margin-top:4px}
 html.fit.landscape .options{grid-template-columns:1fr 1fr;flex:1;align-content:start;align-items:stretch}
 html.fit.landscape .compare{grid-template-columns:1fr;flex:1}
 html.fit:not(.handheld).landscape .options{align-items:start}
@@ -205,19 +205,18 @@ html.fit.compact .question{font-size:15px}
 html.fit.compact .option{min-height:42px;padding:8px 10px;font-size:13px}
 html.fit:not(.handheld) .topbar{height:48px;min-height:48px;align-items:center}
 html.fit:not(.handheld) .brand{font-size:18px}
-html.fit:not(.handheld) .hero h1{margin:8px 0 10px;font-size:clamp(34px,4.4vw,62px)}
+html.fit:not(.handheld) .hero h1{margin:6px 0 8px;font-size:clamp(34px,4.2vw,58px);line-height:1.05}
 html.fit:not(.handheld) .hero p{font-size:17px;line-height:1.4;max-width:none}
 html.fit:not(.handheld) .hero-facts{margin:12px 0 4px}
-html.fit:not(.handheld) .hero-visual{display:grid;min-width:0;width:min(38vw,420px);height:min(78%,420px);flex:0 0 auto}
-html.fit:not(.handheld) .hero-picture{width:100%;height:100%;max-width:none}
-html.fit:not(.handheld) .hero:before{right:-10px;top:8px;width:46%;height:92%}
-html.fit:not(.handheld) .mission-card,html.fit:not(.handheld) .result-card{padding:16px 20px;border-radius:22px}
+html.fit:not(.handheld) .hero-visual{height:min(84%,560px)}
+html.fit:not(.handheld) .hero-picture{width:min(100%,520px);height:min(100%,520px);max-width:none}
+html.fit:not(.handheld) .mission-card,html.fit:not(.handheld) .result-card{padding:12px 18px 14px;border-radius:22px}
 html.fit:not(.handheld) .mission-head{gap:12px;align-items:center}
 html.fit:not(.handheld) .mission-head h1{margin:0;font-size:24px;line-height:1.15}
 html.fit:not(.handheld) .mission-head p{margin:0}
-html.fit:not(.handheld) .question{font-size:17px;line-height:1.35;margin:0 0 10px}
-html.fit:not(.handheld) .option{min-height:48px;padding:10px 12px;font-size:14px}
-html.fit:not(.handheld) .feedback{margin-top:8px;padding:8px 12px;font-size:14px;max-height:22%;overflow:auto}
+html.fit:not(.handheld) .question{font-size:17px;line-height:1.35;margin:0 0 8px}
+html.fit:not(.handheld) .option{min-height:46px;padding:10px 12px;font-size:15px}
+html.fit:not(.handheld) .feedback{margin-top:8px;padding:12px 16px;font-size:16px;line-height:1.5;max-height:30%;overflow:auto;border-left:5px solid var(--teal)}
 html.fit:not(.handheld) .actions{margin-top:8px}
 html.fit:not(.handheld) .formula{margin:0 0 8px;padding:10px;gap:8px}
 html.fit:not(.handheld) .formula input{padding:10px 8px;font-size:16px}
@@ -249,9 +248,30 @@ html.fit:not(.handheld) .final-score strong{font-size:52px}
 .yt-dock-bell:hover::before,.yt-dock-bell:focus-visible::before,.yt-dock-bell.is-tip::before{animation-play-state:paused}
 @keyframes yt-bell-shake{0%,78%,100%{transform:rotate(0)}81%{transform:rotate(16deg)}84%{transform:rotate(-14deg)}87%{transform:rotate(10deg)}90%{transform:rotate(-8deg)}93%{transform:rotate(4deg)}96%{transform:rotate(-2deg)}}
 @keyframes yt-bell-ping{0%,76%{transform:scale(.85);box-shadow:0 0 0 0 rgba(225,29,72,.5)}82%{transform:scale(1.15);box-shadow:0 0 0 6px rgba(225,29,72,0)}88%,100%{transform:scale(.85);box-shadow:0 0 0 0 rgba(225,29,72,0)}}
-.yt-dock-bell::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);z-index:12;width:max-content;max-width:min(340px,calc(100vw - 24px));padding:10px 12px;border-radius:12px;background:#fff;color:var(--ink);font-size:12.5px;font-weight:700;letter-spacing:0;line-height:1.4;white-space:normal;text-align:left;box-shadow:0 10px 24px rgba(21,49,61,.22);opacity:0;pointer-events:none;transform:translate(-50%,4px);transition:opacity .12s ease,transform .12s ease}
-.yt-dock-bell:hover::after,.yt-dock-bell:focus::after,.yt-dock-bell:focus-visible::after,.yt-dock-bell.is-tip::after{opacity:1;transform:translate(-50%,0)}
+.yt-dock-bell::after{content:attr(data-tip);position:absolute;left:0;bottom:calc(100% + 8px);z-index:12;width:min(260px,calc(100vw - 28px));max-width:min(260px,calc(100vw - 28px));padding:10px 12px;border-radius:12px;background:#fff;color:var(--ink);font-size:12.5px;font-weight:700;letter-spacing:0;line-height:1.4;white-space:normal;text-align:left;box-shadow:0 10px 24px rgba(21,49,61,.22);opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .12s ease,transform .12s ease}
+.yt-dock-bell:hover::after,.yt-dock-bell:focus::after,.yt-dock-bell:focus-visible::after,.yt-dock-bell.is-tip::after{opacity:1;transform:translateY(0)}
 html.handheld .yt-dock{padding:6px 8px;gap:1px;max-width:min(140px,calc(100vw - 24px))}
 .toast{z-index:30}
 @media print{.yt-dock{display:none!important}}
+
+.formula.formula-drop{display:flex;flex-wrap:wrap;align-items:center;gap:8px;grid-template-columns:none}
+.formula.formula-drop span{transform:none}
+.formula-slot{min-width:132px;min-height:48px;padding:4px;border:2px dashed #a9cfc6;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center}
+.formula-slot:empty::before{content:"…";color:#9bb5b0;font-weight:800}
+.formula-slot.over{border-color:var(--teal);background:#e8faf4}
+.formula-slot.good{border-style:solid;border-color:#38a873;background:#e5faef}
+.formula-slot.bad{border-style:solid;border-color:var(--red);background:#fff0f0}
+.formula-result{font-style:normal;font-weight:850;color:#31525d;white-space:nowrap;padding:0 4px}
+.formula-sort{display:flex;flex-direction:column;min-height:0;flex:0 0 auto;gap:4px}
+.formula-hint{margin:0;font-size:13px;font-weight:700;color:#58707a}
+.formula-bank{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;min-height:44px}
+.chip{touch-action:none;user-select:none;-webkit-user-select:none}
+.chip.armed{border-color:var(--teal);box-shadow:0 0 0 3px #16a08533;background:#e8faf4}
+.chip-ghost{position:fixed;pointer-events:none;z-index:40;opacity:.92;box-shadow:0 8px 20px #15313d28;margin:0}
+html.handheld .formula.formula-drop,html.fit .formula.formula-drop{display:flex;flex-wrap:wrap;align-items:center;grid-template-columns:none}
+html.handheld .formula.formula-drop span,html.fit .formula.formula-drop span{transform:none}
+html.handheld .formula-slot,html.fit .formula-slot{min-width:110px;min-height:40px}
+html.handheld .chip,html.fit:not(.handheld) .chip{padding:8px 10px;font-size:13px}
+html.fit.landscape .is-formula .mission-quiz{overflow:auto}
+@media(max-width:760px){.formula.formula-drop{display:flex;flex-wrap:wrap;grid-template-columns:none}.formula.formula-drop span{transform:none}}
 
