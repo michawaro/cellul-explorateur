@@ -163,3 +163,63 @@ html.handheld .calc-toggle{width:34px;height:34px;border-width:2px;box-shadow:2p
 html.handheld .formula.ratio,html.handheld .formula.scale{display:flex;flex-wrap:wrap;align-items:center;grid-template-columns:none}
 html.handheld .formula.ratio input,html.handheld .formula.scale input{flex:1 1 64px;min-width:58px}
 
+html.fit,html.fit body{height:var(--vh,100dvh);max-height:var(--vh,100dvh);overflow:hidden;overscroll-behavior:none}
+html.fit body{position:fixed;inset:0;width:100%}
+html.fit .app{display:flex;flex-direction:column;height:100%;min-height:0;max-width:none;padding:max(10px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
+html.fit .topbar{flex:0 0 auto}
+html.fit .screen{flex:1 1 auto;min-height:0;height:auto;overflow:hidden}
+html.fit .screen.active{display:flex}
+html.fit .mission{padding:0;align-items:stretch}
+html.fit .mission-card,html.fit .result-card{width:100%;height:100%;max-width:none;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+html.fit .mission-head{flex:0 0 auto;margin-bottom:8px}
+html.fit .mission-main{flex:1 1 auto;min-height:0;gap:12px}
+html.fit .feedback,html.fit .actions{flex:0 0 auto}
+html.fit .image-panel,html.fit .scale-lab{margin:0;padding:8px;min-height:0}
+html.fit .image-panel{display:flex;align-items:center;justify-content:center;flex:1}
+html.fit .image-panel img{max-height:100%;width:auto;height:auto;object-fit:contain}
+html.fit .scale-lab{display:flex;flex-direction:column;flex:1;min-height:0}
+html.fit .cell-stage{flex:1;min-height:0;aspect-ratio:auto;height:auto}
+html.fit .hero{height:100%;align-items:center;gap:24px;padding:8px 8px 8px 4px}
+html.fit .hero-copy{max-width:none}
+html.fit .scale-help{padding:6px 2px 0;flex-direction:row;align-items:center}
+html.fit.landscape .mission-main.has-media{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:stretch}
+html.fit.landscape .mission-main.has-media .image-panel,html.fit.landscape .mission-main.has-media .scale-lab{height:100%;max-height:none}
+html.fit.landscape .mission-quiz{display:flex;flex-direction:column;min-height:0;overflow:hidden}
+html.fit.landscape .mission-main.has-media.is-calc{grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr);grid-template-rows:minmax(0,1fr) auto}
+html.fit.landscape .mission-main.has-media.is-calc .image-panel{grid-column:1;grid-row:1;height:auto;max-height:100%}
+html.fit.landscape .mission-main.has-media.is-calc .mission-quiz{grid-column:2;grid-row:1}
+html.fit.landscape .mission-main.has-media.is-calc .keypad{grid-column:1/-1;grid-row:2;margin-top:4px}
+html.fit.landscape .options{grid-template-columns:1fr 1fr;flex:1;align-content:start;align-items:stretch}
+html.fit.landscape .compare{grid-template-columns:1fr;flex:1}
+html.fit:not(.handheld).landscape .options{align-items:start}
+html.fit.compact .mission-head p{display:none}
+html.fit.compact .mission-head h1{font-size:18px}
+html.fit.compact .question{font-size:15px}
+html.fit.compact .option{min-height:42px;padding:8px 10px;font-size:13px}
+html.fit:not(.handheld) .topbar{height:48px;min-height:48px;align-items:center}
+html.fit:not(.handheld) .brand{font-size:18px}
+html.fit:not(.handheld) .hero h1{margin:8px 0 10px;font-size:clamp(34px,4.4vw,62px)}
+html.fit:not(.handheld) .hero p{font-size:17px;line-height:1.4;max-width:none}
+html.fit:not(.handheld) .hero-facts{margin:12px 0 4px}
+html.fit:not(.handheld) .hero-visual{display:grid;min-width:0;width:min(38vw,420px);height:min(78%,420px);flex:0 0 auto}
+html.fit:not(.handheld) .hero-picture{width:100%;height:100%;max-width:none}
+html.fit:not(.handheld) .hero:before{right:-10px;top:8px;width:46%;height:92%}
+html.fit:not(.handheld) .mission-card,html.fit:not(.handheld) .result-card{padding:16px 20px;border-radius:22px}
+html.fit:not(.handheld) .mission-head{gap:12px;align-items:center}
+html.fit:not(.handheld) .mission-head h1{margin:0;font-size:24px;line-height:1.15}
+html.fit:not(.handheld) .mission-head p{margin:0}
+html.fit:not(.handheld) .question{font-size:17px;line-height:1.35;margin:0 0 10px}
+html.fit:not(.handheld) .option{min-height:48px;padding:10px 12px;font-size:14px}
+html.fit:not(.handheld) .feedback{margin-top:8px;padding:8px 12px;font-size:14px;max-height:22%;overflow:auto}
+html.fit:not(.handheld) .actions{margin-top:8px}
+html.fit:not(.handheld) .formula{margin:0 0 8px;padding:10px;gap:8px}
+html.fit:not(.handheld) .formula input{padding:10px 8px;font-size:16px}
+html.fit:not(.handheld) .result-card{justify-content:center;overflow:auto}
+html.fit:not(.handheld) .result h1{margin:8px 0;font-size:36px}
+html.fit:not(.handheld) .final-score strong{font-size:52px}
+html.fit:not(.handheld) .calc-pop{top:62px;right:max(16px,env(safe-area-inset-right))}
+@media(max-height:620px){
+  html.fit:not(.handheld) .hero p,html.fit:not(.handheld) .microcopy,html.fit:not(.handheld) .hero .floating-tag{display:none}
+  html.fit:not(.handheld) .hero h1{font-size:32px;margin:4px 0 8px}
+}
+
