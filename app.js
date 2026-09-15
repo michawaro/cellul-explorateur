@@ -12,8 +12,9 @@ const missions=[
  {title:"Encadre la bactérie",sub:"Passer aux micromètres",type:"qcm",question:"La bactérie mesure entre 0,5 et 1 segment, et un segment représente 2 µm. Quel est son intervalle de taille ?",options:["1 µm < taille < 2 µm","0,5 µm < taille < 1 µm","2 µm < taille < 4 µm","0 µm < taille < 0,5 µm"],answer:0,explain:"0,5 × 2 = 1 µm et 1 × 2 = 2 µm. La bactérie mesure donc entre 1 et 2 µm.",calculator:true},
  {title:"La taille de la bactérie",sub:"Appliquer la méthode complète",type:"calc",calcMode:"result",question:"Sur le document, la bactérie mesure 3,5 cm et le segment représentant 2 µm mesure 5 cm. Calcule la taille réelle de la bactérie. La valeur exacte ou son arrondi au dixième sont acceptés.",answer:1.4,roundedAnswer:1.4,drawSize:3.5,scaleDraw:5,scaleReal:2,explain:"3,5 ÷ 5 = 0,7 segment, puis 0,7 × 2 = 1,4 µm. Le résultat appartient bien à l’intervalle prévu entre 1 et 2 µm.",image:"illustrations/bacterie-mesure.webp",calculator:true}
 ];
-let current=0,score=0,locked=false,currentAnswer=0,inAppDismissed=false,calcTarget=null;
-const calcState={vis:"0",acc:null,op:null,fresh:true};
+let current=0,score=0,locked=false,currentAnswer=0,inAppDismissed=false,calcTarget=null,farthest=0;
+const records=[];
+const calcState={tokens:[],num:"0",fresh:true,eqExpr:"",justEq:false};
 const $=s=>document.querySelector(s), screens=["#homeScreen","#gameScreen","#resultScreen"];
 function isHandheld(){
   return navigator.maxTouchPoints>0
@@ -72,6 +73,7 @@ function fitLayout(){
     browserGate.setAttribute("aria-hidden",showBrowser?"false":"true");
     browserGate.inert=!showBrowser;
   }
+  placeCalc();
 }
 async function enterImmersive(){
   if(isInAppBrowser())return;
@@ -97,9 +99,22 @@ function show(id){
 }
 async function start(){
   await enterImmersive();
-  current=0;score=0;locked=false;$("#score").textContent=0;show("#gameScreen");render();
+  current=0;score=0;locked=false;farthest=0;records.length=0;
+  resetCalcState();closeCalc();
+  $("#score").textContent=0;show("#gameScreen");render();
 }
-function head(m){return `<div class="mission-head"><div class="mission-num">${current+1}</div><div><span class="eyebrow">Mission ${current+1} sur ${missions.length}</span><h1>${m.title}</h1><p>${m.sub}</p></div></div>`}
+function rec(i){
+  if(!records[i]) records[i]={};
+  return records[i];
+}
+function canForward(){
+  if(current<farthest) return true;
+  return !!(records[current]&&records[current].answered);
+}
+function head(m){
+  const calc=needsCalculator(m)?`<button class="calc-toggle" id="calcToggle" type="button" aria-label="Ouvrir la calculette" aria-expanded="false"><span class="calc-glyph" aria-hidden="true"></span><span class="calc-label">Calculette</span></button>`:"";
+  return `<div class="mission-head"><button type="button" class="nav-arrow" id="prevMission" aria-label="Mission précédente"${current===0?" disabled":""}>‹</button><div class="mission-num">${current+1}</div><div class="mission-titles"><span class="eyebrow">Mission ${current+1} sur ${missions.length}</span><h1>${m.title}</h1><p>${m.sub}</p></div>${calc}<button type="button" class="nav-arrow" id="nextMission" aria-label="Mission suivante"${canForward()?"":" disabled"}>›</button></div>`;
+}
 function image(m){return m.image?`<div class="image-panel"><img src="${m.image}" alt="Support d'observation pour la question"></div>`:""}
 function scaleHelp(m){
   if(m.scaleHelp) return m.scaleHelp;
@@ -132,25 +147,52 @@ function numOk(raw,exact,rounded){
 }
 function shuffledOptions(m){const choices=m.options.map((text,index)=>({text,correct:index===m.answer}));for(let i=choices.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[choices[i],choices[j]]=[choices[j],choices[i]]}currentAnswer=choices.findIndex(choice=>choice.correct);return choices}
 function render(){
-  locked=false;
   const m=missions[current];
+  const r=rec(current);
   const handheld=document.documentElement.classList.contains("handheld");
+  locked=!!r.answered;
   $("#missionLabel").textContent=`Mission ${current+1}/${missions.length}`;
-  $("#progressBar").style.width=`${current/missions.length*100}%`;
+  $("#progressBar").style.width=`${(farthest+(records[farthest]&&records[farthest].answered?1:0))/missions.length*100}%`;
   const hasMedia=m.type==="scale"||!!m.image;
   let quiz=`<div class="question">${m.question}</div>`;
   if(m.type==="qcm"||m.type==="compare"||m.type==="scale"){
-    const choices=shuffledOptions(m);
-    quiz+=`<div class="${m.type==="compare"?"compare":"options"}">${choices.map((choice,i)=>`<button class="option" data-i="${i}">${choice.text}</button>`).join("")}</div>`;
+    if(!r.options) r.options=shuffledOptions(m);
+    else currentAnswer=r.options.findIndex(choice=>choice.correct);
+    quiz+=`<div class="${m.type==="compare"?"compare":"options"}">${r.options.map((choice,i)=>{
+      const cls=["option"];
+      if(r.answered){
+        if(choice.correct) cls.push("good");
+        if(i===r.pick&&!choice.correct) cls.push("bad");
+      }
+      return `<button class="${cls.join(" ")}" data-i="${i}"${r.answered?" disabled":""}>${choice.text}</button>`;
+    }).join("")}</div>`;
   }
   if(m.type==="calc") quiz+=formulaHTML(m,handheld);
-  const pad=m.type==="calc"&&handheld?keypadHTML():"";
-  $("#missionCard").innerHTML=head(m)+`<div class="mission-main${hasMedia?" has-media":""}${m.type==="calc"?" is-calc":""}">${m.type==="scale"?scaleLab(m):image(m)}<div class="mission-quiz">${quiz}</div>${pad}</div><div class="feedback" id="feedback"></div><div class="actions"><button class="primary hidden" id="nextBtn">${current===missions.length-1?"Voir mon résultat":"Mission suivante →"}</button></div>`;
+  const pad=m.type==="calc"&&handheld&&!r.answered?keypadHTML():"";
+  const nextLabel=current===missions.length-1&&current===farthest?"Voir mon résultat":"Mission suivante →";
+  $("#missionCard").innerHTML=head(m)+`<div class="mission-main${hasMedia?" has-media":""}${m.type==="calc"?" is-calc":""}">${m.type==="scale"?scaleLab(m):image(m)}<div class="mission-quiz">${quiz}</div>${pad}</div><div class="feedback" id="feedback"></div><div class="actions"><button class="primary hidden" id="nextBtn">${nextLabel}</button></div>`;
   document.querySelectorAll(".option").forEach(b=>b.onclick=()=>answerOption(+b.dataset.i));
   if(m.type==="scale") initScaleLab(m);
-  if(m.type==="calc") wireCalc(m,handheld);
+  if(m.type==="calc"){
+    if(r.answered){
+      if(r.calc){
+        if(r.calc.scaleDraw!=null&&$("#scaleDraw")) $("#scaleDraw").value=r.calc.scaleDraw;
+        if(r.calc.scaleRealInput!=null&&$("#scaleRealInput")) $("#scaleRealInput").value=r.calc.scaleRealInput;
+        if(r.calc.calcAnswer!=null&&$("#calcAnswer")) $("#calcAnswer").value=r.calc.calcAnswer;
+      }
+      document.querySelectorAll(".formula input, #calcBtn").forEach(el=>el.disabled=true);
+    }else wireCalc(m,handheld);
+  }
+  if(r.answered){
+    $("#feedback").innerHTML=`<b>${r.ok?"✓ Bien vu !":"✗ Pas tout à fait."}</b> ${r.explain}`;
+    $("#feedback").style.background=r.ok?"#e6faef":"#fff1ed";
+    $("#nextBtn").classList.remove("hidden");
+  }
   syncCalc(m);
+  wireCalcToggle();
   $("#nextBtn").onclick=next;
+  $("#prevMission").onclick=prev;
+  $("#nextMission").onclick=()=>{if(canForward()) next();};
 }
 function wireCalc(m,handheld){
   $("#calcBtn").onclick=answerCalc;
@@ -160,7 +202,6 @@ function wireCalc(m,handheld){
     el.classList.toggle("armed",el===calcTarget);
     el.onfocus=()=>armInput(el,blanks);
     el.onclick=()=>armInput(el,blanks);
-    el.onkeydown=e=>{if(e.key==="Enter")answerCalc()};
   });
   if(handheld){
     blanks.forEach(el=>{el.readOnly=true;el.blur()});
@@ -178,7 +219,7 @@ function armInput(el,blanks){
   blanks.forEach(f=>f.classList.toggle("armed",f===el));
 }
 function initScaleLab(m){const stage=$("#cellStage"),tape=$("#scaleTape"),handle=$("#tapeHandle");let action=null,startX=0,startY=0,startLeft=0,startTop=0,startWidth=0,segment=0;const reset=()=>{segment=stage.clientWidth*m.segmentFraction;tape.style.setProperty("--segment",`${segment}px`);tape.style.width=`${segment}px`;tape.style.left=m.tapeLeft||"3%";tape.style.top=m.tapeTop||"78%"};const down=(e,mode)=>{e.preventDefault();action=mode;startX=e.clientX;startY=e.clientY;startLeft=tape.offsetLeft;startTop=tape.offsetTop;startWidth=tape.offsetWidth;tape.setPointerCapture(e.pointerId)};tape.onpointerdown=e=>{if(e.target!==handle)down(e,"move")};if(handle)handle.onpointerdown=e=>down(e,"resize");tape.onpointermove=e=>{if(!action)return;if(action==="resize"){const max=stage.clientWidth-tape.offsetLeft-5;tape.style.width=`${Math.max(segment,Math.min(max,startWidth+e.clientX-startX))}px`}else{const left=Math.max(0,Math.min(stage.clientWidth-tape.offsetWidth,startLeft+e.clientX-startX));const top=Math.max(0,Math.min(stage.clientHeight-tape.offsetHeight,startTop+e.clientY-startY));tape.style.left=`${left}px`;tape.style.top=`${top}px`}};tape.onpointerup=tape.onpointercancel=()=>action=null;$("#resetTape").onclick=reset;reset()}
-function answerOption(i){if(locked)return;const m=missions[current];locked=true;document.querySelectorAll(".option").forEach((b,j)=>{b.disabled=true;if(j===currentAnswer)b.classList.add("good");if(j===i&&i!==currentAnswer)b.classList.add("bad")});finish(i===currentAnswer,m.explain)}
+function answerOption(i){if(locked)return;const m=missions[current];const r=rec(current);r.pick=i;locked=true;document.querySelectorAll(".option").forEach((b,j)=>{b.disabled=true;if(j===currentAnswer)b.classList.add("good");if(j===i&&i!==currentAnswer)b.classList.add("bad")});finish(i===currentAnswer,m.explain)}
 function n(v){return parseFloat(v.trim().replace(",","."))}
 function answerCalc(){
   if(locked)return;
@@ -187,7 +228,6 @@ function answerCalc(){
     locked=true;
     document.querySelectorAll(".formula input, #calcBtn").forEach(el=>el.disabled=true);
     const pad=$("#keypad"); if(pad) pad.classList.add("hidden");
-    closeCalc();
   };
   if(mode==="ratio"){
     const divRaw=$("#scaleDraw").value, quotRaw=$("#calcAnswer").value;
@@ -211,8 +251,37 @@ function answerCalc(){
   const decimals=(raw.split(".")[1]||"").length,exact=Math.abs(c-m.answer)<.0005,rounded=decimals===1&&Math.abs(c-m.roundedAnswer)<.0005,ok=exact||rounded;
   finish(ok,m.explain+(ok?"":" Reprends : longueur de l’objet ÷ longueur du segment × valeur réelle du segment."));
 }
-function finish(ok,text){if(ok){score+=100;$("#score").textContent=score}$("#feedback").innerHTML=`<b>${ok?"✓ Bien vu !":"✗ Pas tout à fait."}</b> ${text}`;$("#feedback").style.background=ok?"#e6faef":"#fff1ed";$("#nextBtn").classList.remove("hidden")}
-function next(){current++;if(current<missions.length)render();else result()}
+function finish(ok,text){
+  const r=rec(current);
+  if(!r.answered){
+    if(ok){score+=100;$("#score").textContent=score}
+    r.answered=true;r.ok=ok;r.explain=text;
+    if(missions[current].type==="calc"){
+      r.calc={
+        scaleDraw:$("#scaleDraw")?$("#scaleDraw").value:null,
+        scaleRealInput:$("#scaleRealInput")?$("#scaleRealInput").value:null,
+        calcAnswer:$("#calcAnswer")?$("#calcAnswer").value:null
+      };
+    }
+  }
+  $("#feedback").innerHTML=`<b>${ok?"✓ Bien vu !":"✗ Pas tout à fait."}</b> ${text}`;
+  $("#feedback").style.background=ok?"#e6faef":"#fff1ed";
+  $("#nextBtn").classList.remove("hidden");
+  const fwd=$("#nextMission");
+  if(fwd) fwd.disabled=false;
+}
+function prev(){if(current>0) goTo(current-1)}
+function next(){
+  if(!canForward()) return;
+  if(current<farthest){goTo(current+1);return}
+  if(current===missions.length-1){result();return}
+  farthest=current+1;
+  goTo(farthest);
+}
+function goTo(i){
+  current=i;
+  render();
+}
 function result(){show("#resultScreen");$("#finalScore").textContent=score;$("#progressBar").style.width="100%";let title,text,badge;if(score>=1000){title="Expert du microscope";text="Tu sais relier observation, ordre de grandeur et calcul d’échelle. L’échantillon n’a plus de secret pour toi.";badge="🏆"}else if(score>=720){title="Explorateur confirmé";text="Les bases sont solides. Rejoue une fois pour verrouiller la méthode de calcul et le vocabulaire.";badge="🔬"}else{title="Apprenti observateur";text="Tu progresses. Relis les corrections, puis retente les missions : elles changent vite de difficulté quand la méthode est comprise.";badge="🌱"}$("#resultTitle").textContent=title;$("#resultText").textContent=text;$("#resultBadge").textContent=badge;$("#recap").classList.add("hidden")}
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1800)}
 function openInBrowser(){
@@ -249,24 +318,117 @@ function applyOp(a,op,b){
   if(op==="÷") return b===0?NaN:a/b;
   return b;
 }
-function resetCalcState(){calcState.vis="0";calcState.acc=null;calcState.op=null;calcState.fresh=true;if($("#calcScreen")) $("#calcScreen").textContent="0"}
+function prettyOp(x){return x==="-"?"−":x}
+function evalTokens(seq){
+  const t=seq.slice();
+  const pass=ops=>{
+    let i=0;
+    while(i<t.length){
+      if(ops.includes(t[i])){
+        const r=applyOp(parseFr(t[i-1]),t[i],parseFr(t[i+1]));
+        t.splice(i-1,3,formatFr(r));
+        i=Math.max(0,i-1);
+      }else i++;
+    }
+  };
+  pass(["×","÷"]);
+  pass(["+","-"]);
+  return t[0]||"0";
+}
+function updateCalcScreen(){
+  const s=calcState;
+  const exprEl=$("#calcExpr"), valEl=$("#calcScreen");
+  let expr="";
+  if(s.justEq) expr=s.eqExpr;
+  else if(s.tokens.length) expr=s.tokens.map(prettyOp).join(" ")+(s.fresh?"":" "+s.num);
+  if(exprEl) exprEl.textContent=expr;
+  if(valEl) valEl.textContent=s.num;
+}
+function resetCalcState(){
+  calcState.tokens=[];
+  calcState.num="0";
+  calcState.fresh=true;
+  calcState.eqExpr="";
+  calcState.justEq=false;
+  updateCalcScreen();
+}
 function calcPress(k){
   const s=calcState;
   if(k==="C"){resetCalcState();return}
-  if(k==="⌫"){s.vis=s.vis.length>1?s.vis.slice(0,-1):"0";s.fresh=false}
-  else if("+-×÷".includes(k)){s.acc=parseFr(s.vis);s.op=k;s.fresh=true}
-  else if(k==="="){
-    if(s.op==null) return;
-    s.vis=formatFr(applyOp(s.acc,s.op,parseFr(s.vis)));
-    s.op=null;s.acc=null;s.fresh=true;
-  }else if(k===","){
-    if(s.fresh){s.vis="0,";s.fresh=false}
-    else if(!s.vis.includes(",")) s.vis+=",";
-  }else{
-    if(s.fresh||s.vis==="0"){s.vis=k;s.fresh=false}
-    else s.vis+=k;
+  if(k==="⌫"){
+    if(s.justEq){resetCalcState();return}
+    if(!s.fresh&&s.num.length>1){s.num=s.num.slice(0,-1)}
+    else if(!s.fresh){s.num="0";s.fresh=true}
+    else if(s.tokens.length){
+      const last=s.tokens.pop();
+      if("+-×÷".includes(last)){
+        s.num=s.tokens.pop()||"0";
+        s.fresh=true;
+      }else{s.num=last;s.fresh=false}
+    }
+    updateCalcScreen();
+    return;
   }
-  $("#calcScreen").textContent=s.vis;
+  if("+-×÷".includes(k)){
+    if(s.justEq){
+      s.tokens=[s.num];
+      s.justEq=false;
+      s.eqExpr="";
+    }else if(!s.fresh) s.tokens.push(s.num);
+    else if(!s.tokens.length) s.tokens.push(s.num);
+    if("+-×÷".includes(s.tokens[s.tokens.length-1])) s.tokens[s.tokens.length-1]=k;
+    else s.tokens.push(k);
+    s.fresh=true;
+    s.num="0";
+    updateCalcScreen();
+    return;
+  }
+  if(k==="="){
+    if(s.justEq) return;
+    const seq=s.tokens.slice();
+    if(!seq.length) return;
+    if("+-×÷".includes(seq[seq.length-1])) seq.push(s.num);
+    else if(!s.fresh) seq.push(s.num);
+    if(seq.length<3) return;
+    s.eqExpr=seq.map(prettyOp).join(" ")+" =";
+    s.num=evalTokens(seq);
+    s.tokens=[];
+    s.fresh=true;
+    s.justEq=true;
+    updateCalcScreen();
+    return;
+  }
+  if(s.justEq){
+    s.tokens=[];
+    s.eqExpr="";
+    s.justEq=false;
+    s.num="0";
+    s.fresh=true;
+  }
+  if(k===","){
+    if(s.fresh){s.num="0,";s.fresh=false}
+    else if(!s.num.includes(",")) s.num+=",";
+  }else{
+    if(s.fresh||s.num==="0"){s.num=k;s.fresh=false}
+    else s.num+=k;
+  }
+  updateCalcScreen();
+}
+function placeCalc(){
+  const pop=$("#calcPop"), btn=$("#calcToggle");
+  if(!pop||pop.hidden||!btn) return;
+  const r=btn.getBoundingClientRect();
+  const w=pop.offsetWidth||280;
+  const h=pop.offsetHeight||320;
+  let left=r.right-w;
+  left=Math.max(8,Math.min(left,window.innerWidth-w-8));
+  let top=r.bottom+8;
+  if(top+h>window.innerHeight-8) top=Math.max(8,r.top-h-8);
+  pop.style.top=top+"px";
+  pop.style.left=left+"px";
+  pop.style.right="auto";
+  pop.style.bottom="auto";
+  pop.style.transform="none";
 }
 function closeCalc(){
   const pop=$("#calcPop"), btn=$("#calcToggle");
@@ -275,18 +437,29 @@ function closeCalc(){
 }
 function toggleCalc(){
   const pop=$("#calcPop"), btn=$("#calcToggle");
-  if(!pop) return;
+  if(!pop||!btn) return;
   const open=pop.hidden;
   pop.hidden=!open;
   pop.classList.toggle("open",open);
-  if(btn) btn.setAttribute("aria-expanded",open?"true":"false");
-  if(open) resetCalcState();
+  btn.setAttribute("aria-expanded",open?"true":"false");
+  if(open){
+    updateCalcScreen();
+    requestAnimationFrame(placeCalc);
+  }
+}
+function wireCalcToggle(){
+  const btn=$("#calcToggle");
+  if(!btn) return;
+  const open=$("#calcPop")&&!$("#calcPop").hidden;
+  btn.setAttribute("aria-expanded",open?"true":"false");
+  btn.onclick=e=>{e.stopPropagation();toggleCalc()};
 }
 function syncCalc(m){
-  const btn=$("#calcToggle");
-  const on=needsCalculator(m);
-  if(btn) btn.classList.toggle("hidden",!on);
-  if(!on) closeCalc();
+  if(!needsCalculator(m)) closeCalc();
+  else{
+    updateCalcScreen();
+    placeCalc();
+  }
 }
 $("#startBtn").onclick=start;
 $("#retryBtn").onclick=start;
@@ -301,13 +474,32 @@ if(help){
 }
 if(openBtn) openBtn.onclick=openInBrowser;
 if(stayBtn) stayBtn.onclick=dismissInAppGate;
-const calcToggle=$("#calcToggle");
-if(calcToggle) calcToggle.onclick=e=>{e.stopPropagation();toggleCalc()};
 document.querySelectorAll(".ck").forEach(b=>b.onclick=()=>calcPress(b.dataset.k));
 document.addEventListener("pointerdown",e=>{
   if(!$("#calcPop")||$("#calcPop").hidden) return;
   if(e.target.closest("#calcPop, #calcToggle")) return;
   closeCalc();
+});
+function gameActive(){return $("#gameScreen")&&$("#gameScreen").classList.contains("active")}
+function overlayBlocks(){
+  return document.body.classList.contains("locked-portrait")
+    || ($("#fsGate")&&$("#fsGate").classList.contains("show"))
+    || ($("#browserGate")&&$("#browserGate").classList.contains("show"));
+}
+document.addEventListener("keydown",e=>{
+  if(!gameActive()||overlayBlocks()) return;
+  const inField=/^(INPUT|TEXTAREA)$/.test(e.target.tagName);
+  if(e.key==="Enter"){
+    e.preventDefault();
+    if(canForward()){next();return}
+    const calcOpen=$("#calcPop")&&!$("#calcPop").hidden;
+    if(calcOpen){calcPress("=");return}
+    if($("#calcBtn")&&!locked) answerCalc();
+    return;
+  }
+  if(inField) return;
+  if(e.key==="ArrowLeft"){e.preventDefault();prev();return}
+  if(e.key==="ArrowRight"){e.preventDefault();if(canForward()) next()}
 });
 fitLayout();
 addEventListener("resize",fitLayout);

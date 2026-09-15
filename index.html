@@ -51,9 +51,6 @@
       <div class="hud hidden" id="hud">
         <span id="missionLabel">Mission 1/12</span>
         <div class="progress" aria-label="Progression"><i id="progressBar"></i></div>
-        <button class="calc-toggle hidden" id="calcToggle" type="button" aria-label="Ouvrir la calculette" aria-expanded="false">
-          <span class="calc-glyph" aria-hidden="true"></span>
-        </button>
         <span class="score"><b id="score">0</b> pts</span>
       </div>
     </header>
@@ -106,7 +103,10 @@
   <div class="calc-pop" id="calcPop" hidden>
     <div class="calc-toy" role="group" aria-label="Calculette">
       <div class="calc-face" aria-hidden="true"><i></i><i></i></div>
-      <div class="calc-screen" id="calcScreen">0</div>
+      <div class="calc-screen">
+        <div class="calc-expr" id="calcExpr"></div>
+        <div class="calc-value" id="calcScreen">0</div>
+      </div>
       <div class="calc-keys">
         <button type="button" data-k="C" class="ck op">C</button>
         <button type="button" data-k="⌫" class="ck op">⌫</button>
