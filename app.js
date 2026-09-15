@@ -11,14 +11,22 @@ const missions=[
  {title:"Encadre la bactérie",sub:"Passer aux micromètres",type:"qcm",question:"La bactérie mesure entre 0,5 et 1 segment, et un segment représente 2 µm. Quel est son intervalle de taille ?",options:["1 µm < taille < 2 µm","0,5 µm < taille < 1 µm","2 µm < taille < 4 µm","0 µm < taille < 0,5 µm"],answer:0,explain:"0,5 × 2 = 1 µm et 1 × 2 = 2 µm. La bactérie mesure donc entre 1 et 2 µm."},
  {title:"La taille de la bactérie",sub:"Appliquer la méthode complète",type:"calc",question:"Sur le document, la bactérie mesure 3,5 cm et le segment représentant 2 µm mesure 5 cm. Calcule la taille réelle de la bactérie. La valeur exacte ou son arrondi au dixième sont acceptés.",answer:1.4,roundedAnswer:1.4,drawSize:3.5,scaleDraw:5,scaleReal:2,explain:"3,5 ÷ 5 = 0,7 segment, puis 0,7 × 2 = 1,4 µm. Le résultat appartient bien à l’intervalle prévu entre 1 et 2 µm.",image:"illustrations/bacterie-mesure.webp"}
 ];
-let current=0,score=0,locked=false,currentAnswer=0;
+let current=0,score=0,locked=false,currentAnswer=0,inAppDismissed=false;
 const $=s=>document.querySelector(s), screens=["#homeScreen","#gameScreen","#resultScreen"];
 function isHandheld(){
   return navigator.maxTouchPoints>0
     || window.matchMedia("(pointer: coarse)").matches
     || /Mobi|Android|iPhone|iPad|iPod|SamsungBrowser|Mobile/i.test(navigator.userAgent);
 }
+function isInAppBrowser(){
+  const ua=navigator.userAgent||"";
+  const ref=document.referrer||"";
+  return /FBAN|FBAV|FB_IAB|FB4A|FBIOS|FBSS|Instagram|Line\/|Twitter|TikTok|Bytedance|musical_ly|Snapchat|Messenger|WhatsApp|LinkedInApp|Pinterest|MicroMessenger/i.test(ua)
+    || /facebook\.com|instagram\.com|l\.facebook\.com|lm\.facebook\.com/i.test(ref)
+    || document.documentElement.classList.contains("in-app");
+}
 function fullscreenLikely(){
+  if(isInAppBrowser()) return false;
   if(/iPhone|iPod/.test(navigator.userAgent)) return false;
   return !!(document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen);
 }
@@ -33,11 +41,13 @@ function fitLayout(){
   document.documentElement.classList.toggle("portrait",portrait);
   document.documentElement.classList.toggle("landscape",!portrait);
   document.documentElement.classList.toggle("compact",compact);
+  const inApp=isInAppBrowser();
+  document.documentElement.classList.toggle("in-app",inApp);
   const fullscreen=!!(document.fullscreenElement||document.webkitFullscreenElement);
   document.documentElement.classList.toggle("is-fullscreen",fullscreen);
   const overlay=$("#rotateOverlay");
   if(overlay){
-    const showRotate=handheld&&portrait;
+    const showRotate=handheld&&portrait&&!inApp;
     overlay.classList.toggle("show",showRotate);
     overlay.setAttribute("aria-hidden",showRotate?"false":"true");
     overlay.inert=!showRotate;
@@ -45,14 +55,23 @@ function fitLayout(){
   }
   const gate=$("#fsGate");
   if(gate){
-    const showGate=handheld&&!portrait&&!fullscreen&&!document.documentElement.classList.contains("fs-tried")&&fullscreenLikely();
+    const showGate=!inApp&&handheld&&!portrait&&!fullscreen&&!document.documentElement.classList.contains("fs-tried")&&fullscreenLikely();
     gate.classList.toggle("show",showGate);
     gate.setAttribute("aria-hidden",showGate?"false":"true");
     gate.inert=!showGate;
   }
+  const browserGate=$("#browserGate");
+  if(browserGate){
+    let dismissed=inAppDismissed;
+    try{dismissed=dismissed||sessionStorage.getItem("celluloscope-inapp")==="1";}catch(_){}
+    const showBrowser=inApp&&!dismissed;
+    browserGate.classList.toggle("show",showBrowser);
+    browserGate.setAttribute("aria-hidden",showBrowser?"false":"true");
+    browserGate.inert=!showBrowser;
+  }
 }
 async function enterImmersive(){
-  if(!isHandheld())return;
+  if(!isHandheld()||isInAppBrowser())return;
   const root=document.documentElement;
   const withTimeout=(p,ms=450)=>Promise.race([Promise.resolve(p).catch(()=>{}),new Promise(r=>setTimeout(r,ms))]);
   const req=root.requestFullscreen||root.webkitRequestFullscreen;
@@ -125,11 +144,40 @@ function finish(ok,text){if(ok){score+=100;$("#score").textContent=score}$("#fee
 function next(){current++;if(current<missions.length)render();else result()}
 function result(){show("#resultScreen");$("#finalScore").textContent=score;$("#progressBar").style.width="100%";let title,text,badge;if(score>=900){title="Expert du microscope";text="Tu sais relier observation, ordre de grandeur et calcul d’échelle. L’échantillon n’a plus de secret pour toi.";badge="🏆"}else if(score>=650){title="Explorateur confirmé";text="Les bases sont solides. Rejoue une fois pour verrouiller la méthode de calcul et le vocabulaire.";badge="🔬"}else{title="Apprenti observateur";text="Tu progresses. Relis les corrections, puis retente les missions : elles changent vite de difficulté quand la méthode est comprise.";badge="🌱"}$("#resultTitle").textContent=title;$("#resultText").textContent=text;$("#resultBadge").textContent=badge;$("#recap").classList.add("hidden")}
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1800)}
+function openInBrowser(){
+  const hostPath=location.host+location.pathname+location.search;
+  const url=location.href;
+  const ua=navigator.userAgent||"";
+  if(/Android/i.test(ua)){
+    location.href="intent://"+hostPath+"#Intent;scheme=https;action=android.intent.action.VIEW;S.browser_fallback_url="+encodeURIComponent(url)+";end";
+    return;
+  }
+  if(/iPhone|iPad|iPod/i.test(ua)){
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(url).catch(()=>{});
+    location.href="x-safari-https://"+hostPath;
+    toast("Si rien ne s’ouvre : ··· puis « Ouvrir dans Safari ».");
+    return;
+  }
+  window.open(url,"_blank","noopener");
+}
+function dismissInAppGate(){
+  inAppDismissed=true;
+  try{sessionStorage.setItem("celluloscope-inapp","1");}catch(_){}
+  fitLayout();
+}
 $("#startBtn").onclick=start;
 $("#retryBtn").onclick=start;
 $("#reviewBtn").onclick=()=>$("#recap").classList.toggle("hidden");
 $("#homeBtn").onclick=()=>show("#homeScreen");
-document.addEventListener("pointerdown",()=>{if(isHandheld()) enterImmersive();},{passive:true});
+document.addEventListener("pointerdown",()=>{if(isHandheld()&&!isInAppBrowser()) enterImmersive();},{passive:true});
+const openBtn=$("#openBrowserBtn"), stayBtn=$("#stayHereBtn"), help=$("#browserHelp");
+if(help){
+  help.textContent=/iPhone|iPad|iPod/i.test(navigator.userAgent)
+    ?"iPhone : appuie sur ··· en bas, puis « Ouvrir dans Safari »."
+    :"Android : le bouton ouvre Chrome. Sinon, menu ⋮ puis « Ouvrir dans Chrome ».";
+}
+if(openBtn) openBtn.onclick=openInBrowser;
+if(stayBtn) stayBtn.onclick=dismissInAppGate;
 fitLayout();
 addEventListener("resize",fitLayout);
 addEventListener("orientationchange",()=>setTimeout(fitLayout,80));
@@ -138,6 +186,7 @@ document.addEventListener("webkitfullscreenchange",fitLayout);
 if(window.visualViewport) visualViewport.addEventListener("resize",fitLayout);
 document.addEventListener("touchmove",e=>{
   if(!document.documentElement.classList.contains("handheld"))return;
+  if(document.documentElement.classList.contains("in-app"))return;
   if(e.target.closest(".recap, .cell-stage, .scale-tape"))return;
   e.preventDefault();
 },{passive:false});

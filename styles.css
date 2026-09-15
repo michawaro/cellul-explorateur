@@ -19,8 +19,14 @@ button,.option,.key{touch-action:manipulation}
 .rotate-overlay p{margin:0;font-size:17px;line-height:1.45;opacity:.92}
 @keyframes tilt-phone{0%,30%{transform:rotate(0)}60%,100%{transform:rotate(90deg)}}
 @media(orientation:portrait) and (pointer:coarse){.rotate-overlay{display:flex}}
-html.landscape .rotate-overlay,html:not(.handheld) .rotate-overlay{display:none!important}
-html.handheld.portrait .rotate-overlay{display:flex!important}
+html.landscape .rotate-overlay,html:not(.handheld) .rotate-overlay,html.in-app .rotate-overlay{display:none!important}
+html.handheld.portrait:not(.in-app) .rotate-overlay{display:flex!important}
+
+.browser-gate{display:none;position:fixed;inset:0;z-index:55;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#123a47,#1b6b63 55%,#2b146d);color:#fff;text-align:center}
+html.in-app .browser-gate.show{display:flex}
+.browser-gate .primary,.browser-gate .secondary{display:block;width:100%;max-width:320px;margin:12px auto 0}
+.browser-gate .secondary{background:#ffffff22;color:#fff}
+.browser-help{margin:14px 0 6px!important;font-size:15px;opacity:.95}
 
 .fs-gate{display:none;position:fixed;inset:0;z-index:45;align-items:center;justify-content:center;padding:24px;background:linear-gradient(160deg,#123a47,#1b6b63 55%,#2b146d);color:#fff;text-align:center;cursor:pointer}
 .fs-gate h2,.rotate-overlay h2{margin:0 0 10px;font-size:28px;letter-spacing:-.03em}
@@ -30,7 +36,7 @@ html.handheld.portrait .rotate-overlay{display:flex!important}
 .fs-icon:before{left:10px;top:10px;border-width:3px 0 0 3px}
 .fs-icon:after{right:10px;bottom:10px;border-width:0 3px 3px 0}
 html.handheld .fs-gate.show{display:flex}
-html:not(.handheld) .fs-gate,html.is-fullscreen .fs-gate,html.fs-tried .fs-gate,html.handheld.portrait .fs-gate{display:none!important}
+html:not(.handheld) .fs-gate,html.is-fullscreen .fs-gate,html.fs-tried .fs-gate,html.handheld.portrait .fs-gate,html.in-app .fs-gate{display:none!important}
 
 html.handheld,html.handheld body{height:var(--vh,100dvh);max-height:var(--vh,100dvh);overflow:hidden;overscroll-behavior:none}
 html.handheld body{position:fixed;inset:0;width:100%}
@@ -124,4 +130,13 @@ html.handheld .formula span{white-space:nowrap}
 }
 
 body.locked-portrait .app{visibility:hidden;pointer-events:none}
+html.in-app body.locked-portrait .app{visibility:visible;pointer-events:auto}
+
+html.in-app.portrait,html.in-app.portrait body{position:static!important;overflow:auto!important;height:auto!important;max-height:none!important}
+html.in-app.portrait .app{height:auto;min-height:100dvh;overflow:visible}
+html.in-app.portrait .screen,html.in-app.portrait .mission-card,html.in-app.portrait .result-card{height:auto;overflow:visible;min-height:0}
+html.in-app.portrait .hero{flex-direction:column;height:auto;align-items:flex-start}
+html.in-app.portrait .hero-visual,html.in-app.portrait .hero:before{display:none!important}
+html.in-app.portrait .options,html.in-app.portrait .compare{grid-template-columns:1fr}
+html.in-app.portrait .keypad{position:sticky;bottom:0;z-index:2;background:#fff;padding:6px 0 8px}
 

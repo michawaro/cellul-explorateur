@@ -9,6 +9,15 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Celluloscope">
   <title>Celluloscope - Mission microscope</title>
+  <script>
+    (function(){
+      var ua=navigator.userAgent||"";
+      var ref=document.referrer||"";
+      if(/FBAN|FBAV|FB_IAB|FB4A|FBIOS|FBSS|Instagram|Line\/|Twitter|TikTok|Bytedance|musical_ly|Snapchat|Messenger|WhatsApp|LinkedInApp|Pinterest|MicroMessenger/i.test(ua)||/facebook\.com|instagram\.com|l\.facebook\.com|lm\.facebook\.com/i.test(ref)){
+        document.documentElement.classList.add("in-app");
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -18,6 +27,15 @@
       <div class="rotate-icon" aria-hidden="true"><i></i></div>
       <h2 id="rotateTitle">Passe en paysage</h2>
       <p>Touche l’écran, puis tourne ton téléphone ou ta tablette à l’horizontale.</p>
+    </div>
+  </div>
+  <div class="browser-gate" id="browserGate" role="dialog" aria-modal="true" aria-labelledby="browserTitle" aria-hidden="true" inert>
+    <div class="rotate-card">
+      <h2 id="browserTitle">Ouvre dans ton navigateur</h2>
+      <p>Facebook et Instagram bloquent le mode paysage. Pour jouer correctement, ouvre Celluloscope dans Chrome ou Safari.</p>
+      <p class="browser-help" id="browserHelp"></p>
+      <button class="primary big" id="openBrowserBtn" type="button">Ouvrir dans le navigateur</button>
+      <button class="secondary" id="stayHereBtn" type="button">Continuer ici</button>
     </div>
   </div>
   <div class="fs-gate" id="fsGate" role="dialog" aria-modal="true" aria-labelledby="fsTitle" aria-hidden="true" inert>
