@@ -3,19 +3,92 @@ const missions=[
  {title:"Une cellule chlorophyllienne",sub:"Lire un dessin d’observation",type:"qcm",question:"Quel élément vert, caractéristique des cellules d’Élodée observées, réalise la photosynthèse ?",options:["Le chloroplaste","Le noyau","La paroi","La membrane plasmique"],answer:0,explain:"Les grains verts sont des chloroplastes contenant de la chlorophylle. Une cellule végétale possède aussi une paroi autour de la membrane.",image:"illustrations/cellule-elodee-sans-texte.webp"},
  {title:"Cellule ou tissu ?",sub:"Changer d’échelle d’organisation",type:"qcm",question:"Quelle définition d’un tissu est la plus juste ?",options:["Un ensemble organisé de cellules associées, avec une matrice extracellulaire éventuelle","Une très grande cellule possédant plusieurs noyaux","Un groupe d’organes ayant exactement la même fonction","Un ensemble de cellules obligatoirement identiques et directement accolées"],answer:0,explain:"Un tissu est un ensemble organisé de cellules. Celles-ci peuvent être séparées ou reliées par une matrice extracellulaire.",image:null},
  {title:"Le duel des cellules",sub:"Comparer sans confondre",type:"compare",question:"Quelle proposition compare correctement une bactérie et une cellule de muqueuse buccale ?",options:["La bactérie est généralement bien plus petite et ne possède pas de noyau.","La bactérie est plus petite, mais possède un noyau plus discret.","La cellule buccale est plus petite car elle ne possède pas de paroi."],answer:0,explain:"Les bactéries sont en général bien plus petites que les cellules animales et leur ADN n’est pas enfermé dans un noyau.",image:"illustrations/bacteries-cellule-buccale-v2.webp"},
- {title:"Déroule l’échelle",sub:"Manipuler avant de calculer",type:"scale",question:"Place le segment de 15 µm au début de la cellule, puis tire sur sa poignée jusqu’à l’autre extrémité. Combien de segments entiers entrent dans sa longueur ?",options:["Entre 7 et 8 segments","Entre 5 et 6 segments","Entre 8 et 9 segments","Entre 10 et 11 segments"],answer:0,explain:"On peut placer 7 segments complets, mais pas un huitième : la longueur correspond donc à un peu plus de 7 segments et à moins de 8.",image:"illustrations/elodee-estimation-interactive.webp",scaleReal:15,segmentFraction:.077,stretch:true,subject:"cellule d’Élodée"},
- {title:"Encadre la taille",sub:"Passer des segments aux micromètres",type:"qcm",question:"Le segment représente 15 µm. La cellule contient entre 7 et 8 segments. Quel intervalle de taille réelle peux-tu prévoir ?",options:["105 µm < taille < 120 µm","7 µm < taille < 8 µm","15 µm < taille < 105 µm","120 µm < taille < 135 µm"],answer:0,explain:"7 × 15 = 105 µm et 8 × 15 = 120 µm. Le résultat précis devra obligatoirement être compris entre ces deux valeurs.",image:"illustrations/elodee-encadrement-15um.webp",calculator:true},
+ {title:"Déroule l’échelle",sub:"Manipuler avant de calculer",type:"scale",question:"Place le segment de 15 µm au début de la cellule, puis tire sur sa poignée jusqu’à l’autre extrémité. Combien de segments entiers entrent dans sa longueur ?",options:["Entre 7 et 8 segments","Entre 5 et 6 segments","Entre 8 et 9 segments","Entre 10 et 11 segments"],answer:0,explain:"On peut placer 7 segments complets, mais pas un huitième : la longueur correspond donc à un peu plus de 7 segments et à moins de 8.",image:"illustrations/elodee-estimation-interactive.webp",scaleReal:15,cellLeft:110/1200,cellSpan:844/1200,segmentCount:7.625,tapeTop:464/645,stretch:true,subject:"cellule d’Élodée"},
+ {title:"Encadre la taille",sub:"Passer des segments aux micromètres",type:"qcm",question:"Le segment représente 15 µm. La cellule contient entre 7 et 8 segments. Quel intervalle de taille réelle peux-tu prévoir ?",options:["105 µm < taille < 120 µm","7 µm < taille < 8 µm","15 µm < taille < 105 µm","120 µm < taille < 135 µm"],answer:0,explain:"7 × 15 = 105 µm et 8 × 15 = 120 µm. Le résultat précis devra obligatoirement être compris entre ces deux valeurs.",image:"illustrations/elodee-encadrement-tape.webp",calculator:true},
  {title:"La formule des segments",sub:"Réfléchir avant de calculer",type:"formula",question:"Pour trouver combien de fois le segment entre dans une mesure, glisse les cartes « taille de l’objet » et « taille du segment » dans la formule.",cards:[{id:"objet",label:"taille de l’objet"},{id:"segment",label:"taille du segment"}],formulaOps:["÷"],resultLabel:"nombre de segments",answer:["objet","segment"],explain:"On divise la taille de l’objet (sur le dessin) par la taille du segment (sur le dessin) : taille de l’objet ÷ taille du segment = nombre de segments.",image:"illustrations/elodee-division-mesures.webp"},
  {title:"Combien de segments ?",sub:"Diviser pour mesurer",type:"calc",calcMode:"ratio",question:"Combien de fois le segment d’échelle entre-t-il dans la longueur dessinée de la cellule ? Complète : 12,2 ÷ … = … (valeur exacte ou arrondie au dixième).",answer:7.625,roundedAnswer:7.6,drawSize:12.2,scaleDraw:1.6,explain:"12,2 ÷ 1,6 = 7,625, soit 7,6 au dixième. La cellule contient donc un peu plus de 7 segments d’échelle.",image:"illustrations/elodee-division-mesures.webp",calculator:true},
  {title:"La formule de la taille réelle",sub:"Relier le dessin aux micromètres",type:"formula",question:"On a vu : nombre de segments = taille de l’objet ÷ taille du segment. Pour trouver la taille réelle, glisse les cartes « taille de l’objet », « taille du segment » et « valeur réelle » dans la formule.",cards:[{id:"objet",label:"taille de l’objet"},{id:"segment",label:"taille du segment"},{id:"reel",label:"valeur réelle"}],formulaOps:["÷","×"],resultLabel:"taille réelle",answer:["objet","segment","reel"],explain:"Taille réelle = taille de l’objet ÷ taille du segment × valeur réelle du segment.",image:"illustrations/elodee-division-mesures.webp"},
  {title:"La taille précise",sub:"Multiplier par la valeur réelle",type:"calc",calcMode:"scale",question:"Tu as 12,2 ÷ 1,6 = 7,625, ce qui signifie que le segment entre 7,625 fois dans la cellule. Multiplie par la valeur réelle du segment pour obtenir la taille réelle. Valeur exacte ou arrondie au dixième.",answer:114.375,roundedAnswer:114.4,drawSize:12.2,scaleDraw:1.6,scaleReal:15,explain:"12,2 ÷ 1,6 × 15 = 114,375 µm (ou 114,4 µm au dixième). Étapes : 12,2 ÷ 1,6 = 7,625, puis 7,625 × 15 = 114,375.",image:"illustrations/elodee-division-mesures.webp",calculator:true},
- {title:"L’épaisseur d’une feuille",sub:"Donner du sens au micromètre",type:"qcm",question:"Sachant que 10 feuilles mesurent 1 mm, soit 1 000 µm, quelle est l’épaisseur d’une feuille ?",options:["100 µm","10 µm","1 mm","1 000 µm"],answer:0,explain:"1 000 µm ÷ 10 = 100 µm. Une feuille mesure donc environ 100 µm — presque la longueur de la cellule d’Élodée (114,4 µm).",image:"illustrations/pile-feuilles-zoom.webp",calculator:true},
+ {title:"L’épaisseur d’une feuille",sub:"Donner du sens au micromètre",type:"qcm",question:"Sachant que 10 feuilles mesurent 1 mm, soit 1 000 µm, quelle est l’épaisseur d’une feuille ?",options:["100 µm","10 µm","1 mm","1 000 µm"],answer:0,explain:"1 000 µm ÷ 10 = 100 µm. Une feuille mesure donc environ 100 µm — presque la longueur de la cellule d’Élodée (114,4 µm).",image:"illustrations/repere-feuilles-question.webp",calculator:true},
  {title:"Une échelle plus grande",sub:"Comparer avant de calculer",type:"scale",question:"Glisse le segment de 2 µm le long de la bactérie. Que peux-tu conclure ?",options:["La bactérie est plus petite que le segment, mais dépasse sa moitié","La bactérie contient entre 1 et 2 segments entiers","La bactérie est exactement deux fois plus longue que le segment","La bactérie est plus petite que la moitié du segment"],answer:0,explain:"Le segment entier est plus long que la bactérie, mais sa moitié est plus courte : la bactérie mesure donc entre 0,5 et 1 segment.",image:"illustrations/bacterie-mesure.webp",scaleReal:2,segmentFraction:.60,stretch:false,subject:"bactérie"},
  {title:"Encadre la bactérie",sub:"Passer aux micromètres",type:"qcm",question:"La bactérie mesure entre 0,5 et 1 segment, et un segment représente 2 µm. Quel est son intervalle de taille ?",options:["1 µm < taille < 2 µm","0,5 µm < taille < 1 µm","2 µm < taille < 4 µm","0 µm < taille < 0,5 µm"],answer:0,explain:"0,5 × 2 = 1 µm et 1 × 2 = 2 µm. La bactérie mesure donc entre 1 et 2 µm.",calculator:true},
  {title:"La taille de la bactérie",sub:"Appliquer la méthode complète",type:"calc",calcMode:"result",question:"Sur le document, la bactérie mesure 3,5 cm et le segment représentant 2 µm mesure 5 cm. Calcule la taille réelle de la bactérie. La valeur exacte ou son arrondi au dixième sont acceptés.",answer:1.4,roundedAnswer:1.4,drawSize:3.5,scaleDraw:5,scaleReal:2,explain:"3,5 ÷ 5 = 0,7 segment, puis 0,7 × 2 = 1,4 µm. Le résultat appartient bien à l’intervalle prévu entre 1 et 2 µm.",image:"illustrations/bacterie-mesure.webp",calculator:true}
 ];
 let current=0,score=0,locked=false,currentAnswer=0,inAppDismissed=false,calcTarget=null,farthest=0;
 const records=[];
+const SESSION_KEY="celluloscope-session";
+function activeScreen(){
+  return screens.find(s=>$(s).classList.contains("active"))||"#homeScreen";
+}
+function saveSession(){
+  try{
+    if(activeScreen()==="#homeScreen"&&!score&&!farthest&&!records.some(r=>r&&r.answered)) return;
+    sessionStorage.setItem(SESSION_KEY,JSON.stringify({
+      current,score,farthest,records,screen:activeScreen()
+    }));
+  }catch(_){}
+}
+function clearSession(){
+  try{sessionStorage.removeItem(SESSION_KEY)}catch(_){}
+}
+function loadSession(){
+  try{
+    const raw=sessionStorage.getItem(SESSION_KEY);
+    if(!raw) return null;
+    const data=JSON.parse(raw);
+    return data&&typeof data==="object"?data:null;
+  }catch(_){return null}
+}
+function sessionHasProgress(data){
+  if(!data) return false;
+  if(data.screen==="#gameScreen"||data.screen==="#resultScreen") return true;
+  if(data.score>0||data.farthest>0) return true;
+  return Array.isArray(data.records)&&data.records.some(r=>r&&r.answered);
+}
+function hideResumeGate(){
+  const gate=$("#resumeGate");
+  if(!gate) return;
+  gate.classList.remove("show");
+  gate.setAttribute("aria-hidden","true");
+  gate.inert=true;
+}
+function showResumeGate(data){
+  const gate=$("#resumeGate"),text=$("#resumeText");
+  if(!gate) return;
+  const m=Math.min(Math.max((data.current||0)+1,1),missions.length);
+  if(text) text.textContent=`Mission ${m} sur ${missions.length} · ${data.score||0} pts`;
+  gate.classList.add("show");
+  gate.setAttribute("aria-hidden","false");
+  gate.inert=false;
+}
+function applySession(data){
+  current=Math.min(Math.max(data.current||0,0),missions.length-1);
+  score=data.score||0;
+  farthest=Math.min(Math.max(data.farthest||0,0),missions.length-1);
+  records.length=0;
+  if(Array.isArray(data.records)) data.records.forEach((r,i)=>{if(r) records[i]=r});
+  $("#score").textContent=score;
+  resetCalcState();closeCalc();
+  if(data.screen==="#resultScreen") result();
+  else if(data.screen==="#gameScreen"){show("#gameScreen");render()}
+  else show("#homeScreen");
+}
+function resumeSession(){
+  const data=loadSession();
+  if(data) applySession(data);
+  hideResumeGate();
+}
+function restartFromGate(){
+  clearSession();
+  hideResumeGate();
+  current=0;score=0;farthest=0;records.length=0;
+  resetCalcState();closeCalc();
+  show("#homeScreen");
+}
+function initResumeGate(){
+  const data=loadSession();
+  if(sessionHasProgress(data)) showResumeGate(data);
+}
 const calcState={tokens:[],num:"0",fresh:true,eqExpr:"",justEq:false};
 const $=s=>document.querySelector(s), screens=["#homeScreen","#gameScreen","#resultScreen"];
 function isHandheld(){
@@ -76,6 +149,7 @@ function fitLayout(){
     browserGate.inert=!showBrowser;
   }
   placeCalc();
+  if(window._scaleTapeSync) window._scaleTapeSync();
 }
 async function enterImmersive(){
   if(isInAppBrowser())return;
@@ -101,9 +175,10 @@ function show(id){
 }
 async function start(){
   await enterImmersive();
+  clearSession();
   current=0;score=0;locked=false;farthest=0;records.length=0;
   resetCalcState();closeCalc();
-  $("#score").textContent=0;show("#gameScreen");render();
+  $("#score").textContent=0;show("#gameScreen");render();saveSession();
 }
 function rec(i){
   if(!records[i]) records[i]={};
@@ -123,7 +198,7 @@ function scaleHelp(m){
   if(m.stretch) return "Glisse le segment bleu, puis tire sur la poignée orange.";
   return `Glisse le segment bleu pour le comparer à ${m.subject||"l’objet"}.`;
 }
-function scaleLab(m){return `<div class="scale-lab"><div class="cell-stage" id="cellStage"><img src="${m.image}" alt="Support de mesure : ${m.subject}"><div class="scale-tape${m.stretch?"":" fixed"}" id="scaleTape" aria-label="Segment d’échelle déplaçable"><span class="tape-value">${m.scaleReal} µm</span>${m.stretch?'<b class="tape-handle" id="tapeHandle" title="Tirer pour dérouler"></b>':""}</div></div><div class="scale-help"><span>↔️ ${scaleHelp(m)}</span><button class="secondary mini" id="resetTape" type="button">Recommencer</button></div></div>`}
+function scaleLab(m){return `<div class="scale-lab"><div class="cell-stage" id="cellStage"><img src="${m.image}" alt="Support de mesure : ${m.subject}"><div class="scale-tape${m.stretch?"":" fixed"}" id="scaleTape" aria-label="Segment d’échelle déplaçable"><span class="tape-value">${m.scaleReal} µm</span>${m.stretch?'<b class="tape-handle" id="tapeHandle" title="Tirer pour dérouler"></b>':""}</div></div><div class="scale-help"><p class="scale-help-tip"><span class="scale-help-ico" aria-hidden="true">↔️</span>${scaleHelp(m)}</p><button class="secondary mini" id="resetTape" type="button">Recommencer</button></div></div>`}
 function keypadHTML(){return `<div class="keypad" id="keypad" aria-label="Clavier numérique">${["1","2","3","4","5","6","7","8","9",",","0","⌫"].map(k=>`<button type="button" class="key" data-k="${k}">${k}</button>`).join("")}</div>`}
 function formulaHTML(m,handheld){
   const mode=m.calcMode||"result";
@@ -197,7 +272,7 @@ function render(){
   const pad=m.type==="calc"&&handheld&&!r.answered?keypadHTML():"";
   const nextLabel=current===missions.length-1&&current===farthest?"Voir mon résultat":"Mission suivante →";
   const kind=m.type==="calc"?" is-calc":m.type==="formula"?" is-formula":"";
-  $("#missionCard").innerHTML=head(m)+`<div class="mission-main${hasMedia?" has-media":""}${kind}">${m.type==="scale"?scaleLab(m):image(m)}<div class="mission-quiz">${quiz}</div>${pad}</div><div class="feedback" id="feedback"></div><div class="actions"><button class="primary hidden" id="nextBtn">${nextLabel}</button></div>`;
+  $("#missionCard").innerHTML=head(m)+`<div class="feedback" id="feedback"></div><div class="mission-main${hasMedia?" has-media":""}${kind}">${m.type==="scale"?scaleLab(m):image(m)}<div class="mission-quiz">${quiz}</div>${pad}</div><div class="actions"><button class="primary hidden" id="nextBtn">${nextLabel}</button></div>`;
   document.querySelectorAll(".option").forEach(b=>b.onclick=()=>answerOption(+b.dataset.i));
   if(m.type==="scale") initScaleLab(m);
   if(m.type==="formula") initFormula(m,r);
@@ -217,6 +292,7 @@ function render(){
     $("#nextBtn").classList.remove("hidden");
   }
   syncCalc(m);
+  alignFeedback();
   wireCalcToggle();
   $("#nextBtn").onclick=next;
   $("#prevMission").onclick=prev;
@@ -224,13 +300,14 @@ function render(){
 }
 function wireCalc(m,handheld){
   $("#calcBtn").onclick=answerCalc;
-  const blanks=[...document.querySelectorAll(".formula input:not([readonly])")];
+  const blanks=calcBlanks();
   calcTarget=blanks[0]||$("#calcAnswer");
   blanks.forEach(el=>{
     el.classList.toggle("armed",el===calcTarget);
     el.onfocus=()=>armInput(el,blanks);
     el.onclick=()=>armInput(el,blanks);
   });
+  wireCalcFieldKeys(blanks);
   if(handheld){
     blanks.forEach(el=>{el.readOnly=true;el.blur()});
     document.querySelectorAll(".key").forEach(btn=>btn.onclick=()=>{
@@ -242,9 +319,44 @@ function wireCalc(m,handheld){
     });
   }else if(calcTarget) calcTarget.focus();
 }
+function calcBlanks(){
+  return [...document.querySelectorAll(".formula input:not([readonly])")];
+}
 function armInput(el,blanks){
   calcTarget=el;
   blanks.forEach(f=>f.classList.toggle("armed",f===el));
+}
+function focusCalcBlank(idx,blanks){
+  if(!blanks.length||idx<0||idx>=blanks.length) return false;
+  const el=blanks[idx];
+  armInput(el,blanks);
+  if(!el.readOnly) el.focus();
+  return true;
+}
+function wireCalcFieldKeys(blanks){
+  blanks.forEach(el=>{
+    el.onkeydown=e=>{
+      if(locked||missions[current].type!=="calc") return;
+      const list=calcBlanks();
+      const i=list.indexOf(el);
+      if(i<0) return;
+      if(e.key==="ArrowRight"||e.key==="ArrowDown"){
+        e.preventDefault();
+        focusCalcBlank(i+1,list);
+        return;
+      }
+      if(e.key==="ArrowLeft"||e.key==="ArrowUp"){
+        e.preventDefault();
+        focusCalcBlank(i-1,list);
+        return;
+      }
+      if(e.key==="Enter"||e.key==="NumpadEnter"){
+        e.preventDefault();
+        if(i<list.length-1) focusCalcBlank(i+1,list);
+        else if(!locked) answerCalc();
+      }
+    };
+  });
 }
 function initFormula(m,r){
   const bank=$("#formulaBank");
@@ -341,7 +453,156 @@ function answerFormula(){
   document.querySelectorAll(".chip, #calcBtn").forEach(el=>el.disabled=true);
   finish(ok,m.explain);
 }
-function initScaleLab(m){const stage=$("#cellStage"),tape=$("#scaleTape"),handle=$("#tapeHandle");let action=null,startX=0,startY=0,startLeft=0,startTop=0,startWidth=0,segment=0;const reset=()=>{segment=stage.clientWidth*m.segmentFraction;tape.style.setProperty("--segment",`${segment}px`);tape.style.width=`${segment}px`;tape.style.left=m.tapeLeft||"3%";tape.style.top=m.tapeTop||"78%"};const down=(e,mode)=>{e.preventDefault();action=mode;startX=e.clientX;startY=e.clientY;startLeft=tape.offsetLeft;startTop=tape.offsetTop;startWidth=tape.offsetWidth;tape.setPointerCapture(e.pointerId)};tape.onpointerdown=e=>{if(e.target!==handle)down(e,"move")};if(handle)handle.onpointerdown=e=>down(e,"resize");tape.onpointermove=e=>{if(!action)return;if(action==="resize"){const max=stage.clientWidth-tape.offsetLeft-5;tape.style.width=`${Math.max(segment,Math.min(max,startWidth+e.clientX-startX))}px`}else{const left=Math.max(0,Math.min(stage.clientWidth-tape.offsetWidth,startLeft+e.clientX-startX));const top=Math.max(0,Math.min(stage.clientHeight-tape.offsetHeight,startTop+e.clientY-startY));tape.style.left=`${left}px`;tape.style.top=`${top}px`}};tape.onpointerup=tape.onpointercancel=()=>action=null;$("#resetTape").onclick=reset;reset()}
+const TAPE_VISUAL_K=6.5/7.625;
+function stageImageRect(stage){
+  const img=stage.querySelector("img"),sw=stage.clientWidth,sh=stage.clientHeight;
+  if(!img||!sw||!sh) return{left:0,top:0,width:sw,height:sh};
+  const ar=img.naturalWidth/img.naturalHeight||1200/645,r=sw/sh;
+  if(r>ar){const dh=sh,dw=dh*ar;return{left:(sw-dw)/2,top:0,width:dw,height:dh}}
+  const dw=sw,dh=dw/ar;return{left:0,top:(sh-dh)/2,width:dw,height:dh};
+}
+function tapeWidthPx(tape){return parseFloat(tape.style.width)||tape.offsetWidth}
+function segmentUnit(m,stage){
+  if(m.cellSpan!=null&&m.segmentCount!=null){
+    const cellW=cellMetrics(m,stage).width;
+    return cellW/m.segmentCount*TAPE_VISUAL_K;
+  }
+  const rect=stageImageRect(stage);
+  return rect.width*(m.segmentFraction||.1);
+}
+function cellMetrics(m,stage){
+  const rect=stageImageRect(stage);
+  const left=m.cellLeft!=null?rect.left+m.cellLeft*rect.width:rect.left+rect.width*(m.tapeLeft?parseFloat(m.tapeLeft)/100:.03);
+  const width=m.cellSpan!=null?m.cellSpan*rect.width:rect.width*(m.segmentFraction||.1)*10;
+  let top;
+  if(typeof m.tapeTop==="number") top=rect.top+m.tapeTop*rect.height;
+  else if(m.tapeTop&&String(m.tapeTop).includes("%")) top=stage.clientHeight*parseFloat(m.tapeTop)/100;
+  else top=rect.top+.78*rect.height;
+  return{left,width,top};
+}
+function alignFeedback(){
+  const head=document.querySelector(".mission-head"),card=document.querySelector(".mission-card");
+  if(head&&card) card.style.setProperty("--feedback-top",head.offsetHeight+4+"px");
+}
+function captureTapeNorm(m,stage,tape){
+  const rect=stageImageRect(stage),seg=segmentUnit(m,stage);
+  if(!rect.width||!seg) return null;
+  return{
+    relLeft:(tape.offsetLeft-rect.left)/rect.width,
+    relTop:(tape.offsetTop-rect.top)/rect.height,
+    widthSegs:tapeWidthPx(tape)/seg
+  };
+}
+function saveTapeState(){
+  const stage=$("#cellStage"),tape=$("#scaleTape");
+  if(!stage||!tape) return;
+  const m=missions[current],norm=captureTapeNorm(m,stage,tape);
+  if(norm) rec(current).tapeNorm=norm;
+  delete rec(current).tape;
+}
+function lockTape(){
+  const tape=$("#scaleTape"),handle=$("#tapeHandle"),btn=$("#resetTape");
+  if(tape) tape.style.pointerEvents="none";
+  if(handle) handle.style.display="none";
+  if(btn) btn.disabled=true;
+}
+function initScaleLab(m){
+  const stage=$("#cellStage"),tape=$("#scaleTape"),handle=$("#tapeHandle"),r=rec(current);
+  if(!stage||!tape) return;
+  let action=null,startX=0,startY=0,startLeft=0,startTop=0,startWidth=0,segment=0,syncing=false;
+  const applySegment=seg=>{segment=seg;tape.style.setProperty("--segment",`${seg}px`)};
+  const defaultNorm=()=>{
+    const cell=cellMetrics(m,stage),rect=stageImageRect(stage);
+    return{
+      relLeft:m.cellLeft!=null?m.cellLeft:(cell.left-rect.left)/rect.width,
+      relTop:(cell.top-rect.top)/rect.height,
+      widthSegs:1
+    };
+  };
+  const applyNorm=(norm)=>{
+    const rect=stageImageRect(stage),seg=segmentUnit(m,stage);
+    if(!rect.width||!seg) return;
+    applySegment(seg);
+    tape.style.left=`${rect.left+norm.relLeft*rect.width}px`;
+    tape.style.top=`${rect.top+norm.relTop*rect.height}px`;
+    tape.style.width=`${Math.max(seg,norm.widthSegs*seg)}px`;
+  };
+  const syncTape=()=>{
+    if(syncing) return;
+    syncing=true;
+    if(!r.tapeNorm&&r.tape){
+      const t=r.tape,rect=stageImageRect(stage),seg=segmentUnit(m,stage);
+      if(rect.width&&seg){
+        r.tapeNorm={
+          relLeft:((parseFloat(t.left)||rect.left)-rect.left)/rect.width,
+          relTop:((parseFloat(t.top)||rect.top)-rect.top)/rect.height,
+          widthSegs:(parseFloat(t.width)||seg)/seg
+        };
+      }
+      delete r.tape;
+    }
+    applyNorm(r.tapeNorm||defaultNorm());
+    syncing=false;
+  };
+  const maxStretch=()=>{
+    let max=stage.clientWidth-tape.offsetLeft-5;
+    if(m.cellSpan!=null&&m.cellLeft!=null){
+      const cell=cellMetrics(m,stage);
+      max=Math.max(segment,cell.left+cell.width-tape.offsetLeft);
+    }
+    return max;
+  };
+  const down=(e,mode)=>{
+    if(r.answered) return;
+    e.preventDefault();
+    action=mode;
+    startX=e.clientX;startY=e.clientY;
+    startLeft=tape.offsetLeft;startTop=tape.offsetTop;startWidth=tapeWidthPx(tape);
+    tape.setPointerCapture(e.pointerId);
+  };
+  tape.onpointerdown=e=>{if(e.target!==handle)down(e,"move")};
+  if(handle) handle.onpointerdown=e=>down(e,"resize");
+  tape.onpointermove=e=>{
+    if(!action) return;
+    if(action==="resize"){
+      tape.style.width=`${Math.max(segment,Math.min(maxStretch(),startWidth+e.clientX-startX))}px`;
+    }else{
+      const left=Math.max(0,Math.min(stage.clientWidth-tape.offsetWidth,startLeft+e.clientX-startX));
+      const top=Math.max(0,Math.min(stage.clientHeight-tape.offsetHeight,startTop+e.clientY-startY));
+      tape.style.left=`${left}px`;
+      tape.style.top=`${top}px`;
+    }
+  };
+  tape.onpointerup=tape.onpointercancel=()=>{
+    action=null;
+    if(!r.answered){
+      const norm=captureTapeNorm(m,stage,tape);
+      if(norm){
+        if(m.segmentCount&&norm.widthSegs>=m.segmentCount*.96) norm.widthSegs=m.segmentCount;
+        r.tapeNorm=norm;
+      }
+      delete r.tape;
+      if(r.tapeNorm) applyNorm(r.tapeNorm);
+    }
+  };
+  const resetBtn=$("#resetTape");
+  if(resetBtn) resetBtn.onclick=e=>{
+    e.preventDefault();
+    e.stopPropagation();
+    if(r.answered) return;
+    delete r.tapeNorm;
+    delete r.tape;
+    applyNorm(defaultNorm());
+    r.tapeNorm=captureTapeNorm(m,stage,tape);
+  };
+  const img=stage.querySelector("img");
+  if(img&&!img.complete) img.addEventListener("load",()=>syncTape(),{once:true});
+  syncTape();
+  const ro=typeof ResizeObserver!=="undefined"?new ResizeObserver(()=>syncTape()):null;
+  if(ro) ro.observe(stage);
+  window._scaleTapeSync=()=>{if(missions[current].type==="scale") syncTape()};
+  if(r.answered) lockTape();
+}
 function answerOption(i){if(locked)return;const m=missions[current];const r=rec(current);r.pick=i;locked=true;document.querySelectorAll(".option").forEach((b,j)=>{b.disabled=true;if(j===currentAnswer)b.classList.add("good");if(j===i&&i!==currentAnswer)b.classList.add("bad")});finish(i===currentAnswer,m.explain)}
 function n(v){return parseFloat(v.trim().replace(",","."))}
 function answerCalc(){
@@ -388,12 +649,15 @@ function finish(ok,text){
       };
     }
     if(missions[current].type==="formula") r.placed=placedCards();
+    if(missions[current].type==="scale"){saveTapeState();lockTape()}
   }
   $("#feedback").innerHTML=`<b>${ok?"✓ Bien vu !":"✗ Pas tout à fait."}</b> ${text}`;
   $("#feedback").style.background=ok?"#e6faef":"#fff1ed";
+  alignFeedback();
   $("#nextBtn").classList.remove("hidden");
   const fwd=$("#nextMission");
   if(fwd) fwd.disabled=false;
+  saveSession();
 }
 function prev(){if(current>0) goTo(current-1)}
 function next(){
@@ -406,8 +670,9 @@ function next(){
 function goTo(i){
   current=i;
   render();
+  saveSession();
 }
-function result(){show("#resultScreen");$("#finalScore").textContent=score;$("#progressBar").style.width="100%";let title,text,badge;if(score>=1200){title="Expert du microscope";text="Tu sais relier observation, ordre de grandeur et calcul d’échelle. L’échantillon n’a plus de secret pour toi.";badge="🏆"}else if(score>=840){title="Explorateur confirmé";text="Les bases sont solides. Rejoue une fois pour verrouiller la méthode de calcul et le vocabulaire.";badge="🔬"}else{title="Apprenti observateur";text="Tu progresses. Relis les corrections, puis retente les missions : elles changent vite de difficulté quand la méthode est comprise.";badge="🌱"}$("#resultTitle").textContent=title;$("#resultText").textContent=text;$("#resultBadge").textContent=badge;$("#recap").classList.add("hidden")}
+function result(){show("#resultScreen");$("#finalScore").textContent=score;$("#progressBar").style.width="100%";let title,text,badge;if(score>=1200){title="Expert du microscope";text="Tu sais relier observation, ordre de grandeur et calcul d’échelle. L’échantillon n’a plus de secret pour toi.";badge="🏆"}else if(score>=840){title="Explorateur confirmé";text="Les bases sont solides. Rejoue une fois pour verrouiller la méthode de calcul et le vocabulaire.";badge="🔬"}else{title="Apprenti observateur";text="Tu progresses. Relis les corrections, puis retente les missions : elles changent vite de difficulté quand la méthode est comprise.";badge="🌱"}$("#resultTitle").textContent=title;$("#resultText").textContent=text;$("#resultBadge").textContent=badge;$("#recap").classList.add("hidden");saveSession()}
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1800)}
 function openInBrowser(){
   const hostPath=location.host+location.pathname+location.search;
@@ -589,7 +854,11 @@ function syncCalc(m){
 $("#startBtn").onclick=start;
 $("#retryBtn").onclick=start;
 $("#reviewBtn").onclick=()=>$("#recap").classList.toggle("hidden");
-$("#homeBtn").onclick=()=>show("#homeScreen");
+$("#homeBtn").onclick=()=>{show("#homeScreen");saveSession()};
+const resumeBtn=$("#resumeBtn"), restartBtn=$("#restartBtn");
+if(resumeBtn) resumeBtn.onclick=resumeSession;
+if(restartBtn) restartBtn.onclick=restartFromGate;
+addEventListener("pagehide",saveSession);
 document.addEventListener("pointerdown",()=>{if(!isInAppBrowser()) enterImmersive();},{passive:true});
 const openBtn=$("#openBrowserBtn"), stayBtn=$("#stayHereBtn"), help=$("#browserHelp");
 if(help){
@@ -609,7 +878,8 @@ function gameActive(){return $("#gameScreen")&&$("#gameScreen").classList.contai
 function overlayBlocks(){
   return document.body.classList.contains("locked-portrait")
     || ($("#fsGate")&&$("#fsGate").classList.contains("show"))
-    || ($("#browserGate")&&$("#browserGate").classList.contains("show"));
+    || ($("#browserGate")&&$("#browserGate").classList.contains("show"))
+    || ($("#resumeGate")&&$("#resumeGate").classList.contains("show"));
 }
 function mapCalcKey(e){
   const k=e.key;
@@ -634,6 +904,8 @@ document.addEventListener("keydown",e=>{
     if(mapped){e.preventDefault();calcPress(mapped);return}
   }
   const inField=/^(INPUT|TEXTAREA)$/.test(e.target.tagName);
+  const calcFields=missions[current].type==="calc"?calcBlanks():[];
+  if(inField&&calcFields.length&&calcFields.includes(e.target)) return;
   if(e.key==="Enter"){
     e.preventDefault();
     if(canForward()){next();return}
@@ -648,6 +920,7 @@ document.addEventListener("keydown",e=>{
   if(e.key==="ArrowRight"){e.preventDefault();if(canForward()) next()}
 });
 fitLayout();
+initResumeGate();
 addEventListener("resize",fitLayout);
 addEventListener("orientationchange",()=>setTimeout(fitLayout,80));
 document.addEventListener("fullscreenchange",fitLayout);
