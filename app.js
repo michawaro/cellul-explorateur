@@ -115,21 +115,30 @@ function fullscreenLikely(){
   return !!(document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen);
 }
 function fitLayout(){
-  const h=Math.round(window.visualViewport?visualViewport.height:window.innerHeight);
-  const w=Math.round(window.visualViewport?visualViewport.width:window.innerWidth);
+  const vv=window.visualViewport;
+  const h=Math.round(vv?vv.height:window.innerHeight);
+  const w=Math.round(vv?vv.width:window.innerWidth);
   const handheld=isHandheld();
   const portrait=h>w;
-  const compact=h<=520;
+  const compact=h<=560;
+  const ua=navigator.userAgent||"";
   document.documentElement.style.setProperty("--vh",h+"px");
+  document.documentElement.style.setProperty("--vw",w+"px");
+  document.documentElement.style.setProperty("--vv-top",(vv?Math.round(vv.offsetTop):0)+"px");
+  document.documentElement.style.setProperty("--vv-left",(vv?Math.round(vv.offsetLeft):0)+"px");
   document.documentElement.classList.toggle("handheld",handheld);
   document.documentElement.classList.toggle("portrait",portrait);
   document.documentElement.classList.toggle("landscape",!portrait);
   document.documentElement.classList.toggle("compact",compact);
+  document.documentElement.classList.toggle("iphone",/iPhone|iPod/i.test(ua));
+  document.documentElement.classList.toggle("ipad",/iPad/i.test(ua)||(/Macintosh/i.test(ua)&&navigator.maxTouchPoints>1));
+  document.documentElement.classList.toggle("android",/Android/i.test(ua));
   const inApp=isInAppBrowser();
   document.documentElement.classList.toggle("in-app",inApp);
   document.documentElement.classList.toggle("fit",!(inApp&&portrait));
   const fullscreen=!!(document.fullscreenElement||document.webkitFullscreenElement);
   document.documentElement.classList.toggle("is-fullscreen",fullscreen);
+  document.documentElement.classList.toggle("browser-chrome",handheld&&!fullscreen);
   const overlay=$("#rotateOverlay");
   if(overlay){
     const showRotate=handheld&&portrait&&!inApp;
@@ -191,6 +200,7 @@ function show(id){
   screens.forEach(s=>$(s).classList.toggle("active",s===id));
   $("#hud").classList.toggle("hidden",id!=="#gameScreen");
   document.body.classList.toggle("on-result",id==="#resultScreen");
+  document.body.classList.toggle("on-game",id==="#gameScreen");
   const menuBtn=$("#menuBtn");
   if(menuBtn) menuBtn.classList.toggle("hidden",id==="#homeScreen");
   if(id!=="#gameScreen") closeCalc();

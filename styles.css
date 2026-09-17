@@ -352,3 +352,173 @@ html.handheld .chip,html.fit:not(.handheld) .chip{padding:8px 10px;font-size:13p
 html.fit.landscape .is-formula .mission-quiz{overflow:auto}
 @media(max-width:760px){.formula.formula-drop{display:flex;flex-wrap:wrap;grid-template-columns:none}.formula.formula-drop span{transform:none}}
 
+/* Viewport réel (barre d’adresse iOS / Chrome Android, plein écran ou non) */
+html.fit body,html.handheld body{
+  position:fixed;
+  inset:auto;
+  top:var(--vv-top,0px);
+  left:var(--vv-left,0px);
+  width:var(--vw,100%);
+  height:var(--vh,100dvh);
+  max-height:var(--vh,100dvh);
+}
+html.fit .app,html.handheld .app{
+  width:100%;
+  height:100%;
+  max-height:100%;
+  overflow:hidden;
+}
+
+/* Mission : la question reste toujours sous l’image, jamais recouverte */
+html.fit .mission-card,html.handheld .mission-card{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  overflow:hidden;
+}
+html.fit .mission-card>.feedback,html.handheld .mission-card>.feedback{
+  position:relative;
+  left:auto;right:auto;top:auto;
+  z-index:2;
+  margin:0 0 6px;
+  max-height:min(18vh,112px);
+  overflow:auto;
+  box-shadow:none;
+}
+html.fit .mission-card>.actions,html.handheld .mission-card>.actions{
+  position:relative;
+  right:auto;bottom:auto;
+  z-index:2;
+  margin:6px 0 0;
+  justify-content:flex-end;
+  flex:0 0 auto;
+}
+html.fit .mission-main.has-media,html.handheld .mission-main.has-media,
+html.fit.landscape .mission-main.has-media,html.handheld.landscape .mission-main.has-media{
+  display:grid!important;
+  grid-template-rows:minmax(80px,1fr) minmax(108px,max-content)!important;
+  grid-template-columns:minmax(0,1fr);
+  align-items:stretch;
+  justify-content:stretch!important;
+  gap:8px;
+  min-height:0;
+  overflow:hidden;
+}
+html.fit .mission-main.has-media.is-calc,html.handheld .mission-main.has-media.is-calc,
+html.fit.landscape .mission-main.has-media.is-calc,html.handheld.landscape .mission-main.has-media.is-calc{
+  grid-template-rows:minmax(80px,1fr) auto auto!important;
+}
+html.fit .mission-main.has-media .image-panel,
+html.fit .mission-main.has-media .scale-lab,
+html.fit .mission-main.has-media .image-panel--course,
+html.fit .mission-main.has-media .image-panel--cells,
+html.handheld .mission-main.has-media .image-panel,
+html.handheld .mission-main.has-media .scale-lab,
+html.handheld .mission-main.has-media .image-panel--course,
+html.handheld .mission-main.has-media .image-panel--cells,
+html.fit.landscape .mission-main.has-media .image-panel,
+html.fit.landscape .mission-main.has-media .scale-lab,
+html.fit.landscape .mission-main.has-media .image-panel--course,
+html.fit.landscape .mission-main.has-media .image-panel--cells,
+html.handheld.landscape .mission-main.has-media .image-panel,
+html.handheld.landscape .mission-main.has-media .scale-lab,
+html.handheld.landscape .mission-main.has-media .image-panel--course,
+html.handheld.landscape .mission-main.has-media .image-panel--cells{
+  grid-row:1;
+  grid-column:1;
+  flex:none!important;
+  max-height:none!important;
+  height:100%!important;
+  min-height:0!important;
+  overflow:hidden;
+  align-self:stretch;
+}
+html.fit .mission-main.has-media .mission-quiz,
+html.handheld .mission-main.has-media .mission-quiz,
+html.fit.landscape .mission-main.has-media .mission-quiz,
+html.handheld.landscape .mission-main.has-media .mission-quiz{
+  grid-row:2;
+  flex:0 0 auto!important;
+  max-height:none!important;
+  height:100%;
+  overflow:auto;
+  min-height:0;
+  width:100%;
+  margin-inline:0;
+}
+html.fit .mission-main.has-media .keypad,
+html.handheld .mission-main.has-media .keypad,
+html.fit.landscape .mission-main.has-media .keypad,
+html.handheld.landscape .mission-main.has-media .keypad{grid-row:3}
+
+html.fit .image-panel--course,html.handheld .image-panel--course,
+html.fit.landscape .image-panel--course,html.handheld.landscape .image-panel--course{
+  display:grid!important;
+  grid-template-rows:minmax(0,1fr) auto auto;
+  justify-items:center;
+  max-height:none!important;
+  overflow:hidden;
+}
+html.fit .image-panel--course img,html.handheld .image-panel--course img,
+html.fit.landscape .image-panel--course img,html.handheld.landscape .image-panel--course img{
+  max-width:100%!important;
+  max-height:100%!important;
+  width:auto!important;
+  height:auto!important;
+  min-height:0;
+  object-fit:contain;
+}
+html.fit .image-panel--course .image-caption,
+html.fit .image-panel--course .course-note,
+html.handheld .image-panel--course .image-caption,
+html.handheld .image-panel--course .course-note{justify-self:stretch}
+
+html.fit .image-panel--cells,html.handheld .image-panel--cells,
+html.fit.landscape .image-panel--cells,html.handheld.landscape .image-panel--cells{
+  display:flex!important;
+  flex-direction:row;
+  align-items:stretch;
+  justify-content:center;
+  gap:clamp(18px,4.5vw,48px);
+  max-height:none!important;
+  overflow:hidden;
+  padding:2px 8px 0;
+}
+html.fit .image-panel--cells .cell-figure,html.handheld .image-panel--cells .cell-figure{
+  flex:0 1 auto;
+  min-width:0;
+  height:100%;
+  max-width:56%;
+}
+html.fit .image-panel--cells .cell-figure:last-child,html.handheld .image-panel--cells .cell-figure:last-child{max-width:36%}
+html.fit .image-panel--cells .cell-visual,html.handheld .image-panel--cells .cell-visual{
+  flex:1 1 auto;
+  min-height:0;
+  height:100%;
+  margin:0;
+  gap:2px;
+  justify-content:flex-end;
+}
+html.fit .image-panel--cells img,html.handheld .image-panel--cells img,
+html.fit.landscape .image-panel--cells img,html.handheld.landscape .image-panel--cells img{
+  max-height:calc((100% - 16px) * var(--cell-scale,1))!important;
+  max-width:100%;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+}
+
+.question,.option,.course-note,.image-caption{overflow-wrap:break-word}
+html.browser-chrome .mission-main.has-media,html.browser-chrome.compact .mission-main.has-media{grid-template-rows:minmax(72px,1fr) minmax(100px,max-content)!important}
+html.compact .question{font-size:16px!important;line-height:1.2;margin:0 0 5px}
+html.compact .options,html.compact .compare{gap:5px}
+html.compact .option{min-height:30px;padding:5px 7px;font-size:11px;line-height:1.25}
+html.compact .course-note{margin-top:4px;padding:6px 8px;font-size:11px;line-height:1.3;max-height:3.6em;overflow:auto}
+html.compact .image-caption{font-size:12px;margin:4px 0 0}
+html.compact .image-panel--cells{gap:14px}
+html.iphone.compact .mission-head p,html.android.compact .mission-head p{display:none}
+body.on-game .yt-dock{display:none}
+
+html.ipad .path-caption strong{font-size:26px}
+html.ipad .path-sub{font-size:18px}
+
