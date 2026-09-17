@@ -1,7 +1,8 @@
 const missions=[
- {title:"À l’intérieur de la cellule",sub:"Reconnaître les structures visibles",type:"qcm",question:"Quel élément contient l’information génétique et apparaît souvent comme une zone arrondie dans la cellule ?",options:["Le noyau","Le cytoplasme","La membrane plasmique","La matrice extracellulaire"],answer:0,explain:"Le noyau contient l’essentiel de l’information génétique. La membrane délimite la cellule et le cytoplasme occupe l’espace entre les deux.",image:"illustrations/cellule-elodee-sans-texte.webp"},
- {title:"Une cellule chlorophyllienne",sub:"Lire un dessin d’observation",type:"qcm",question:"Quel élément vert, caractéristique des cellules d’Élodée observées, réalise la photosynthèse ?",options:["Le chloroplaste","Le noyau","La paroi","La membrane plasmique"],answer:0,explain:"Les grains verts sont des chloroplastes contenant de la chlorophylle. Une cellule végétale possède aussi une paroi autour de la membrane.",image:"illustrations/cellule-elodee-sans-texte.webp"},
- {title:"Cellule ou tissu ?",sub:"Changer d’échelle d’organisation",type:"qcm",question:"Quelle définition d’un tissu est la plus juste ?",options:["Un ensemble organisé de cellules associées, avec une matrice extracellulaire éventuelle","Une très grande cellule possédant plusieurs noyaux","Un groupe d’organes ayant exactement la même fonction","Un ensemble de cellules obligatoirement identiques et directement accolées"],answer:0,explain:"Un tissu est un ensemble organisé de cellules. Celles-ci peuvent être séparées ou reliées par une matrice extracellulaire.",image:null},
+ {title:"À l’intérieur de la cellule",sub:"Reconnaître les structures visibles",type:"qcm",question:"Quel élément contient l’information génétique et apparaît souvent comme une zone arrondie dans la cellule ?",options:["Le noyau","Le cytoplasme","La membrane plasmique","La matrice extracellulaire"],answer:0,explain:"Le noyau contient l’essentiel de l’information génétique. La membrane délimite la cellule et le cytoplasme occupe l’espace entre les deux.",image:"illustrations/cellule-elodee-sans-texte.webp",imageCaption:"Représentation d’une cellule végétale d’Élodée"},
+ {title:"Une cellule chlorophyllienne",sub:"Lire un dessin d’observation",type:"qcm",question:"Quel élément vert, caractéristique des cellules végétales, réalise la photosynthèse ?",options:["Le chloroplaste","Le noyau","La paroi","La membrane plasmique"],answer:0,explain:"Les grains verts sont des chloroplastes contenant de la chlorophylle. Une cellule végétale possède aussi une paroi autour de la membrane.",image:"illustrations/cellule-elodee-sans-texte.webp",imageCaption:"Représentation d’une cellule végétale d’Élodée"},
+ {title:"Représentation d’un épithelium",sub:"Changer d’échelle d’organisation",type:"qcm",question:"Quelle définition d’un tissu est la plus juste ?",options:["Un ensemble organisé de cellules associées, avec une matrice extracellulaire éventuelle","Une très grande cellule possédant plusieurs noyaux","Un groupe d’organes ayant exactement la même fonction","Un ensemble de cellules obligatoirement identiques et directement accolées"],answer:0,explain:"Un tissu est un ensemble organisé de cellules. Celles-ci peuvent être séparées ou reliées par une matrice extracellulaire.",image:"illustrations/cellules-epitheliales.webp",course:"Un épithélium est un tissu formé de cellules étroitement serrées et reliées entre elles, formant par exemple la couche de surface de la peau."},
+ {title:"Animale ou végétale ?",sub:"Repérer deux différences clés",type:"qcm",question:"Quelles structures permettent de distinguer typiquement une cellule végétale d’une cellule animale ?",options:["La paroi cellulaire et les chloroplastes","Le noyau et le cytoplasme","La membrane plasmique et les mitochondries","Le noyau et la paroi cellulaire"],answer:0,explain:"La paroi et les chloroplastes sont caractéristiques des cellules végétales. Les cellules animales n’en possèdent généralement pas.",images:[{src:"illustrations/cellule-elodee-sans-texte.webp",alt:"Cellule végétale d’Élodée",scale:1,label:"Végétale"},{src:"illustrations/cellule-animale-buccale.webp",alt:"Cellule animale de muqueuse buccale",scale:.62,label:"Animale"}]},
  {title:"Le duel des cellules",sub:"Comparer sans confondre",type:"compare",question:"Quelle proposition compare correctement une bactérie et une cellule de muqueuse buccale ?",options:["La bactérie est généralement bien plus petite et ne possède pas de noyau.","La bactérie est plus petite, mais possède un noyau plus discret.","La cellule buccale est plus petite car elle ne possède pas de paroi."],answer:0,explain:"Les bactéries sont en général bien plus petites que les cellules animales et leur ADN n’est pas enfermé dans un noyau.",image:"illustrations/bacteries-cellule-buccale-v2.webp"},
  {title:"Déroule l’échelle",sub:"Manipuler avant de calculer",type:"scale",question:"Place le segment de 15 µm au début de la cellule, puis tire sur sa poignée jusqu’à l’autre extrémité. Combien de segments entiers entrent dans sa longueur ?",options:["Entre 7 et 8 segments","Entre 5 et 6 segments","Entre 8 et 9 segments","Entre 10 et 11 segments"],answer:0,explain:"On peut placer 7 segments complets, mais pas un huitième : la longueur correspond donc à un peu plus de 7 segments et à moins de 8.",image:"illustrations/elodee-estimation-interactive.webp",scaleReal:15,cellLeft:110/1200,cellSpan:844/1200,segmentCount:7.625,tapeTop:464/645,stretch:true,subject:"cellule d’Élodée"},
  {title:"Encadre la taille",sub:"Passer des segments aux micromètres",type:"qcm",question:"Le segment représente 15 µm. La cellule contient entre 7 et 8 segments. Quel intervalle de taille réelle peux-tu prévoir ?",options:["105 µm < taille < 120 µm","7 µm < taille < 8 µm","15 µm < taille < 105 µm","120 µm < taille < 135 µm"],answer:0,explain:"7 × 15 = 105 µm et 8 × 15 = 120 µm. Le résultat précis devra obligatoirement être compris entre ces deux valeurs.",image:"illustrations/elodee-encadrement-tape.webp",calculator:true},
@@ -15,7 +16,7 @@ const missions=[
  {title:"La taille de la bactérie",sub:"Appliquer la méthode complète",type:"calc",calcMode:"result",question:"Sur le document, la bactérie mesure 3,5 cm et le segment représentant 2 µm mesure 5 cm. Calcule la taille réelle de la bactérie. La valeur exacte ou son arrondi au dixième sont acceptés.",answer:1.4,roundedAnswer:1.4,drawSize:3.5,scaleDraw:5,scaleReal:2,explain:"3,5 ÷ 5 = 0,7 segment, puis 0,7 × 2 = 1,4 µm. Le résultat appartient bien à l’intervalle prévu entre 1 et 2 µm.",image:"illustrations/bacterie-mesure.webp",calculator:true}
 ];
 let current=0,score=0,locked=false,currentAnswer=0,inAppDismissed=false,calcTarget=null,farthest=0,pathMin=0,pathMax=missions.length-1;
-const PATH_STRUCTURES={min:0,max:3},PATH_MESURE={min:4,max:missions.length-1};
+const PATH_STRUCTURES={min:0,max:4},PATH_MESURE={min:5,max:missions.length-1};
 const records=[];
 const SESSION_KEY="celluloscope-session";
 function activeScreen(){
@@ -56,8 +57,10 @@ function hideResumeGate(){
 function showResumeGate(data){
   const gate=$("#resumeGate"),text=$("#resumeText");
   if(!gate) return;
-  const m=Math.min(Math.max((data.current||0)+1,1),missions.length);
-  if(text) text.textContent=`Mission ${m} sur ${missions.length} · ${data.score||0} pts`;
+  const pMin=Math.min(Math.max(data.pathMin??0,0),missions.length-1);
+  const pMax=Math.min(Math.max(data.pathMax??missions.length-1,pMin),missions.length-1);
+  const m=Math.min(Math.max((data.current||0)-pMin+1,1),pMax-pMin+1);
+  if(text) text.textContent=`Mission ${m} sur ${pMax-pMin+1} · ${data.score||0} pts`;
   gate.classList.add("show");
   gate.setAttribute("aria-hidden","false");
   gate.inert=false;
@@ -93,7 +96,7 @@ function initResumeGate(){
   if(sessionHasProgress(data)) showResumeGate(data);
 }
 const calcState={tokens:[],num:"0",fresh:true,eqExpr:"",justEq:false};
-const $=s=>document.querySelector(s), screens=["#homeScreen","#gameScreen","#resultScreen"];
+const $=s=>document.querySelector(s), screens=["#homeScreen","#echelleIntroScreen","#gameScreen","#resultScreen"];
 function isHandheld(){
   return navigator.maxTouchPoints>0
     || window.matchMedia("(pointer: coarse)").matches
@@ -170,10 +173,26 @@ async function enterImmersive(){
   document.documentElement.classList.add("fs-tried");
   fitLayout();
 }
+function pathCount(){return pathMax-pathMin+1}
+function pathMaxScore(){return pathCount()*100}
+function pathErrors(){
+  let n=0;
+  for(let i=pathMin;i<=pathMax;i++) if(records[i]&&records[i].answered&&!records[i].ok) n++;
+  return n;
+}
+function retryHint(){
+  const n=pathErrors();
+  const label=n===1?"1 erreur":`${n} erreurs`;
+  return `${label} sur ce parcours. Rejoue pour essayer de faire mieux.`;
+}
+function isStructuresPath(){return pathMax<=PATH_STRUCTURES.max}
+function goHome(){show("#homeScreen");saveSession()}
 function show(id){
   screens.forEach(s=>$(s).classList.toggle("active",s===id));
   $("#hud").classList.toggle("hidden",id!=="#gameScreen");
   document.body.classList.toggle("on-result",id==="#resultScreen");
+  const menuBtn=$("#menuBtn");
+  if(menuBtn) menuBtn.classList.toggle("hidden",id==="#homeScreen");
   if(id!=="#gameScreen") closeCalc();
 }
 async function startPath(min,max){
@@ -183,6 +202,37 @@ async function startPath(min,max){
   current=min;score=0;locked=false;farthest=min;records.length=0;
   resetCalcState();closeCalc();
   $("#score").textContent=0;show("#gameScreen");render();saveSession();
+}
+const ECHELLE_SLIDES=[
+  "illustrations/echelle/echelle-01.webp",
+  "illustrations/echelle/echelle-pensif.webp",
+  "illustrations/echelle/echelle-02.webp",
+  "illustrations/echelle/echelle-03.webp",
+  "illustrations/echelle/echelle-04.webp",
+  "illustrations/echelle/echelle-05.webp",
+  "illustrations/echelle/echelle-06.webp"
+];
+let echelleIndex=0;
+function echelleActive(){return $("#echelleIntroScreen")&&$("#echelleIntroScreen").classList.contains("active")}
+function renderEchelleSlide(){
+  const img=$("#echelleSlide");
+  if(!img) return;
+  img.src=ECHELLE_SLIDES[echelleIndex];
+  img.alt=`Comprendre une échelle · image ${echelleIndex+1} sur ${ECHELLE_SLIDES.length}`;
+}
+function echelleNext(){
+  if(echelleIndex<ECHELLE_SLIDES.length-1){echelleIndex++;renderEchelleSlide()}
+  else show("#homeScreen");
+}
+function echellePrev(){
+  if(echelleIndex>0){echelleIndex--;renderEchelleSlide()}
+  else show("#homeScreen");
+}
+async function startEchelleIntro(){
+  await enterImmersive();
+  echelleIndex=0;
+  renderEchelleSlide();
+  show("#echelleIntroScreen");
 }
 function rec(i){
   if(!records[i]) records[i]={};
@@ -194,9 +244,25 @@ function canForward(){
 }
 function head(m){
   const calc=needsCalculator(m)?`<button class="calc-toggle" id="calcToggle" type="button" aria-label="Ouvrir la calculette" aria-expanded="false"><span class="calc-glyph" aria-hidden="true"></span><span class="calc-label">Calculette</span></button>`:"";
-  return `<div class="mission-head"><button type="button" class="nav-arrow" id="prevMission" aria-label="Mission précédente"${current===pathMin?" disabled":""}>‹</button><div class="mission-num">${current+1}</div><div class="mission-titles"><span class="eyebrow">Mission ${current+1} sur ${missions.length}</span><h1>${m.title}</h1><p>${m.sub}</p></div>${calc}<button type="button" class="nav-arrow" id="nextMission" aria-label="Mission suivante"${canForward()?"":" disabled"}>›</button></div>`;
+  const mNum=current-pathMin+1, mTotal=pathCount();
+  return `<div class="mission-head"><button type="button" class="nav-arrow" id="prevMission" aria-label="Mission précédente"${current===pathMin?" disabled":""}>‹</button><div class="mission-num">${mNum}</div><div class="mission-titles"><span class="eyebrow">Mission ${mNum} sur ${mTotal}</span><h1>${m.title}</h1><p>${m.sub}</p></div>${calc}<button type="button" class="nav-arrow" id="nextMission" aria-label="Mission suivante"${canForward()?"":" disabled"}>›</button></div>`;
 }
-function image(m){return m.image?`<div class="image-panel"><img src="${m.image}" alt="Support d'observation pour la question"></div>`:""}
+function image(m){
+  if(m.images?.length){
+    const figs=m.images.map(img=>{
+      const scale=img.scale??1;
+      const label=img.label?`<figcaption>${img.label}</figcaption>`:"";
+      return `<figure class="cell-figure" style="--cell-scale:${scale}"><div class="cell-visual"><img src="${img.src}" alt="${img.alt||"Cellule"}">${label}</div></figure>`;
+    }).join("");
+    return `<div class="image-panel image-panel--cells">${figs}</div>`;
+  }
+  if(!m.image) return "";
+  const course=m.course?`<p class="course-note">${m.course}</p>`:"";
+  const caption=m.imageCaption?`<p class="image-caption">${m.imageCaption}</p>`:"";
+  const alt=m.imageAlt||"Support d'observation pour la question";
+  const panelCls=m.course||m.imageCaption?"image-panel image-panel--course":"image-panel";
+  return `<div class="${panelCls}"><img src="${m.image}" alt="${alt}">${caption}${course}</div>`;
+}
 function scaleHelp(m){
   if(m.scaleHelp) return m.scaleHelp;
   if(m.stretch) return "Glisse le segment bleu, puis tire sur la poignée orange.";
@@ -255,9 +321,10 @@ function render(){
   const r=rec(current);
   const handheld=document.documentElement.classList.contains("handheld");
   locked=!!r.answered;
-  $("#missionLabel").textContent=`Mission ${current+1}/${missions.length}`;
-  $("#progressBar").style.width=`${(farthest+(records[farthest]&&records[farthest].answered?1:0))/missions.length*100}%`;
-  const hasMedia=m.type==="scale"||!!m.image;
+  $("#missionLabel").textContent=`Mission ${current-pathMin+1}/${pathCount()}`;
+  const pathDone=Math.min(Math.max(farthest-pathMin+(records[farthest]&&records[farthest].answered?1:0),0),pathCount());
+  $("#progressBar").style.width=`${pathDone/pathCount()*100}%`;
+  const hasMedia=m.type==="scale"||!!m.image||!!m.images?.length;
   let quiz=`<div class="question">${m.question}</div>`;
   if(m.type==="qcm"||m.type==="compare"||m.type==="scale"){
     if(!r.options) r.options=shuffledOptions(m);
@@ -274,7 +341,7 @@ function render(){
   if(m.type==="calc") quiz+=formulaHTML(m,handheld);
   if(m.type==="formula") quiz+=formulaSortHTML(m);
   const pad=m.type==="calc"&&handheld&&!r.answered?keypadHTML():"";
-  const nextLabel=current===missions.length-1&&current===farthest?"Voir mon résultat":"Mission suivante →";
+  const nextLabel=current===pathMax&&current===farthest?"Voir mon résultat":"Mission suivante →";
   const kind=m.type==="calc"?" is-calc":m.type==="formula"?" is-formula":"";
   $("#missionCard").innerHTML=head(m)+`<div class="feedback" id="feedback"></div><div class="mission-main${hasMedia?" has-media":""}${kind}">${m.type==="scale"?scaleLab(m):image(m)}<div class="mission-quiz">${quiz}</div>${pad}</div><div class="actions"><button class="primary hidden" id="nextBtn">${nextLabel}</button></div>`;
   document.querySelectorAll(".option").forEach(b=>b.onclick=()=>answerOption(+b.dataset.i));
@@ -506,14 +573,21 @@ function saveTapeState(){
 }
 function lockTape(){
   const tape=$("#scaleTape"),handle=$("#tapeHandle"),btn=$("#resetTape");
-  if(tape) tape.style.pointerEvents="none";
+  if(tape){tape.style.pointerEvents="none";tape.dataset.locked="1"}
   if(handle) handle.style.display="none";
   if(btn) btn.disabled=true;
 }
+function unlockTape(){
+  const tape=$("#scaleTape"),handle=$("#tapeHandle"),btn=$("#resetTape");
+  if(tape){tape.style.pointerEvents="auto";delete tape.dataset.locked}
+  if(handle) handle.style.display="";
+  if(btn) btn.disabled=false;
+}
 function initScaleLab(m){
+  if(window._scaleTapeRO){window._scaleTapeRO.disconnect();window._scaleTapeRO=null}
   const stage=$("#cellStage"),tape=$("#scaleTape"),handle=$("#tapeHandle"),r=rec(current);
   if(!stage||!tape) return;
-  let action=null,startX=0,startY=0,startLeft=0,startTop=0,startWidth=0,segment=0,syncing=false;
+  let action=null,startX=0,startY=0,startLeft=0,startTop=0,startWidth=0,segment=0,syncing=false,tapeLocked=!!r.answered;
   const applySegment=seg=>{segment=seg;tape.style.setProperty("--segment",`${seg}px`)};
   const defaultNorm=()=>{
     const cell=cellMetrics(m,stage),rect=stageImageRect(stage);
@@ -557,7 +631,7 @@ function initScaleLab(m){
     return max;
   };
   const down=(e,mode)=>{
-    if(r.answered) return;
+    if(tapeLocked) return;
     e.preventDefault();
     action=mode;
     startX=e.clientX;startY=e.clientY;
@@ -593,19 +667,23 @@ function initScaleLab(m){
   if(resetBtn) resetBtn.onclick=e=>{
     e.preventDefault();
     e.stopPropagation();
-    if(r.answered) return;
+    action=null;
+    tapeLocked=false;
+    unlockTape();
     delete r.tapeNorm;
     delete r.tape;
     applyNorm(defaultNorm());
-    r.tapeNorm=captureTapeNorm(m,stage,tape);
+    const norm=captureTapeNorm(m,stage,tape);
+    if(norm) r.tapeNorm=norm;
   };
   const img=stage.querySelector("img");
   if(img&&!img.complete) img.addEventListener("load",()=>syncTape(),{once:true});
   syncTape();
   const ro=typeof ResizeObserver!=="undefined"?new ResizeObserver(()=>syncTape()):null;
-  if(ro) ro.observe(stage);
+  if(ro){ro.observe(stage);window._scaleTapeRO=ro}
   window._scaleTapeSync=()=>{if(missions[current].type==="scale") syncTape()};
-  if(r.answered) lockTape();
+  if(tapeLocked) lockTape();
+  else unlockTape();
 }
 function answerOption(i){if(locked)return;const m=missions[current];const r=rec(current);r.pick=i;locked=true;document.querySelectorAll(".option").forEach((b,j)=>{b.disabled=true;if(j===currentAnswer)b.classList.add("good");if(j===i&&i!==currentAnswer)b.classList.add("bad")});finish(i===currentAnswer,m.explain)}
 function n(v){return parseFloat(v.trim().replace(",","."))}
@@ -673,11 +751,37 @@ function next(){
   goTo(farthest);
 }
 function goTo(i){
+  if(missions[current].type==="scale"&&!rec(current).answered) saveTapeState();
   current=Math.min(Math.max(i,pathMin),pathMax);
   render();
   saveSession();
 }
-function result(){show("#resultScreen");$("#finalScore").textContent=score;$("#progressBar").style.width="100%";let title,text,badge;if(score>=1200){title="Expert du microscope";text="Tu sais relier observation, ordre de grandeur et calcul d’échelle. L’échantillon n’a plus de secret pour toi.";badge="🏆"}else if(score>=840){title="Explorateur confirmé";text="Les bases sont solides. Rejoue une fois pour verrouiller la méthode de calcul et le vocabulaire.";badge="🔬"}else{title="Apprenti observateur";text="Tu progresses. Relis les corrections, puis retente les missions : elles changent vite de difficulté quand la méthode est comprise.";badge="🌱"}$("#resultTitle").textContent=title;$("#resultText").textContent=text;$("#resultBadge").textContent=badge;$("#recap").classList.add("hidden");saveSession()}
+function result(){
+  show("#resultScreen");
+  const max=pathMaxScore();
+  $("#finalScore").textContent=score;
+  const maxEl=$("#finalScoreMax");
+  if(maxEl) maxEl.textContent=`/ ${max.toLocaleString("fr-FR")} points`;
+  $("#progressBar").style.width="100%";
+  let title,text,badge;
+  if(isStructuresPath()){
+    if(score>=max*.8){title="Expert des cellules";text="Tu sais reconnaître les structures et comparer cellules végétales, animales et bactéries.";badge="🏆"}
+    else if(score>=max*.56){title="Observateur attentif";text="Les bases sont solides. Rejoue une fois pour ancrer paroi, chloroplastes et différences de taille.";badge="🔬"}
+    else{title="Apprenti biologiste";text=retryHint();badge="🌱"}
+  }else{
+    if(score>=max*.85){title="Expert du microscope";text="Tu sais relier observation, ordre de grandeur et calcul d’échelle. L’échantillon n’a plus de secret pour toi.";badge="🏆"}
+    else if(score>=max*.6){title="Explorateur confirmé";text="Les bases sont solides. Rejoue une fois pour verrouiller la méthode de calcul et le vocabulaire.";badge="🔬"}
+    else{title="Apprenti observateur";text=retryHint();badge="🌱"}
+  }
+  $("#resultTitle").textContent=title;
+  $("#resultText").textContent=text;
+  $("#resultBadge").textContent=badge;
+  const promo=$("#resultPromo"), recapS=$("#recapStructures"), recapM=$("#recapMesure");
+  if(promo) promo.classList.toggle("hidden",!isStructuresPath());
+  if(recapS) recapS.classList.add("hidden");
+  if(recapM) recapM.classList.add("hidden");
+  saveSession();
+}
 function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1800)}
 function openInBrowser(){
   const hostPath=location.host+location.pathname+location.search;
@@ -858,11 +962,20 @@ function syncCalc(m){
 }
 const pathStructures=$("#pathStructures"), pathAideEchelle=$("#pathAideEchelle"), pathMesure=$("#pathMesure");
 if(pathStructures) pathStructures.onclick=()=>startPath(PATH_STRUCTURES.min,PATH_STRUCTURES.max);
-if(pathAideEchelle) pathAideEchelle.onclick=()=>toast("Ce parcours arrive bientôt.");
+if(pathAideEchelle) pathAideEchelle.onclick=()=>startEchelleIntro();
+const echelleHitBack=$("#echelleHitBack"), echelleHitFwd=$("#echelleHitFwd");
+if(echelleHitBack) echelleHitBack.onclick=e=>{e.stopPropagation();echellePrev()};
+if(echelleHitFwd) echelleHitFwd.onclick=e=>{e.stopPropagation();echelleNext()};
 if(pathMesure) pathMesure.onclick=()=>startPath(PATH_MESURE.min,PATH_MESURE.max);
 $("#retryBtn").onclick=()=>startPath(pathMin,pathMax);
-$("#reviewBtn").onclick=()=>$("#recap").classList.toggle("hidden");
-$("#homeBtn").onclick=()=>{show("#homeScreen");saveSession()};
+$("#reviewBtn").onclick=()=>{
+  const recap=isStructuresPath()?$("#recapStructures"):$("#recapMesure");
+  if(recap) recap.classList.toggle("hidden");
+};
+const menuBtn=$("#menuBtn"), menuResultBtn=$("#menuResultBtn");
+if(menuBtn) menuBtn.onclick=goHome;
+if(menuResultBtn) menuResultBtn.onclick=goHome;
+$("#homeBtn").onclick=goHome;
 const resumeBtn=$("#resumeBtn"), restartBtn=$("#restartBtn");
 if(resumeBtn) resumeBtn.onclick=resumeSession;
 if(restartBtn) restartBtn.onclick=restartFromGate;
@@ -903,6 +1016,13 @@ function mapCalcKey(e){
   return "";
 }
 document.addEventListener("keydown",e=>{
+  if(echelleActive()&&!overlayBlocks()){
+    if(e.ctrlKey||e.metaKey||e.altKey) return;
+    e.preventDefault();
+    if(e.key==="ArrowLeft"||e.key==="Backspace") echellePrev();
+    else echelleNext();
+    return;
+  }
   if(!gameActive()||overlayBlocks()) return;
   if(e.ctrlKey||e.metaKey||e.altKey) return;
   const calcOpen=$("#calcPop")&&!$("#calcPop").hidden;
@@ -941,6 +1061,6 @@ if(ytBell) ytBell.addEventListener("click",()=>{
 });
 document.addEventListener("touchmove",e=>{
   if(!document.documentElement.classList.contains("fit"))return;
-  if(e.target.closest(".recap, .cell-stage, .scale-tape, .feedback, .yt-dock, .chip, .formula-slot, .formula-sort"))return;
+  if(e.target.closest(".recap, .cell-stage, .scale-tape, .feedback, .yt-dock, .chip, .formula-slot, .formula-sort, .echelle-stage"))return;
   e.preventDefault();
 },{passive:false});
