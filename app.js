@@ -14,7 +14,8 @@ const missions=[
  {title:"Encadre la bactérie",sub:"Passer aux micromètres",type:"qcm",question:"La bactérie mesure entre 0,5 et 1 segment, et un segment représente 2 µm. Quel est son intervalle de taille ?",options:["1 µm < taille < 2 µm","0,5 µm < taille < 1 µm","2 µm < taille < 4 µm","0 µm < taille < 0,5 µm"],answer:0,explain:"0,5 × 2 = 1 µm et 1 × 2 = 2 µm. La bactérie mesure donc entre 1 et 2 µm.",calculator:true},
  {title:"La taille de la bactérie",sub:"Appliquer la méthode complète",type:"calc",calcMode:"result",question:"Sur le document, la bactérie mesure 3,5 cm et le segment représentant 2 µm mesure 5 cm. Calcule la taille réelle de la bactérie. La valeur exacte ou son arrondi au dixième sont acceptés.",answer:1.4,roundedAnswer:1.4,drawSize:3.5,scaleDraw:5,scaleReal:2,explain:"3,5 ÷ 5 = 0,7 segment, puis 0,7 × 2 = 1,4 µm. Le résultat appartient bien à l’intervalle prévu entre 1 et 2 µm.",image:"illustrations/bacterie-mesure.webp",calculator:true}
 ];
-let current=0,score=0,locked=false,currentAnswer=0,inAppDismissed=false,calcTarget=null,farthest=0;
+let current=0,score=0,locked=false,currentAnswer=0,inAppDismissed=false,calcTarget=null,farthest=0,pathMin=0,pathMax=missions.length-1;
+const PATH_STRUCTURES={min:0,max:3},PATH_MESURE={min:4,max:missions.length-1};
 const records=[];
 const SESSION_KEY="celluloscope-session";
 function activeScreen(){
@@ -24,7 +25,7 @@ function saveSession(){
   try{
     if(activeScreen()==="#homeScreen"&&!score&&!farthest&&!records.some(r=>r&&r.answered)) return;
     sessionStorage.setItem(SESSION_KEY,JSON.stringify({
-      current,score,farthest,records,screen:activeScreen()
+      current,score,farthest,records,screen:activeScreen(),pathMin,pathMax
     }));
   }catch(_){}
 }
@@ -62,9 +63,11 @@ function showResumeGate(data){
   gate.inert=false;
 }
 function applySession(data){
-  current=Math.min(Math.max(data.current||0,0),missions.length-1);
+  pathMin=Math.min(Math.max(data.pathMin??0,0),missions.length-1);
+  pathMax=Math.min(Math.max(data.pathMax??missions.length-1,pathMin),missions.length-1);
+  current=Math.min(Math.max(data.current||0,pathMin),pathMax);
   score=data.score||0;
-  farthest=Math.min(Math.max(data.farthest||0,0),missions.length-1);
+  farthest=Math.min(Math.max(data.farthest||0,pathMin),pathMax);
   records.length=0;
   if(Array.isArray(data.records)) data.records.forEach((r,i)=>{if(r) records[i]=r});
   $("#score").textContent=score;
@@ -81,7 +84,7 @@ function resumeSession(){
 function restartFromGate(){
   clearSession();
   hideResumeGate();
-  current=0;score=0;farthest=0;records.length=0;
+  current=0;score=0;farthest=0;pathMin=0;pathMax=missions.length-1;records.length=0;
   resetCalcState();closeCalc();
   show("#homeScreen");
 }
@@ -173,10 +176,11 @@ function show(id){
   document.body.classList.toggle("on-result",id==="#resultScreen");
   if(id!=="#gameScreen") closeCalc();
 }
-async function start(){
+async function startPath(min,max){
   await enterImmersive();
   clearSession();
-  current=0;score=0;locked=false;farthest=0;records.length=0;
+  pathMin=min;pathMax=max;
+  current=min;score=0;locked=false;farthest=min;records.length=0;
   resetCalcState();closeCalc();
   $("#score").textContent=0;show("#gameScreen");render();saveSession();
 }
@@ -190,7 +194,7 @@ function canForward(){
 }
 function head(m){
   const calc=needsCalculator(m)?`<button class="calc-toggle" id="calcToggle" type="button" aria-label="Ouvrir la calculette" aria-expanded="false"><span class="calc-glyph" aria-hidden="true"></span><span class="calc-label">Calculette</span></button>`:"";
-  return `<div class="mission-head"><button type="button" class="nav-arrow" id="prevMission" aria-label="Mission précédente"${current===0?" disabled":""}>‹</button><div class="mission-num">${current+1}</div><div class="mission-titles"><span class="eyebrow">Mission ${current+1} sur ${missions.length}</span><h1>${m.title}</h1><p>${m.sub}</p></div>${calc}<button type="button" class="nav-arrow" id="nextMission" aria-label="Mission suivante"${canForward()?"":" disabled"}>›</button></div>`;
+  return `<div class="mission-head"><button type="button" class="nav-arrow" id="prevMission" aria-label="Mission précédente"${current===pathMin?" disabled":""}>‹</button><div class="mission-num">${current+1}</div><div class="mission-titles"><span class="eyebrow">Mission ${current+1} sur ${missions.length}</span><h1>${m.title}</h1><p>${m.sub}</p></div>${calc}<button type="button" class="nav-arrow" id="nextMission" aria-label="Mission suivante"${canForward()?"":" disabled"}>›</button></div>`;
 }
 function image(m){return m.image?`<div class="image-panel"><img src="${m.image}" alt="Support d'observation pour la question"></div>`:""}
 function scaleHelp(m){
@@ -659,16 +663,17 @@ function finish(ok,text){
   if(fwd) fwd.disabled=false;
   saveSession();
 }
-function prev(){if(current>0) goTo(current-1)}
+function prev(){if(current>pathMin) goTo(current-1)}
 function next(){
   if(!canForward()) return;
   if(current<farthest){goTo(current+1);return}
-  if(current===missions.length-1){result();return}
-  farthest=current+1;
+  if(current===pathMax){result();return}
+  if(current+1>pathMax) return;
+  farthest=Math.min(current+1,pathMax);
   goTo(farthest);
 }
 function goTo(i){
-  current=i;
+  current=Math.min(Math.max(i,pathMin),pathMax);
   render();
   saveSession();
 }
@@ -851,8 +856,11 @@ function syncCalc(m){
     placeCalc();
   }
 }
-$("#startBtn").onclick=start;
-$("#retryBtn").onclick=start;
+const pathStructures=$("#pathStructures"), pathAideEchelle=$("#pathAideEchelle"), pathMesure=$("#pathMesure");
+if(pathStructures) pathStructures.onclick=()=>startPath(PATH_STRUCTURES.min,PATH_STRUCTURES.max);
+if(pathAideEchelle) pathAideEchelle.onclick=()=>toast("Ce parcours arrive bientôt.");
+if(pathMesure) pathMesure.onclick=()=>startPath(PATH_MESURE.min,PATH_MESURE.max);
+$("#retryBtn").onclick=()=>startPath(pathMin,pathMax);
 $("#reviewBtn").onclick=()=>$("#recap").classList.toggle("hidden");
 $("#homeBtn").onclick=()=>{show("#homeScreen");saveSession()};
 const resumeBtn=$("#resumeBtn"), restartBtn=$("#restartBtn");

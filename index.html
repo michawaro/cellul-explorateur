@@ -18,7 +18,7 @@
       }
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=29">
+  <link rel="stylesheet" href="styles.css?v=38">
 </head>
 <body>
   <div class="bg-cells" aria-hidden="true"></div>
@@ -64,18 +64,40 @@
     </header>
 
     <section class="screen active hero" id="homeScreen">
-      <div class="hero-copy">
-        <span class="eyebrow">Cellules et échelles · Seconde</span>
-        <h1>Observe.<br>Mesure.<br><em>Calcule.</em></h1>
-        <p>Quatorze missions pour comparer cellules végétales, cellules animales et bactéries.<br>Puis maîtriser l’estimation et le calcul d’une taille réelle.</p>
-        <div class="hero-facts"><span>14 missions</span><span>2 mesures interactives</span><span>≈ 16 min</span></div>
-        <button class="primary big" id="startBtn">Lancer l’exploration <span>→</span></button>
-        <p class="microcopy">Progression mémorisée pendant la session (rechargement de page)</p>
-      </div>
-      <div class="hero-visual" aria-label="Scientifique excentrique observant des cellules au microscope">
-        <div class="hero-picture"><img src="illustrations/intro-laboratoire-cartoon-v2.webp" alt="Scientifique excentrique utilisant un microscope dans un laboratoire coloré"></div>
-        <div class="floating-tag tag-a">Cellules</div>
-        <div class="floating-tag tag-b">Échelles</div>
+      <div class="home-shell">
+        <div class="home-body">
+          <div class="home-main">
+            <header class="home-intro">
+              <span class="eyebrow">Cellules et échelles · Seconde</span>
+              <h1>Observe. Mesure. <em>Calcule.</em></h1>
+              <p>Quatorze missions pour comparer cellules végétales, cellules animales et bactéries.<br>Puis maîtriser l’estimation et le calcul d’une taille réelle.</p>
+              <div class="hero-facts"><span>14 missions</span><span>2 mesures interactives</span><span>≈ 16 min</span></div>
+            </header>
+            <figure class="home-spotlight">
+              <img src="illustrations/intro-laboratoire-cartoon-v2-trim.webp" alt="Scientifique excentrique utilisant un microscope dans un laboratoire coloré">
+            </figure>
+          </div>
+          <nav class="path-choices" role="group" aria-label="Choisir un parcours">
+            <div class="path-item">
+              <button class="path-hit" id="pathStructures" type="button" aria-labelledby="pathStructuresCap">
+                <img src="illustrations/parcours-structures-cellulaires.jpg" alt="">
+              </button>
+              <p class="path-caption" id="pathStructuresCap"><strong>Structures cellulaires</strong><span class="path-sub">Réviser les missions 1 à 4</span></p>
+            </div>
+            <div class="path-item path-item--soon">
+              <button class="path-hit" id="pathAideEchelle" type="button" aria-labelledby="pathAideEchelleCap" aria-disabled="true">
+                <img src="illustrations/parcours-aide-echelle.jpg" alt="">
+              </button>
+              <p class="path-caption" id="pathAideEchelleCap"><strong>Notion d’échelle</strong><span class="path-sub path-soon">Coup de pouce · Bientôt</span></p>
+            </div>
+            <div class="path-item">
+              <button class="path-hit" id="pathMesure" type="button" aria-labelledby="pathMesureCap">
+                <img src="illustrations/parcours-mesure-cellule.jpg" alt="">
+              </button>
+              <p class="path-caption" id="pathMesureCap"><strong>Taille réelle d’une cellule</strong><span class="path-sub">Échelle et calcul · missions 5 à 14</span></p>
+            </div>
+          </nav>
+        </div>
       </div>
     </section>
 
