@@ -522,3 +522,99 @@ body.on-game .yt-dock{display:none}
 html.ipad .path-caption strong{font-size:26px}
 html.ipad .path-sub{font-size:18px}
 
+/* Accueil téléphone / Oppo : plus de superposition titre / illustration / parcours */
+html.handheld .home-spotlight,
+html.fit.handheld .home-spotlight{
+  transform:none!important;
+  overflow:hidden;
+  min-height:0;
+  align-items:flex-end;
+}
+html.handheld .home-spotlight img,
+html.fit.handheld .home-spotlight img{
+  max-height:100%!important;
+  max-width:100%;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  object-position:left bottom;
+}
+html.handheld .home-intro h1,
+html.fit.handheld .home-intro h1{
+  white-space:normal!important;
+  font-size:clamp(18px,3.1vw,26px)!important;
+  line-height:1.08;
+  margin:0 0 4px;
+}
+html.handheld .home-body,
+html.fit.handheld .home-body{
+  min-height:0;
+  overflow:hidden;
+  gap:10px;
+  grid-template-columns:minmax(0,.95fr) minmax(0,1.08fr);
+  align-items:stretch;
+}
+html.handheld .home-main,
+html.fit.handheld .home-main{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  overflow:hidden;
+  padding-left:0;
+  gap:4px;
+}
+html.handheld .home-intro,
+html.fit.handheld .home-intro{
+  flex:0 0 auto;
+  max-width:none;
+  min-width:0;
+}
+html.handheld .path-choices,
+html.fit.handheld .path-choices{
+  min-height:0;
+  overflow:hidden;
+  height:auto;
+  align-self:stretch;
+}
+html.handheld .path-item,
+html.fit.handheld .path-item{
+  min-height:0;
+  overflow:hidden;
+}
+html.handheld .path-caption,
+html.fit.handheld .path-caption{
+  min-width:0;
+  overflow:hidden;
+}
+html.handheld .path-caption strong,
+html.fit.handheld .path-caption strong{
+  font-size:clamp(13px,2.2vw,18px)!important;
+  line-height:1.15;
+}
+html.handheld .path-sub,
+html.fit.handheld .path-sub{
+  font-size:clamp(11px,1.7vw,13px)!important;
+  line-height:1.25;
+  margin-top:2px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+html.handheld .path-hit,
+html.fit.handheld .path-hit{
+  width:clamp(96px,min(26vh,34%),168px)!important;
+  flex-shrink:0;
+}
+html.handheld.compact .home-intro .eyebrow,
+html.handheld.compact .home-intro p,
+html.handheld.compact .home-intro .hero-facts,
+html.fit.handheld.compact .home-intro .eyebrow,
+html.fit.handheld.compact .home-intro p,
+html.fit.handheld.compact .home-intro .hero-facts{
+  display:none!important;
+}
+html.handheld.compact .path-sub,
+html.fit.handheld.compact .path-sub{display:none!important}
+html.handheld .yt-dock{display:none!important}
+
