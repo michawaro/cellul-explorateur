@@ -298,7 +298,7 @@ function formulaHTML(m,handheld){
   const mode=m.calcMode||"result";
   const im=handheld?"none":"decimal";
   const v=x=>String(x).replace(".",",");
-  const blank=(id,label,ph)=>`<input id="${id}" inputmode="${im}" autocomplete="off" placeholder="${ph}" aria-label="${label}">`;
+  const blank=(id,label,ph)=>`<input id="${id}" data-blank="1" inputmode="${im}" autocomplete="off" placeholder="${ph}" aria-label="${label}">`;
   if(mode==="ratio"){
     return `<div class="formula-wrap"><div class="formula ratio"><input id="drawSize" value="${v(m.drawSize)}" readonly aria-label="Longueur du dessin"><span>÷</span>${blank("scaleDraw","Longueur dessinée du segment","…")}<span>=</span>${blank("calcAnswer","Nombre de segments","…")}</div><button class="primary" id="calcBtn">Vérifier</button></div>`;
   }
@@ -462,7 +462,7 @@ function wireCalc(m,handheld){
   }else if(calcTarget) calcTarget.focus();
 }
 function calcBlanks(){
-  return [...document.querySelectorAll(".formula input:not([readonly])")];
+  return [...document.querySelectorAll(".formula input[data-blank]")];
 }
 function showKeypad(){
   const pad=$("#keypad");
@@ -481,7 +481,20 @@ function focusCalcBlank(idx,blanks){
   if(!blanks.length||idx<0||idx>=blanks.length) return false;
   const el=blanks[idx];
   armInput(el,blanks);
-  if(!el.readOnly) el.focus();
+  el.focus();
+  return true;
+}
+function advanceCalcField(){
+  if(locked||missions[current].type!=="calc") return false;
+  const list=calcBlanks();
+  if(!list.length) return false;
+  const from=list.includes(document.activeElement)?document.activeElement:(calcTarget&&list.includes(calcTarget)?calcTarget:list[0]);
+  const i=Math.max(0,list.indexOf(from));
+  if(i<list.length-1){
+    focusCalcBlank(i+1,list);
+    return true;
+  }
+  answerCalc();
   return true;
 }
 function wireCalcFieldKeys(blanks){
@@ -493,18 +506,20 @@ function wireCalcFieldKeys(blanks){
       if(i<0) return;
       if(e.key==="ArrowRight"||e.key==="ArrowDown"){
         e.preventDefault();
+        e.stopPropagation();
         focusCalcBlank(i+1,list);
         return;
       }
       if(e.key==="ArrowLeft"||e.key==="ArrowUp"){
         e.preventDefault();
+        e.stopPropagation();
         focusCalcBlank(i-1,list);
         return;
       }
       if(e.key==="Enter"||e.key==="NumpadEnter"){
         e.preventDefault();
-        if(i<list.length-1) focusCalcBlank(i+1,list);
-        else if(!locked) answerCalc();
+        e.stopPropagation();
+        advanceCalcField();
       }
     };
   });
@@ -1113,8 +1128,12 @@ document.addEventListener("keydown",e=>{
     if(mapped){e.preventDefault();calcPress(mapped);return}
   }
   const inField=/^(INPUT|TEXTAREA)$/.test(e.target.tagName);
-  const calcFields=missions[current].type==="calc"?calcBlanks():[];
-  if(inField&&calcFields.length&&calcFields.includes(e.target)) return;
+  if((e.key==="Enter"||e.key==="NumpadEnter")&&missions[current].type==="calc"&&!locked){
+    e.preventDefault();
+    advanceCalcField();
+    return;
+  }
+  if(inField&&missions[current].type==="calc"&&calcBlanks().includes(e.target)) return;
   if(e.key==="Enter"){
     e.preventDefault();
     if(canForward()){next();return}
