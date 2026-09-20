@@ -212,7 +212,7 @@ function show(id){
   screens.forEach(s=>$(s).classList.toggle("active",s===id));
   $("#hud").classList.toggle("hidden",id!=="#gameScreen");
   document.body.classList.toggle("on-result",id==="#resultScreen");
-  document.body.classList.toggle("on-game",id==="#gameScreen");
+  document.body.classList.toggle("on-echelle",id==="#echelleIntroScreen");
   const menuBtn=$("#menuBtn");
   if(menuBtn) menuBtn.classList.toggle("hidden",id==="#homeScreen");
   if(id!=="#gameScreen") closeCalc();
@@ -225,25 +225,46 @@ async function startPath(min,max){
   resetCalcState();closeCalc();
   $("#score").textContent=0;show("#gameScreen");render();saveSession();
 }
-const ECHELLE_SLIDES=[
-  "illustrations/echelle/echelle-01.webp",
-  "illustrations/echelle/echelle-pensif.webp",
-  "illustrations/echelle/echelle-02.webp",
-  "illustrations/echelle/echelle-03.webp",
-  "illustrations/echelle/echelle-04.webp",
-  "illustrations/echelle/echelle-05.webp",
-  "illustrations/echelle/echelle-06.webp"
+const ECHELLE_DIR="storyboard-echelle-celluloscope/sources-1280x720/";
+const ECHELLE_FRAMES=[
+  {file:"01-arbre-sur-image.webp",dialogue:"Sur cette image, tu vois un arbre de quelques centimètres."},
+  {file:"02-zoom-realite.webp",dialogue:"Mais tu te doutes bien qu’en réalité, cet arbre est beaucoup plus grand que ça !"},
+  {file:"03-question-comment-faire.webp",dialogue:"Comment connaître la vraie taille de l’arbre… et de tout ce que tu vois ?"},
+  {file:"04-impossible.webp",dialogue:"Sans aucun repère, c’est impossible !"},
+  {file:"05-sauf-repere.webp",dialogue:"Sauf… si l’on connaît la taille réelle d’un élément de l’image."},
+  {file:"06-repere-1m70.webp",dialogue:"Par exemple, je mesure 1,70 m."},
+  {file:"07-report-premiere-hauteur.webp",dialogue:"On reporte une première fois ma hauteur le long de l’arbre."},
+  {file:"08-zoom-on-recommence.webp",dialogue:"Puis on recommence : combien de fois ma hauteur entre-t-elle dans celle de l’arbre ?"},
+  {file:"09-arbre-deux-hauteurs.webp",dialogue:"Deux fois ! L’arbre mesure donc deux hauteurs de 1,70 m."},
+  {file:"10-calcul-arbre.webp",dialogue:"Il suffit de calculer : 2 × 1,70 m…"},
+  {file:"11-resultat-arbre-3m40.webp",dialogue:"…et l’arbre mesure 3,40 m en réalité."},
+  {file:"12-zoom-transition-chien.webp",dialogue:"Maintenant, utilisons le même repère pour retrouver la taille du chien."},
+  {file:"13-chien-demi-hauteur.webp",dialogue:"Le chien atteint la moitié de ma hauteur."},
+  {file:"14-zoom-multiplier-par-0-5.webp",dialogue:"La moitié d’une taille, c’est la multiplier par 0,5."},
+  {file:"15-calcul-chien.webp",dialogue:"On calcule donc : 0,5 × 1,70 m…"},
+  {file:"16-resultat-chien-0m85.webp",dialogue:"…le chien mesure 0,85 m, soit 85 cm."},
+  {file:"17-zoom-principe-echelle.webp",dialogue:"C’est le principe d’une échelle : comparer à un repère dont on connaît la taille réelle !"}
 ];
 let echelleIndex=0;
 function echelleActive(){return $("#echelleIntroScreen")&&$("#echelleIntroScreen").classList.contains("active")}
+function preloadEchelle(i){
+  const f=ECHELLE_FRAMES[i];
+  if(!f) return;
+  const img=new Image();
+  img.src=ECHELLE_DIR+f.file;
+}
 function renderEchelleSlide(){
+  const frame=ECHELLE_FRAMES[echelleIndex];
   const img=$("#echelleSlide");
-  if(!img) return;
-  img.src=ECHELLE_SLIDES[echelleIndex];
-  img.alt=`Comprendre une échelle · image ${echelleIndex+1} sur ${ECHELLE_SLIDES.length}`;
+  const cap=$("#echelleDialogue");
+  if(!img||!frame) return;
+  img.src=ECHELLE_DIR+frame.file;
+  img.alt=`Comprendre une échelle · image ${echelleIndex+1} sur ${ECHELLE_FRAMES.length}`;
+  if(cap) cap.textContent=frame.dialogue;
+  preloadEchelle(echelleIndex+1);
 }
 function echelleNext(){
-  if(echelleIndex<ECHELLE_SLIDES.length-1){echelleIndex++;renderEchelleSlide()}
+  if(echelleIndex<ECHELLE_FRAMES.length-1){echelleIndex++;renderEchelleSlide()}
   else show("#homeScreen");
 }
 function echellePrev(){
@@ -253,6 +274,8 @@ function echellePrev(){
 async function startEchelleIntro(){
   await enterImmersive();
   echelleIndex=0;
+  preloadEchelle(0);
+  preloadEchelle(1);
   renderEchelleSlide();
   show("#echelleIntroScreen");
 }

@@ -18,7 +18,7 @@
       }
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=76">
+  <link rel="stylesheet" href="styles.css?v=77">
 </head>
 <body>
   <div class="bg-cells" aria-hidden="true"></div>
@@ -104,9 +104,12 @@
       </div>
     </section>
 
-    <section class="screen echelle-intro" id="echelleIntroScreen" aria-label="Comprendre la notion d'échelle">
+    <section class="screen echelle-intro" id="echelleIntroScreen" aria-label="Comprendre le principe d’une échelle">
       <div class="echelle-stage" id="echelleStage">
-        <img id="echelleSlide" src="" alt="Animation : comprendre une échelle" draggable="false">
+        <figure class="echelle-frame">
+          <img id="echelleSlide" src="" alt="" draggable="false">
+          <figcaption class="echelle-dialogue" id="echelleDialogue" aria-live="polite"></figcaption>
+        </figure>
         <div class="echelle-hit echelle-hit--back" id="echelleHitBack" aria-hidden="true"></div>
         <div class="echelle-hit echelle-hit--fwd" id="echelleHitFwd" aria-hidden="true"></div>
       </div>
@@ -211,6 +214,6 @@
       </div>
     </div>
   </div>
-  <script src="app.js?v=76"></script>
+  <script src="app.js?v=77"></script>
 </body>
 </html>

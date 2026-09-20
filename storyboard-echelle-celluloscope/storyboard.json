@@ -1,0 +1,33 @@
+{
+  "title": "Comprendre le principe d’une échelle",
+  "format": {
+    "sources": "1280x720 WebP",
+    "frames_with_dialogue": "1280x800 WebP",
+    "advance": "click"
+  },
+  "style": {
+    "dialogue_font": "DejaVu Sans Condensed Bold",
+    "dialogue_color": "#F5C64B",
+    "dialogue_background": "#17113A",
+    "accent": "#F39A2D"
+  },
+  "frames": [
+    {"id": 1, "file": "01-arbre-sur-image.webp", "type": "wide", "dialogue": "Sur cette image, tu vois un arbre de quelques centimètres."},
+    {"id": 2, "file": "02-zoom-realite.webp", "type": "closeup", "dialogue": "Mais tu te doutes bien qu’en réalité, cet arbre est beaucoup plus grand que ça !"},
+    {"id": 3, "file": "03-question-comment-faire.webp", "type": "wide", "dialogue": "Comment connaître la vraie taille de l’arbre… et de tout ce que tu vois ?"},
+    {"id": 4, "file": "04-impossible.webp", "type": "closeup", "dialogue": "Sans aucun repère, c’est impossible !"},
+    {"id": 5, "file": "05-sauf-repere.webp", "type": "closeup", "dialogue": "Sauf… si l’on connaît la taille réelle d’un élément de l’image."},
+    {"id": 6, "file": "06-repere-1m70.webp", "type": "measure", "dialogue": "Par exemple, je mesure 1,70 m."},
+    {"id": 7, "file": "07-report-premiere-hauteur.webp", "type": "measure", "dialogue": "On reporte une première fois ma hauteur le long de l’arbre."},
+    {"id": 8, "file": "08-zoom-on-recommence.webp", "type": "closeup", "dialogue": "Puis on recommence : combien de fois ma hauteur entre-t-elle dans celle de l’arbre ?"},
+    {"id": 9, "file": "09-arbre-deux-hauteurs.webp", "type": "measure", "dialogue": "Deux fois ! L’arbre mesure donc deux hauteurs de 1,70 m."},
+    {"id": 10, "file": "10-calcul-arbre.webp", "type": "calculation", "dialogue": "Il suffit de calculer : 2 × 1,70 m…"},
+    {"id": 11, "file": "11-resultat-arbre-3m40.webp", "type": "result", "dialogue": "…et l’arbre mesure 3,40 m en réalité."},
+    {"id": 12, "file": "12-zoom-transition-chien.webp", "type": "closeup", "dialogue": "Maintenant, utilisons le même repère pour retrouver la taille du chien."},
+    {"id": 13, "file": "13-chien-demi-hauteur.webp", "type": "measure", "dialogue": "Le chien atteint la moitié de ma hauteur."},
+    {"id": 14, "file": "14-zoom-multiplier-par-0-5.webp", "type": "closeup", "dialogue": "La moitié d’une taille, c’est la multiplier par 0,5."},
+    {"id": 15, "file": "15-calcul-chien.webp", "type": "calculation", "dialogue": "On calcule donc : 0,5 × 1,70 m…"},
+    {"id": 16, "file": "16-resultat-chien-0m85.webp", "type": "result", "dialogue": "…le chien mesure 0,85 m, soit 85 cm."},
+    {"id": 17, "file": "17-zoom-principe-echelle.webp", "type": "closeup", "dialogue": "C’est le principe d’une échelle : comparer à un repère dont on connaît la taille réelle !"}
+  ]
+}
