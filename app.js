@@ -268,7 +268,7 @@ function head(m){
   const mNum=current-pathMin+1, mTotal=pathCount();
   const hintText=m.headHint||(m.type==="formula"?"Glisse les cartes dans les cases vides":"");
   const hint=hintText?`<span class="formula-head-hint">${hintText}</span>`:"";
-  return `<div class="mission-head"><button type="button" class="nav-arrow" id="prevMission" aria-label="Mission précédente"${current===pathMin?" disabled":""}>‹</button><div class="mission-num">${mNum}</div><div class="mission-titles"><span class="eyebrow">Mission ${mNum} sur ${mTotal}</span><div class="mission-title-row"><h1>${m.title}</h1>${hint}</div><p>${m.sub}</p></div>${calc}<button type="button" class="nav-arrow" id="nextMission" aria-label="Mission suivante"${canForward()?"":" disabled"}>›</button></div>`;
+  return `<div class="mission-head"><button type="button" class="nav-arrow" id="prevMission" aria-label="Mission précédente"${current===pathMin?" disabled":""}>‹</button><div class="mission-num">${mNum}</div><div class="mission-titles"><span class="eyebrow">Mission ${mNum} sur ${mTotal}</span><div class="mission-title-row"><h1>${m.title}</h1>${hint}${calc}</div><p>${m.sub}</p></div><button type="button" class="nav-arrow" id="nextMission" aria-label="Mission suivante"${canForward()?"":" disabled"}>›</button></div>`;
 }
 function image(m){
   if(m.images?.length){
