@@ -356,7 +356,8 @@ function placeFormulaBar(){
   const quiz=$(".mission-quiz");
   const bank=$("#formulaBank")||$(".formula-bank");
   if(!split||!wrap||!quiz) return;
-  const roomy=(split.classList.contains("is-calc")||split.classList.contains("is-formula"))&&isRoomyLayout();
+  if(split.classList.contains("is-formula")) return;
+  const roomy=split.classList.contains("is-calc")&&isRoomyLayout();
   if(roomy){
     split.appendChild(wrap);
     return;
@@ -394,7 +395,7 @@ function render(){
   if(m.type==="calc") quiz+=`</div>${formulaHTML(m,handheld)}`;
   else if(m.type==="formula"){
     const parts=formulaSortHTML(m);
-    quiz+=`${parts.intro}</div>${parts.wrap}${parts.bank}`;
+    quiz+=`${parts.intro}${parts.wrap}${parts.bank}</div>`;
   }else quiz+=`</div>`;
   const pad=wantsKeypad(m)&&touchPad()&&!r.answered?keypadHTML():"";
   const nextLabel=current===pathMax&&current===farthest?"Voir mon résultat":"Mission suivante →";
@@ -424,6 +425,8 @@ function render(){
   syncCalc(m);
   alignFeedback();
   placeFormulaBar();
+  if(m.type==="formula"&&$("#calcBtn")&&!r.answered) $("#calcBtn").onclick=answerFormula;
+  else if(m.type==="calc"&&$("#calcBtn")&&!r.answered) $("#calcBtn").onclick=answerCalc;
   wireCalcToggle();
   $("#nextBtn").onclick=next;
   $("#prevMission").onclick=prev;

@@ -773,6 +773,10 @@ html.fit .mission-card>.actions,html.handheld .mission-card>.actions{
   justify-content:flex-end;
   pointer-events:auto;
 }
+html.fit .mission-card>.actions:has(.hidden),html.handheld .mission-card>.actions:has(.hidden){
+  display:none!important;
+  pointer-events:none;
+}
 html.fit .is-calc .question,html.handheld .is-calc .question{
   flex:0 0 auto;
   display:block;
@@ -789,11 +793,10 @@ html.fit.landscape:not(.compact) .is-calc .mission-quiz{
 html.fit .is-calc .formula,html.handheld .is-calc .formula{
   margin-bottom:8px;
 }
-html.fit.landscape:not(.compact) .is-calc,
-html.fit.landscape:not(.compact) .is-formula{
+html.fit.landscape:not(.compact) .is-calc{
   grid-template-rows:minmax(0,1fr) auto;
 }
-html.fit.landscape:not(.compact) .mission-split>.formula-wrap{
+html.fit.landscape:not(.compact) .is-calc>.formula-wrap{
   grid-column:1/-1;
   flex-wrap:nowrap;
   flex-direction:column;
@@ -801,7 +804,7 @@ html.fit.landscape:not(.compact) .mission-split>.formula-wrap{
   gap:10px;
   padding:4px 4px 0;
 }
-html.fit.landscape:not(.compact) .mission-split>.formula-wrap .formula{
+html.fit.landscape:not(.compact) .is-calc>.formula-wrap .formula{
   flex:1 1 auto;
   width:100%;
   min-height:64px;
@@ -809,18 +812,68 @@ html.fit.landscape:not(.compact) .mission-split>.formula-wrap .formula{
   gap:12px;
   font-size:18px;
 }
-html.fit.landscape:not(.compact) .mission-split>.formula-wrap .formula input{
+html.fit.landscape:not(.compact) .is-calc>.formula-wrap .formula input{
   min-height:48px;
   font-size:20px;
 }
-html.fit.landscape:not(.compact) .mission-split>.formula-wrap .formula-slot{
-  min-width:140px;
-  min-height:52px;
-  max-width:none;
-  flex:1 1 160px;
-}
-html.fit.landscape:not(.compact) .mission-split>.formula-wrap #calcBtn{
+html.fit.landscape:not(.compact) .is-calc>.formula-wrap #calcBtn{
   align-self:flex-end;
+  position:relative;
+  z-index:41;
+  min-height:44px;
+  padding:12px 22px;
+}
+html.fit.landscape:not(.compact) .is-formula .quiz-copy{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:8px;
+  width:100%;
+}
+html.fit.landscape:not(.compact) .is-formula .formula-wrap{
+  flex-direction:column;
+  flex-wrap:nowrap;
+  align-items:stretch;
+  width:100%;
+  gap:10px;
+  margin-top:4px;
+}
+html.fit.landscape:not(.compact) .is-formula .formula.formula-drop{
+  flex-direction:column;
+  flex-wrap:nowrap;
+  align-items:stretch;
+  width:100%;
+  margin:0;
+  padding:10px 12px;
+  gap:8px;
+}
+html.fit.landscape:not(.compact) .is-formula .formula-slot{
+  flex:0 0 auto;
+  width:100%;
+  max-width:none;
+  min-width:0;
+  min-height:52px;
+  align-self:stretch;
+}
+html.fit.landscape:not(.compact) .is-formula .formula-drop span{
+  align-self:center;
+  transform:none;
+  font-size:20px;
+}
+html.fit.landscape:not(.compact) .is-formula .formula-result{
+  text-align:center;
+  max-width:none;
+  flex:none;
+  font-size:15px;
+  padding:4px 0 0;
+}
+html.fit.landscape:not(.compact) .is-formula .formula-bank{
+  margin-top:2px;
+}
+html.fit.landscape:not(.compact) .is-formula #calcBtn{
+  align-self:flex-end;
+  position:relative;
+  z-index:41;
   min-height:44px;
   padding:12px 22px;
 }
