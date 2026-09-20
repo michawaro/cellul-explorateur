@@ -366,7 +366,9 @@ function render(){
   const pad=m.type==="calc"&&handheld&&!r.answered?keypadHTML():"";
   const nextLabel=current===pathMax&&current===farthest?"Voir mon résultat":"Mission suivante →";
   const kind=m.type==="calc"?" is-calc":m.type==="formula"?" is-formula":"";
-  $("#missionCard").innerHTML=`<div class="mission-split${hasMedia?" has-media":""}${kind}"><div class="mission-art">${head(m)}${m.type==="scale"?scaleLab(m):image(m)}</div><div class="mission-side"><div class="feedback" id="feedback"></div><div class="mission-quiz">${quiz}</div>${pad}</div></div><div class="actions"><button class="primary hidden" id="nextBtn">${nextLabel}</button></div>`;
+  const mNum=current-pathMin+1;
+  const illustLg=mNum>=3&&mNum<=6?" illust-lg":"";
+  $("#missionCard").innerHTML=`<div class="mission-split${hasMedia?" has-media":""}${kind}${illustLg}"><div class="mission-art">${head(m)}${m.type==="scale"?scaleLab(m):image(m)}</div><div class="mission-side"><div class="feedback" id="feedback"></div><div class="mission-quiz">${quiz}</div></div>${pad}</div><div class="actions"><button class="primary hidden" id="nextBtn">${nextLabel}</button></div>`;
   document.querySelectorAll(".option").forEach(b=>b.onclick=()=>answerOption(+b.dataset.i));
   if(m.type==="scale") initScaleLab(m);
   if(m.type==="formula") initFormula(m,r);
@@ -939,13 +941,13 @@ function calcPress(k){
 function placeCalc(){
   const pop=$("#calcPop"), btn=$("#calcToggle");
   if(!pop||pop.hidden||!btn) return;
-  const r=btn.getBoundingClientRect();
   const w=pop.offsetWidth||280;
   const h=pop.offsetHeight||320;
-  let left=r.right-w;
-  left=Math.max(8,Math.min(left,window.innerWidth-w-8));
-  let top=r.bottom+8;
-  if(top+h>window.innerHeight-8) top=Math.max(8,r.top-h-8);
+  const vw=window.innerWidth, vh=window.innerHeight;
+  let left=vw-w-10;
+  let top=vh-h-12;
+  left=Math.max(8,Math.min(left,vw-w-8));
+  top=Math.max(8,Math.min(top,vh-h-8));
   pop.style.top=top+"px";
   pop.style.left=left+"px";
   pop.style.right="auto";
