@@ -713,6 +713,26 @@ html.handheld .mission-art .image-panel img{
   object-fit:contain;
   object-position:center;
 }
+html.fit.landscape:not(.compact) .mission-art .image-panel--course{
+  display:flex!important;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:center;
+  gap:4px;
+}
+html.fit.landscape:not(.compact) .mission-art .image-panel--course img{
+  flex:0 1 auto;
+  width:auto!important;
+  height:auto!important;
+  max-width:100%!important;
+  max-height:calc(100% - 48px)!important;
+  object-fit:contain;
+  object-position:center top;
+}
+html.fit.landscape:not(.compact) .mission-art .image-panel--course .image-caption,
+html.fit.landscape:not(.compact) .mission-art .image-panel--course .course-note{
+  margin-top:0;
+}
 html.fit .mission-art:has(.image-panel--cells) .mission-head,
 html.handheld .mission-art:has(.image-panel--cells) .mission-head{
   margin-top:-6px;
