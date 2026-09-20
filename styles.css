@@ -642,7 +642,7 @@ html.fit .mission-split,html.handheld .mission-split{
   position:relative;
 }
 html.fit .is-formula,html.handheld .is-formula{
-  grid-template-columns:minmax(0,1.85fr) minmax(250px,.58fr);
+  grid-template-columns:minmax(0,1.42fr) minmax(340px,.88fr);
 }
 html.fit .mission-art,html.handheld .mission-art{
   overflow:hidden;
