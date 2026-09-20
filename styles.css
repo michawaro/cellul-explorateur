@@ -626,7 +626,8 @@ html.handheld .yt-dock{display:none!important}
 .mission-title-row h1{margin:0}
 .mission-title-row .calc-toggle{margin-left:0}
 .formula-head-hint{font-size:14px;font-weight:750;color:#58707a;line-height:1.25}
-.is-formula .question{display:none!important}
+.is-formula .question{margin:0 0 6px;font-size:22px;line-height:1.3}
+.is-formula .formula-hint{margin:0 0 8px;font-size:15px;font-weight:750;color:#58707a}
 .keypad-off{display:none!important}
 .formula-slot .chip{width:100%;white-space:normal;text-align:center;line-height:1.2}
 
@@ -754,7 +755,14 @@ html.fit .is-calc #calcBtn,html.handheld .is-calc #calcBtn{
   position:relative;
   z-index:6;
 }
-html.fit .is-formula .mission-quiz,html.handheld .is-formula .mission-quiz{overflow:auto}
+html.fit .is-formula .question,html.handheld .is-formula .question{
+  font-size:18px;
+  margin:0 0 4px;
+}
+html.fit .is-formula .formula-hint,html.handheld .is-formula .formula-hint{
+  font-size:14px;
+  margin:0 0 6px;
+}
 html.fit .is-formula .formula-sort,html.handheld .is-formula .formula-sort{gap:6px}
 html.fit .is-formula .formula.formula-drop,html.handheld .is-formula .formula.formula-drop{
   margin:0;
