@@ -8,7 +8,7 @@ const missions=[
  {title:"Encadre la taille",sub:"Passer des segments aux micromètres",type:"qcm",question:"Le segment représente 15 µm. La cellule contient entre 7 et 8 segments. Quel intervalle de taille réelle peux-tu prévoir ?",options:["105 µm < taille < 120 µm","7 µm < taille < 8 µm","15 µm < taille < 105 µm","120 µm < taille < 135 µm"],answer:0,explain:"7 × 15 = 105 µm et 8 × 15 = 120 µm. Le résultat précis devra obligatoirement être compris entre ces deux valeurs.",image:"illustrations/elodee-encadrement-tape.webp",calculator:true},
  {title:"Lien taille/nombre de segments",sub:"Réfléchir avant de calculer",type:"formula",question:"Glisse les cartes dans les cases vides.",cards:[{id:"objet",label:"Taille de l’objet à mesurer sur la photo"},{id:"segment",label:"Taille du segment de légende sur la photo"}],formulaOps:["÷"],resultLabel:"Taille de l’objet en nombre de segments",answer:["objet","segment"],explain:"On divise la taille de l’objet (sur la photo) par la taille du segment de légende : taille de l’objet ÷ taille du segment = nombre de segments.",image:"illustrations/elodee-division-mesures.webp"},
  {title:"Combien de segments ?",sub:"Diviser pour mesurer",type:"calc",calcMode:"ratio",question:"Combien de fois le segment d’échelle entre-t-il dans la longueur dessinée de la cellule ? Complète : 12,2 ÷ … = … (valeur exacte ou arrondie au dixième).",answer:7.625,roundedAnswer:7.6,drawSize:12.2,scaleDraw:1.6,explain:"12,2 ÷ 1,6 = 7,625, soit 7,6 au dixième. La cellule contient donc un peu plus de 7 segments d’échelle.",image:"illustrations/elodee-division-mesures.webp",calculator:true},
- {title:"La formule de la taille réelle",sub:"Relier le dessin aux micromètres",type:"formula",question:"On a vu : nombre de segments = taille de l’objet ÷ taille du segment. Pour trouver la taille réelle, glisse les cartes « taille de l’objet », « taille du segment » et « valeur réelle » dans la formule.",cards:[{id:"objet",label:"taille de l’objet"},{id:"segment",label:"taille du segment"},{id:"reel",label:"valeur réelle"}],formulaOps:["÷","×"],resultLabel:"taille réelle",answer:["objet","segment","reel"],explain:"Taille réelle = taille de l’objet ÷ taille du segment × valeur réelle du segment.",image:"illustrations/elodee-division-mesures.webp"},
+ {title:"La formule de la taille réelle",sub:"Relier le dessin aux micromètres",type:"formula",calculator:true,question:"On a vu : nombre de segments = taille de l’objet ÷ taille du segment. Pour trouver la taille réelle, glisse les cartes « taille de l’objet », « taille du segment » et « valeur réelle » dans la formule.",cards:[{id:"objet",label:"taille de l’objet"},{id:"segment",label:"taille du segment"},{id:"reel",label:"valeur réelle"}],formulaOps:["÷","×"],resultLabel:"taille réelle",answer:["objet","segment","reel"],explain:"Taille réelle = taille de l’objet ÷ taille du segment × valeur réelle du segment.",image:"illustrations/elodee-division-mesures.webp"},
  {title:"La taille précise",sub:"Multiplier par la valeur réelle",type:"calc",calcMode:"scale",headHint:"Quelle est la taille réelle de la cellule ?",question:"Quelle est la taille réelle de la cellule, en µm ? Tu as 12,2 ÷ 1,6 = 7,625. Complète : 12,2 ÷ 1,6 × … = … (exact ou arrondi au dixième).",answer:114.375,roundedAnswer:114.4,drawSize:12.2,scaleDraw:1.6,scaleReal:15,explain:"12,2 ÷ 1,6 × 15 = 114,375 µm (ou 114,4 µm au dixième). Étapes : 12,2 ÷ 1,6 = 7,625, puis 7,625 × 15 = 114,375.",image:"illustrations/elodee-division-mesures.webp",calculator:true},
  {title:"L’épaisseur d’une feuille",sub:"Donner du sens au micromètre",type:"qcm",question:"Sachant que 10 feuilles mesurent 1 mm, soit 1 000 µm, quelle est l’épaisseur d’une feuille ?",options:["100 µm","10 µm","1 mm","1 000 µm"],answer:0,explain:"1 000 µm ÷ 10 = 100 µm. Une feuille mesure donc environ 100 µm — presque la longueur de la cellule d’Élodée (114,4 µm).",image:"illustrations/repere-feuilles-question.webp",calculator:true},
  {title:"Une échelle plus grande",sub:"Comparer avant de calculer",type:"scale",question:"Glisse le segment de 2 µm le long de la bactérie. Que peux-tu conclure ?",options:["La bactérie est plus petite que le segment, mais dépasse sa moitié","La bactérie contient entre 1 et 2 segments entiers","La bactérie est exactement deux fois plus longue que le segment","La bactérie est plus petite que la moitié du segment"],answer:0,explain:"Le segment entier est plus long que la bactérie, mais sa moitié est plus courte : la bactérie mesure donc entre 0,5 et 1 segment.",image:"illustrations/bacterie-mesure.webp",scaleReal:2,segmentFraction:.60,stretch:false,subject:"bactérie"},
@@ -292,7 +292,7 @@ function scaleHelp(m){
   return `Glisse le segment bleu pour le comparer à ${m.subject||"l’objet"}.`;
 }
 function scaleLab(m){return `<div class="scale-lab"><div class="cell-stage" id="cellStage"><img src="${m.image}" alt="Support de mesure : ${m.subject}"><div class="scale-tape${m.stretch?"":" fixed"}" id="scaleTape" aria-label="Segment d’échelle déplaçable"><span class="tape-value">${m.scaleReal} µm</span>${m.stretch?'<b class="tape-handle" id="tapeHandle" title="Tirer pour dérouler"></b>':""}</div></div><div class="scale-help"><p class="scale-help-tip"><span class="scale-help-ico" aria-hidden="true">↔️</span>${scaleHelp(m)}</p><button class="secondary mini" id="resetTape" type="button">Recommencer</button></div></div>`}
-function keypadHTML(){return `<div class="keypad keypad-off" id="keypad" aria-label="Clavier numérique">${["1","2","3","4","5","6","7","8","9",",","0","⌫"].map(k=>`<button type="button" class="key" data-k="${k}">${k}</button>`).join("")}</div>`}
+function keypadHTML(){return `<div class="keypad" id="keypad" aria-label="Clavier numérique">${["1","2","3","4","5","6","7","8","9",",","0","⌫"].map(k=>`<button type="button" class="key" data-k="${k}">${k}</button>`).join("")}</div>`}
 function formulaHTML(m,handheld){
   const mode=m.calcMode||"result";
   const im=handheld?"none":"decimal";
@@ -338,6 +338,13 @@ function numOk(raw,exact,rounded){
   if(rounded!=null && decimals===1 && Math.abs(c-rounded)<.0005) return true;
   return false;
 }
+function wantsKeypad(m){
+  return !!(m&&(m.type==="calc"||(m.type==="formula"&&(m.answer||[]).length>=3)));
+}
+function touchPad(){
+  const root=document.documentElement;
+  return root.classList.contains("handheld")||root.classList.contains("android")||navigator.maxTouchPoints>0;
+}
 function shuffledOptions(m){const choices=m.options.map((text,index)=>({text,correct:index===m.answer}));for(let i=choices.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[choices[i],choices[j]]=[choices[j],choices[i]]}currentAnswer=choices.findIndex(choice=>choice.correct);return choices}
 function render(){
   const m=missions[current];
@@ -363,7 +370,7 @@ function render(){
   }
   if(m.type==="calc") quiz+=formulaHTML(m,handheld);
   if(m.type==="formula") quiz+=formulaSortHTML(m);
-  const pad=m.type==="calc"&&handheld&&!r.answered?keypadHTML():"";
+  const pad=wantsKeypad(m)&&touchPad()&&!r.answered?keypadHTML():"";
   const nextLabel=current===pathMax&&current===farthest?"Voir mon résultat":"Mission suivante →";
   const kind=m.type==="calc"?" is-calc":m.type==="formula"?" is-formula":"";
   $("#missionCard").innerHTML=`<div class="mission-split${hasMedia?" has-media":""}${kind}"><div class="mission-art">${head(m)}${m.type==="scale"?scaleLab(m):image(m)}</div><div class="mission-side"><div class="feedback" id="feedback"></div><div class="mission-quiz">${quiz}</div>${pad}</div></div><div class="actions"><button class="primary hidden" id="nextBtn">${nextLabel}</button></div>`;
@@ -378,7 +385,10 @@ function render(){
         if(r.calc.calcAnswer!=null&&$("#calcAnswer")) $("#calcAnswer").value=r.calc.calcAnswer;
       }
       document.querySelectorAll(".formula input, #calcBtn").forEach(el=>el.disabled=true);
-    }else wireCalc(m,handheld);
+    }else wireCalc(m,handheld||touchPad());
+  }else if($("#keypad")&&!r.answered){
+    calcTarget=null;
+    wireKeypadKeys();
   }
   if(r.answered){
     $("#feedback").innerHTML=`<b>${r.ok?"✓ Bien vu !":"✗ Pas tout à fait."}</b> ${r.explain}`;
@@ -392,6 +402,19 @@ function render(){
   $("#prevMission").onclick=prev;
   $("#nextMission").onclick=()=>{if(canForward()) next();};
 }
+function wireKeypadKeys(){
+  document.querySelectorAll("#keypad .key").forEach(btn=>{
+    btn.onclick=()=>{
+      if(locked) return;
+      const k=btn.dataset.k;
+      if(calcTarget){
+        if(k==="⌫") calcTarget.value=calcTarget.value.slice(0,-1);
+        else if(k==="," && (calcTarget.value.includes(",")||calcTarget.value.includes("."))) return;
+        else calcTarget.value+=k;
+      }else calcPress(k==="⌫"?"⌫":k);
+    };
+  });
+}
 function wireCalc(m,handheld){
   $("#calcBtn").onclick=answerCalc;
   const blanks=calcBlanks();
@@ -404,13 +427,8 @@ function wireCalc(m,handheld){
   wireCalcFieldKeys(blanks);
   if(handheld){
     blanks.forEach(el=>{el.readOnly=true;el.blur()});
-    document.querySelectorAll(".key").forEach(btn=>btn.onclick=()=>{
-      if(locked||!calcTarget)return;
-      const k=btn.dataset.k;
-      if(k==="⌫") calcTarget.value=calcTarget.value.slice(0,-1);
-      else if(k==="," && (calcTarget.value.includes(",")||calcTarget.value.includes("."))) return;
-      else calcTarget.value+=k;
-    });
+    wireKeypadKeys();
+    showKeypad();
   }else if(calcTarget) calcTarget.focus();
 }
 function calcBlanks(){
@@ -1026,12 +1044,6 @@ document.addEventListener("pointerdown",e=>{
   if(!$("#calcPop")||$("#calcPop").hidden) return;
   if(e.target.closest("#calcPop, #calcToggle")) return;
   closeCalc();
-});
-document.addEventListener("pointerdown",e=>{
-  const pad=$("#keypad");
-  if(!pad||pad.classList.contains("keypad-off")) return;
-  if(e.target.closest("#keypad, .formula input")) return;
-  hideKeypad();
 });
 function gameActive(){return $("#gameScreen")&&$("#gameScreen").classList.contains("active")}
 function overlayBlocks(){
