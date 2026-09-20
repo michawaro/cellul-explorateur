@@ -875,6 +875,13 @@ function goTo(i){
   render();
   saveSession();
 }
+function resultMascot(ratio){
+  const dir="illustrations/pack-feedback-celluloscope/";
+  if(ratio>=.8) return {src:dir+"04-excellent.webp",alt:"Personnage félicité pour un excellent résultat"};
+  if(ratio>=.6) return {src:dir+"03-pas-mal.webp",alt:"Personnage encouragé : pas mal"};
+  if(ratio>=.4) return {src:dir+"02-cest-ok.webp",alt:"Personnage : c’est ok"};
+  return {src:dir+"01-pas-top.webp",alt:"Personnage : encore un effort"};
+}
 function result(){
   show("#resultScreen");
   const max=pathMaxScore();
@@ -894,7 +901,11 @@ function result(){
   }
   $("#resultTitle").textContent=title;
   $("#resultText").textContent=text;
-  $("#resultBadge").textContent=badge;
+  const badgeEl=$("#resultBadge");
+  if(badgeEl){badgeEl.textContent=badge;badgeEl.classList.add("hidden")}
+  const mascot=resultMascot(max?score/max:0);
+  const mascotImg=$("#resultMascotImg");
+  if(mascotImg){mascotImg.src=mascot.src;mascotImg.alt=mascot.alt}
   const promo=$("#resultPromo"), recapS=$("#recapStructures"), recapM=$("#recapMesure");
   if(promo) promo.classList.toggle("hidden",!isStructuresPath());
   if(recapS) recapS.classList.add("hidden");
