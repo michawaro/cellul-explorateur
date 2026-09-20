@@ -6,16 +6,16 @@ const missions=[
  {title:"Le duel des cellules",sub:"Comparer sans confondre",type:"compare",question:"Quelle proposition compare correctement une bactérie et une cellule de muqueuse buccale ?",options:["La bactérie est généralement bien plus petite et ne possède pas de noyau.","La bactérie est plus petite, mais possède un noyau plus discret.","La cellule buccale est plus petite car elle ne possède pas de paroi."],answer:0,explain:"Les bactéries sont en général bien plus petites que les cellules animales et leur ADN n’est pas enfermé dans un noyau.",image:"illustrations/bacteries-cellule-buccale-v2.webp"},
  {title:"Déroule l’échelle",sub:"Manipuler avant de calculer",type:"scale",question:"Place le segment de 15 µm au début de la cellule, puis tire sur sa poignée jusqu’à l’autre extrémité. Combien de segments entiers entrent dans sa longueur ?",options:["Entre 7 et 8 segments","Entre 5 et 6 segments","Entre 8 et 9 segments","Entre 10 et 11 segments"],answer:0,explain:"On peut placer 7 segments complets, mais pas un huitième : la longueur correspond donc à un peu plus de 7 segments et à moins de 8.",image:"illustrations/elodee-estimation-interactive.webp",scaleReal:15,cellLeft:110/1200,cellSpan:844/1200,segmentCount:7.625,tapeTop:464/645,stretch:true,subject:"cellule d’Élodée"},
  {title:"Encadre la taille",sub:"Passer des segments aux micromètres",type:"qcm",question:"Le segment représente 15 µm. La cellule contient entre 7 et 8 segments. Quel intervalle de taille réelle peux-tu prévoir ?",options:["105 µm < taille < 120 µm","7 µm < taille < 8 µm","15 µm < taille < 105 µm","120 µm < taille < 135 µm"],answer:0,explain:"7 × 15 = 105 µm et 8 × 15 = 120 µm. Le résultat précis devra obligatoirement être compris entre ces deux valeurs.",image:"illustrations/elodee-encadrement-tape.webp",calculator:true},
- {title:"La formule des segments",sub:"Réfléchir avant de calculer",type:"formula",question:"Pour trouver combien de fois le segment entre dans une mesure, glisse les cartes « taille de l’objet » et « taille du segment » dans la formule.",cards:[{id:"objet",label:"taille de l’objet"},{id:"segment",label:"taille du segment"}],formulaOps:["÷"],resultLabel:"nombre de segments",answer:["objet","segment"],explain:"On divise la taille de l’objet (sur le dessin) par la taille du segment (sur le dessin) : taille de l’objet ÷ taille du segment = nombre de segments.",image:"illustrations/elodee-division-mesures.webp"},
+ {title:"Lien taille/nombre de segments",sub:"Réfléchir avant de calculer",type:"formula",question:"Glisse les cartes dans les cases vides.",cards:[{id:"objet",label:"Taille de l’objet à mesurer sur la photo"},{id:"segment",label:"Taille du segment de légende sur la photo"}],formulaOps:["÷"],resultLabel:"Taille de l’objet en nombre de segments",answer:["objet","segment"],explain:"On divise la taille de l’objet (sur la photo) par la taille du segment de légende : taille de l’objet ÷ taille du segment = nombre de segments.",image:"illustrations/elodee-division-mesures.webp"},
  {title:"Combien de segments ?",sub:"Diviser pour mesurer",type:"calc",calcMode:"ratio",question:"Combien de fois le segment d’échelle entre-t-il dans la longueur dessinée de la cellule ? Complète : 12,2 ÷ … = … (valeur exacte ou arrondie au dixième).",answer:7.625,roundedAnswer:7.6,drawSize:12.2,scaleDraw:1.6,explain:"12,2 ÷ 1,6 = 7,625, soit 7,6 au dixième. La cellule contient donc un peu plus de 7 segments d’échelle.",image:"illustrations/elodee-division-mesures.webp",calculator:true},
  {title:"La formule de la taille réelle",sub:"Relier le dessin aux micromètres",type:"formula",question:"On a vu : nombre de segments = taille de l’objet ÷ taille du segment. Pour trouver la taille réelle, glisse les cartes « taille de l’objet », « taille du segment » et « valeur réelle » dans la formule.",cards:[{id:"objet",label:"taille de l’objet"},{id:"segment",label:"taille du segment"},{id:"reel",label:"valeur réelle"}],formulaOps:["÷","×"],resultLabel:"taille réelle",answer:["objet","segment","reel"],explain:"Taille réelle = taille de l’objet ÷ taille du segment × valeur réelle du segment.",image:"illustrations/elodee-division-mesures.webp"},
- {title:"La taille précise",sub:"Multiplier par la valeur réelle",type:"calc",calcMode:"scale",question:"Tu as 12,2 ÷ 1,6 = 7,625, ce qui signifie que le segment entre 7,625 fois dans la cellule. Multiplie par la valeur réelle du segment pour obtenir la taille réelle. Valeur exacte ou arrondie au dixième.",answer:114.375,roundedAnswer:114.4,drawSize:12.2,scaleDraw:1.6,scaleReal:15,explain:"12,2 ÷ 1,6 × 15 = 114,375 µm (ou 114,4 µm au dixième). Étapes : 12,2 ÷ 1,6 = 7,625, puis 7,625 × 15 = 114,375.",image:"illustrations/elodee-division-mesures.webp",calculator:true},
+ {title:"La taille précise",sub:"Multiplier par la valeur réelle",type:"calc",calcMode:"scale",headHint:"Quelle est la taille réelle de la cellule ?",question:"Quelle est la taille réelle de la cellule, en µm ? Tu as 12,2 ÷ 1,6 = 7,625. Complète : 12,2 ÷ 1,6 × … = … (exact ou arrondi au dixième).",answer:114.375,roundedAnswer:114.4,drawSize:12.2,scaleDraw:1.6,scaleReal:15,explain:"12,2 ÷ 1,6 × 15 = 114,375 µm (ou 114,4 µm au dixième). Étapes : 12,2 ÷ 1,6 = 7,625, puis 7,625 × 15 = 114,375.",image:"illustrations/elodee-division-mesures.webp",calculator:true},
  {title:"L’épaisseur d’une feuille",sub:"Donner du sens au micromètre",type:"qcm",question:"Sachant que 10 feuilles mesurent 1 mm, soit 1 000 µm, quelle est l’épaisseur d’une feuille ?",options:["100 µm","10 µm","1 mm","1 000 µm"],answer:0,explain:"1 000 µm ÷ 10 = 100 µm. Une feuille mesure donc environ 100 µm — presque la longueur de la cellule d’Élodée (114,4 µm).",image:"illustrations/repere-feuilles-question.webp",calculator:true},
  {title:"Une échelle plus grande",sub:"Comparer avant de calculer",type:"scale",question:"Glisse le segment de 2 µm le long de la bactérie. Que peux-tu conclure ?",options:["La bactérie est plus petite que le segment, mais dépasse sa moitié","La bactérie contient entre 1 et 2 segments entiers","La bactérie est exactement deux fois plus longue que le segment","La bactérie est plus petite que la moitié du segment"],answer:0,explain:"Le segment entier est plus long que la bactérie, mais sa moitié est plus courte : la bactérie mesure donc entre 0,5 et 1 segment.",image:"illustrations/bacterie-mesure.webp",scaleReal:2,segmentFraction:.60,stretch:false,subject:"bactérie"},
  {title:"Encadre la bactérie",sub:"Passer aux micromètres",type:"qcm",question:"La bactérie mesure entre 0,5 et 1 segment, et un segment représente 2 µm. Quel est son intervalle de taille ?",options:["1 µm < taille < 2 µm","0,5 µm < taille < 1 µm","2 µm < taille < 4 µm","0 µm < taille < 0,5 µm"],answer:0,explain:"0,5 × 2 = 1 µm et 1 × 2 = 2 µm. La bactérie mesure donc entre 1 et 2 µm.",calculator:true},
  {title:"La taille de la bactérie",sub:"Appliquer la méthode complète",type:"calc",calcMode:"result",question:"Sur le document, la bactérie mesure 3,5 cm et le segment représentant 2 µm mesure 5 cm. Calcule la taille réelle de la bactérie. La valeur exacte ou son arrondi au dixième sont acceptés.",answer:1.4,roundedAnswer:1.4,drawSize:3.5,scaleDraw:5,scaleReal:2,explain:"3,5 ÷ 5 = 0,7 segment, puis 0,7 × 2 = 1,4 µm. Le résultat appartient bien à l’intervalle prévu entre 1 et 2 µm.",image:"illustrations/bacterie-mesure.webp",calculator:true}
 ];
-let current=0,score=0,locked=false,currentAnswer=0,inAppDismissed=false,calcTarget=null,farthest=0,pathMin=0,pathMax=missions.length-1;
+let current=0,score=0,locked=false,currentAnswer=0,inAppDismissed=false,calcTarget=null,farthest=0,pathMin=0,pathMax=missions.length-1,fsGateTimer=0;
 const PATH_STRUCTURES={min:0,max:4},PATH_MESURE={min:5,max:missions.length-1};
 const records=[];
 const SESSION_KEY="celluloscope-session";
@@ -153,6 +153,14 @@ function fitLayout(){
     gate.classList.toggle("show",showGate);
     gate.setAttribute("aria-hidden",showGate?"false":"true");
     gate.inert=!showGate;
+    if(showGate&&!fsGateTimer){
+      fsGateTimer=setTimeout(()=>{
+        document.documentElement.classList.add("fs-tried");
+        fsGateTimer=0;
+        fitLayout();
+      },1500);
+    }
+    if(!showGate&&fsGateTimer){clearTimeout(fsGateTimer);fsGateTimer=0}
   }
   const browserGate=$("#browserGate");
   if(browserGate){
@@ -169,9 +177,10 @@ function fitLayout(){
 async function enterImmersive(){
   if(isInAppBrowser())return;
   const root=document.documentElement;
+  const wasFs=!!(document.fullscreenElement||document.webkitFullscreenElement);
   const withTimeout=(p,ms=450)=>Promise.race([Promise.resolve(p).catch(()=>{}),new Promise(r=>setTimeout(r,ms))]);
   const req=root.requestFullscreen||root.webkitRequestFullscreen;
-  if(req&&!document.fullscreenElement&&!document.webkitFullscreenElement){
+  if(req&&!wasFs){
     await withTimeout(req.call(root,{navigationUI:"hide"}));
   }
   if(isHandheld()){
@@ -181,6 +190,8 @@ async function enterImmersive(){
   }
   document.documentElement.classList.add("fs-tried");
   fitLayout();
+  const nowFs=!!(document.fullscreenElement||document.webkitFullscreenElement);
+  if(nowFs&&!wasFs) toast("Échap pour quitter.",1500);
 }
 function pathCount(){return pathMax-pathMin+1}
 function pathMaxScore(){return pathCount()*100}
@@ -255,7 +266,9 @@ function canForward(){
 function head(m){
   const calc=needsCalculator(m)?`<button class="calc-toggle" id="calcToggle" type="button" aria-label="Ouvrir la calculette" aria-expanded="false"><span class="calc-glyph" aria-hidden="true"></span><span class="calc-label">Calculette</span></button>`:"";
   const mNum=current-pathMin+1, mTotal=pathCount();
-  return `<div class="mission-head"><button type="button" class="nav-arrow" id="prevMission" aria-label="Mission précédente"${current===pathMin?" disabled":""}>‹</button><div class="mission-num">${mNum}</div><div class="mission-titles"><span class="eyebrow">Mission ${mNum} sur ${mTotal}</span><h1>${m.title}</h1><p>${m.sub}</p></div>${calc}<button type="button" class="nav-arrow" id="nextMission" aria-label="Mission suivante"${canForward()?"":" disabled"}>›</button></div>`;
+  const hintText=m.headHint||(m.type==="formula"?"Glisse les cartes dans les cases vides":"");
+  const hint=hintText?`<span class="formula-head-hint">${hintText}</span>`:"";
+  return `<div class="mission-head"><button type="button" class="nav-arrow" id="prevMission" aria-label="Mission précédente"${current===pathMin?" disabled":""}>‹</button><div class="mission-num">${mNum}</div><div class="mission-titles"><span class="eyebrow">Mission ${mNum} sur ${mTotal}</span><div class="mission-title-row"><h1>${m.title}</h1>${hint}</div><p>${m.sub}</p></div>${calc}<button type="button" class="nav-arrow" id="nextMission" aria-label="Mission suivante"${canForward()?"":" disabled"}>›</button></div>`;
 }
 function image(m){
   if(m.images?.length){
@@ -311,7 +324,7 @@ function formulaSortHTML(m){
     if(i<ops.length) row+=`<span>${ops[i]}</span>`;
   });
   const bank=r.cards.map(c=>`<button type="button" class="chip" data-card="${c.id}">${c.label}</button>`).join("");
-  return `<div class="formula-sort"><div class="formula formula-drop">${row}<span>=</span><em class="formula-result">${m.resultLabel}</em><button class="primary" id="calcBtn">Vérifier</button></div><p class="formula-hint">Glisse les cartes dans les cases vides.</p><div class="formula-bank" id="formulaBank">${bank}</div></div>`;
+  return `<div class="formula-sort"><div class="formula formula-drop">${row}<span>=</span><em class="formula-result">${m.resultLabel}</em><button class="primary" id="calcBtn">Vérifier</button></div><div class="formula-bank" id="formulaBank">${bank}</div></div>`;
 }
 function placedCards(){
   return [...document.querySelectorAll(".formula-slot")].map(s=>s.querySelector(".chip")?.dataset.card||"");
@@ -353,7 +366,7 @@ function render(){
   const pad=m.type==="calc"&&handheld&&!r.answered?keypadHTML():"";
   const nextLabel=current===pathMax&&current===farthest?"Voir mon résultat":"Mission suivante →";
   const kind=m.type==="calc"?" is-calc":m.type==="formula"?" is-formula":"";
-  $("#missionCard").innerHTML=head(m)+`<div class="feedback" id="feedback"></div><div class="mission-main${hasMedia?" has-media":""}${kind}">${m.type==="scale"?scaleLab(m):image(m)}<div class="mission-quiz">${quiz}</div>${pad}</div><div class="actions"><button class="primary hidden" id="nextBtn">${nextLabel}</button></div>`;
+  $("#missionCard").innerHTML=`<div class="mission-split${hasMedia?" has-media":""}${kind}"><div class="mission-art">${head(m)}${m.type==="scale"?scaleLab(m):image(m)}</div><div class="mission-side"><div class="feedback" id="feedback"></div><div class="mission-quiz">${quiz}</div>${pad}</div></div><div class="actions"><button class="primary hidden" id="nextBtn">${nextLabel}</button></div>`;
   document.querySelectorAll(".option").forEach(b=>b.onclick=()=>answerOption(+b.dataset.i));
   if(m.type==="scale") initScaleLab(m);
   if(m.type==="formula") initFormula(m,r);
@@ -703,7 +716,7 @@ function answerCalc(){
   const freeze=()=>{
     locked=true;
     document.querySelectorAll(".formula input, #calcBtn").forEach(el=>el.disabled=true);
-    const pad=$("#keypad"); if(pad) pad.classList.add("hidden");
+    const pad=$("#keypad"); if(pad) pad.classList.add("keypad-off");
   };
   if(mode==="ratio"){
     const divRaw=$("#scaleDraw").value, quotRaw=$("#calcAnswer").value;
@@ -792,7 +805,7 @@ function result(){
   if(recapM) recapM.classList.add("hidden");
   saveSession();
 }
-function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");setTimeout(()=>el.classList.remove("show"),1800)}
+function toast(t,ms=1500){const el=$("#toast");if(!el)return;el.textContent=t;el.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove("show"),ms)}
 function openInBrowser(){
   const hostPath=location.host+location.pathname+location.search;
   const url=location.href;
