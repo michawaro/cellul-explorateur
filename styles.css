@@ -831,27 +831,34 @@ html.fit.landscape:not(.compact) .mission-side .mission-quiz{
 }
 .quiz-copy{min-width:0;position:relative}
 .quiz-prompt{display:none}
+html.fit:not(.compact) .quiz-prompt,
 html.fit.landscape:not(.compact) .quiz-prompt{
   display:flex;
+  position:relative;
+  left:auto;
+  top:auto;
+  transform:none;
   align-items:flex-end;
   justify-content:center;
-  position:absolute;
-  left:50%;
-  top:0;
-  transform:translate(-50%,calc(-100% - 4px));
-  width:min(160px,22vw);
-  height:min(148px,22vh);
-  margin:0;
+  width:100%;
+  height:min(168px,24vh);
+  margin:0 0 6px;
+  flex:0 0 auto;
   pointer-events:none;
   z-index:2;
 }
+html.fit:not(.compact) .quiz-prompt img,
 html.fit.landscape:not(.compact) .quiz-prompt img{
   display:block;
   width:auto;
   height:auto;
-  max-width:100%;
+  max-width:min(168px,22vw);
   max-height:100%;
   object-fit:contain;
+}
+html.iphone .quiz-prompt,
+html.handheld.compact .quiz-prompt{
+  display:none!important;
 }
 .formula-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .formula-wrap .formula{flex:1 1 220px;margin:0}
