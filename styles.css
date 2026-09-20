@@ -634,11 +634,12 @@ html.handheld .yt-dock{display:none!important}
 html.fit .mission-split,html.handheld .mission-split{
   display:grid;
   grid-template-columns:minmax(0,1.12fr) minmax(300px,1.05fr);
-  gap:10px;
+  gap:10px 18px;
   overflow:hidden;
   align-items:stretch;
   flex:1 1 auto;
   min-height:0;
+  position:relative;
 }
 html.fit .is-formula,html.handheld .is-formula{
   grid-template-columns:minmax(0,1.85fr) minmax(250px,.58fr);
@@ -651,6 +652,21 @@ html.fit .mission-art,html.handheld .mission-art{
 html.fit .mission-art .mission-head,html.handheld .mission-art .mission-head{
   flex:0 0 auto;
   margin-bottom:4px;
+  padding-right:18px;
+  position:relative;
+  z-index:6;
+  justify-content:flex-start;
+}
+html.fit .mission-art .mission-titles,html.handheld .mission-art .mission-titles{
+  flex:0 1 auto;
+}
+html.fit .mission-art .nav-arrow,html.handheld .mission-art .nav-arrow{
+  position:relative;
+  z-index:7;
+  flex-shrink:0;
+}
+html.fit .mission-art #nextMission,html.handheld .mission-art #nextMission{
+  margin-right:6px;
 }
 html.fit .mission-art .image-panel,
 html.fit .mission-art .scale-lab,
@@ -729,6 +745,22 @@ html.fit .mission-side .mission-quiz,html.handheld .mission-side .mission-quiz{
   width:100%;
   margin:0;
 }
+html.fit.landscape:not(.compact) .mission-side{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+html.fit.landscape:not(.compact) .mission-side .mission-quiz{
+  flex:0 1 auto;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  max-height:100%;
+}
+.quiz-copy{min-width:0}
+.formula-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.formula-wrap .formula{flex:1 1 220px;margin:0}
+.formula-wrap #calcBtn{flex:0 0 auto}
 html.fit .mission-side .keypad,html.handheld .mission-side .keypad{flex:0 0 auto}
 html.fit .mission-card>.actions,html.handheld .mission-card>.actions{
   position:absolute!important;
@@ -751,12 +783,46 @@ html.fit .is-calc .question,html.handheld .is-calc .question{
 html.fit .is-calc .mission-quiz,html.handheld .is-calc .mission-quiz{
   padding-bottom:108px;
 }
+html.fit.landscape:not(.compact) .is-calc .mission-quiz{
+  padding-bottom:0;
+}
 html.fit .is-calc .formula,html.handheld .is-calc .formula{
   margin-bottom:8px;
 }
-html.fit .is-calc #calcBtn,html.handheld .is-calc #calcBtn{
-  position:relative;
-  z-index:6;
+html.fit.landscape:not(.compact) .is-calc,
+html.fit.landscape:not(.compact) .is-formula{
+  grid-template-rows:minmax(0,1fr) auto;
+}
+html.fit.landscape:not(.compact) .mission-split>.formula-wrap{
+  grid-column:1/-1;
+  flex-wrap:nowrap;
+  flex-direction:column;
+  align-items:stretch;
+  gap:10px;
+  padding:4px 4px 0;
+}
+html.fit.landscape:not(.compact) .mission-split>.formula-wrap .formula{
+  flex:1 1 auto;
+  width:100%;
+  min-height:64px;
+  padding:14px 16px;
+  gap:12px;
+  font-size:18px;
+}
+html.fit.landscape:not(.compact) .mission-split>.formula-wrap .formula input{
+  min-height:48px;
+  font-size:20px;
+}
+html.fit.landscape:not(.compact) .mission-split>.formula-wrap .formula-slot{
+  min-width:140px;
+  min-height:52px;
+  max-width:none;
+  flex:1 1 160px;
+}
+html.fit.landscape:not(.compact) .mission-split>.formula-wrap #calcBtn{
+  align-self:flex-end;
+  min-height:44px;
+  padding:12px 22px;
 }
 html.fit .is-formula .mission-head p,html.handheld .is-formula .mission-head p{display:none}
 html.fit .is-formula .mission-head,html.handheld .is-formula .mission-head{margin-bottom:2px}

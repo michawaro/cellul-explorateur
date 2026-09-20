@@ -12,7 +12,7 @@ const missions=[
  {title:"La taille précise",sub:"Multiplier par la valeur réelle",type:"calc",calcMode:"scale",headHint:"Quelle est la taille réelle de la cellule ?",question:"Quelle est la taille réelle de la cellule, en µm ? Tu as 12,2 ÷ 1,6 = 7,625. Complète : 12,2 ÷ 1,6 × … = … (exact ou arrondi au dixième).",answer:114.375,roundedAnswer:114.4,drawSize:12.2,scaleDraw:1.6,scaleReal:15,explain:"12,2 ÷ 1,6 × 15 = 114,375 µm (ou 114,4 µm au dixième). Étapes : 12,2 ÷ 1,6 = 7,625, puis 7,625 × 15 = 114,375.",image:"illustrations/elodee-division-mesures.webp",calculator:true},
  {title:"L’épaisseur d’une feuille",sub:"Donner du sens au micromètre",type:"qcm",question:"Sachant que 10 feuilles mesurent 1 mm, soit 1 000 µm, quelle est l’épaisseur d’une feuille ?",options:["100 µm","10 µm","1 mm","1 000 µm"],answer:0,explain:"1 000 µm ÷ 10 = 100 µm. Une feuille mesure donc environ 100 µm — presque la longueur de la cellule d’Élodée (114,4 µm).",image:"illustrations/repere-feuilles-question.webp",calculator:true},
  {title:"Une échelle plus grande",sub:"Comparer avant de calculer",type:"scale",question:"Glisse le segment de 2 µm le long de la bactérie. Que peux-tu conclure ?",options:["La bactérie est plus petite que le segment, mais dépasse sa moitié","La bactérie contient entre 1 et 2 segments entiers","La bactérie est exactement deux fois plus longue que le segment","La bactérie est plus petite que la moitié du segment"],answer:0,explain:"Le segment entier est plus long que la bactérie, mais sa moitié est plus courte : la bactérie mesure donc entre 0,5 et 1 segment.",image:"illustrations/bacterie-mesure.webp",scaleReal:2,segmentFraction:.60,stretch:false,subject:"bactérie"},
- {title:"Encadre la bactérie",sub:"Passer aux micromètres",type:"qcm",question:"La bactérie mesure entre 0,5 et 1 segment, et un segment représente 2 µm. Quel est son intervalle de taille ?",options:["1 µm < taille < 2 µm","0,5 µm < taille < 1 µm","2 µm < taille < 4 µm","0 µm < taille < 0,5 µm"],answer:0,explain:"0,5 × 2 = 1 µm et 1 × 2 = 2 µm. La bactérie mesure donc entre 1 et 2 µm.",calculator:true},
+ {title:"Encadre la bactérie",sub:"Passer aux micromètres",type:"qcm",question:"La bactérie mesure entre 0,5 et 1 segment, et un segment représente 2 µm. Quel est son intervalle de taille ?",options:["1 µm < taille < 2 µm","0,5 µm < taille < 1 µm","2 µm < taille < 4 µm","0 µm < taille < 0,5 µm"],answer:0,explain:"0,5 × 2 = 1 µm et 1 × 2 = 2 µm. La bactérie mesure donc entre 1 et 2 µm.",image:"illustrations/bacterie-encadrement-tape.png",calculator:true},
  {title:"La taille de la bactérie",sub:"Appliquer la méthode complète",type:"calc",calcMode:"result",question:"Sur le document, la bactérie mesure 3,5 cm et le segment représentant 2 µm mesure 5 cm. Calcule la taille réelle de la bactérie. La valeur exacte ou son arrondi au dixième sont acceptés.",answer:1.4,roundedAnswer:1.4,drawSize:3.5,scaleDraw:5,scaleReal:2,explain:"3,5 ÷ 5 = 0,7 segment, puis 0,7 × 2 = 1,4 µm. Le résultat appartient bien à l’intervalle prévu entre 1 et 2 µm.",image:"illustrations/bacterie-mesure.webp",calculator:true}
 ];
 let current=0,score=0,locked=false,currentAnswer=0,inAppDismissed=false,calcTarget=null,farthest=0,pathMin=0,pathMax=missions.length-1,fsGateTimer=0;
@@ -172,6 +172,7 @@ function fitLayout(){
     browserGate.inert=!showBrowser;
   }
   placeCalc();
+  placeFormulaBar();
   if(window._scaleTapeSync) window._scaleTapeSync();
 }
 async function enterImmersive(){
@@ -299,12 +300,12 @@ function formulaHTML(m,handheld){
   const v=x=>String(x).replace(".",",");
   const blank=(id,label,ph)=>`<input id="${id}" inputmode="${im}" autocomplete="off" placeholder="${ph}" aria-label="${label}">`;
   if(mode==="ratio"){
-    return `<div class="formula ratio"><input id="drawSize" value="${v(m.drawSize)}" readonly aria-label="Longueur du dessin"><span>÷</span>${blank("scaleDraw","Longueur dessinée du segment","…")}<span>=</span>${blank("calcAnswer","Nombre de segments","…")}<button class="primary" id="calcBtn">Vérifier</button></div>`;
+    return `<div class="formula-wrap"><div class="formula ratio"><input id="drawSize" value="${v(m.drawSize)}" readonly aria-label="Longueur du dessin"><span>÷</span>${blank("scaleDraw","Longueur dessinée du segment","…")}<span>=</span>${blank("calcAnswer","Nombre de segments","…")}</div><button class="primary" id="calcBtn">Vérifier</button></div>`;
   }
   if(mode==="scale"){
-    return `<div class="formula scale"><input id="drawSize" value="${v(m.drawSize)}" readonly aria-label="Longueur du dessin"><span>÷</span><input id="scaleDraw" value="${v(m.scaleDraw)}" readonly aria-label="Longueur dessinée du segment"><span>×</span>${blank("scaleRealInput","Valeur réelle du segment en µm","…")}<span>=</span>${blank("calcAnswer","Taille réelle en micromètres","… µm")}<button class="primary" id="calcBtn">Vérifier</button></div>`;
+    return `<div class="formula-wrap"><div class="formula scale"><input id="drawSize" value="${v(m.drawSize)}" readonly aria-label="Longueur du dessin"><span>÷</span><input id="scaleDraw" value="${v(m.scaleDraw)}" readonly aria-label="Longueur dessinée du segment"><span>×</span>${blank("scaleRealInput","Valeur réelle du segment en µm","…")}<span>=</span>${blank("calcAnswer","Taille réelle en micromètres","… µm")}</div><button class="primary" id="calcBtn">Vérifier</button></div>`;
   }
-  return `<div class="formula"><input id="drawSize" value="${v(m.drawSize)}" readonly aria-label="Longueur du dessin"><span>÷</span><input id="scaleDraw" value="${v(m.scaleDraw)}" readonly aria-label="Longueur dessinée du segment"><span>× ${v(m.scaleReal)} µm =</span>${blank("calcAnswer","Taille réelle en micromètres","Réponse en µm")}<button class="primary" id="calcBtn">Vérifier</button></div>`;
+  return `<div class="formula-wrap"><div class="formula"><input id="drawSize" value="${v(m.drawSize)}" readonly aria-label="Longueur du dessin"><span>÷</span><input id="scaleDraw" value="${v(m.scaleDraw)}" readonly aria-label="Longueur dessinée du segment"><span>× ${v(m.scaleReal)} µm =</span>${blank("calcAnswer","Taille réelle en micromètres","Réponse en µm")}</div><button class="primary" id="calcBtn">Vérifier</button></div>`;
 }
 function shuffleList(list){
   const a=list.slice();
@@ -324,7 +325,11 @@ function formulaSortHTML(m){
     if(i<ops.length) row+=`<span>${ops[i]}</span>`;
   });
   const bank=r.cards.map(c=>`<button type="button" class="chip" data-card="${c.id}">${c.label}</button>`).join("");
-  return `<div class="formula-sort"><p class="formula-hint">Glisse les étiquettes dans les cases vides.</p><div class="formula formula-drop">${row}<span>=</span><em class="formula-result">${m.resultLabel}</em><button class="primary" id="calcBtn">Vérifier</button></div><div class="formula-bank" id="formulaBank">${bank}</div></div>`;
+  return {
+    intro:`<p class="formula-hint">Glisse les étiquettes dans les cases vides.</p>`,
+    wrap:`<div class="formula-wrap"><div class="formula formula-drop">${row}<span>=</span><em class="formula-result">${m.resultLabel}</em></div><button class="primary" id="calcBtn">Vérifier</button></div>`,
+    bank:`<div class="formula-bank" id="formulaBank">${bank}</div>`
+  };
 }
 function placedCards(){
   return [...document.querySelectorAll(".formula-slot")].map(s=>s.querySelector(".chip")?.dataset.card||"");
@@ -341,6 +346,24 @@ function numOk(raw,exact,rounded){
 function wantsKeypad(m){
   return !!(m&&m.type==="calc");
 }
+function isRoomyLayout(){
+  const root=document.documentElement;
+  return root.classList.contains("fit")&&root.classList.contains("landscape")&&!root.classList.contains("compact");
+}
+function placeFormulaBar(){
+  const split=$(".mission-split");
+  const wrap=$(".formula-wrap");
+  const quiz=$(".mission-quiz");
+  const bank=$("#formulaBank")||$(".formula-bank");
+  if(!split||!wrap||!quiz) return;
+  const roomy=(split.classList.contains("is-calc")||split.classList.contains("is-formula"))&&isRoomyLayout();
+  if(roomy){
+    split.appendChild(wrap);
+    return;
+  }
+  if(bank&&bank.parentNode===quiz) quiz.insertBefore(wrap,bank);
+  else quiz.appendChild(wrap);
+}
 function touchPad(){
   const root=document.documentElement;
   return root.classList.contains("handheld")||root.classList.contains("android")||navigator.maxTouchPoints>0;
@@ -355,7 +378,7 @@ function render(){
   const pathDone=Math.min(Math.max(farthest-pathMin+(records[farthest]&&records[farthest].answered?1:0),0),pathCount());
   $("#progressBar").style.width=`${pathDone/pathCount()*100}%`;
   const hasMedia=m.type==="scale"||!!m.image||!!m.images?.length;
-  let quiz=`<div class="question">${m.question}</div>`;
+  let quiz=`<div class="quiz-copy"><div class="question">${m.question}</div>`;
   if(m.type==="qcm"||m.type==="compare"||m.type==="scale"){
     if(!r.options) r.options=shuffledOptions(m);
     else currentAnswer=r.options.findIndex(choice=>choice.correct);
@@ -368,8 +391,11 @@ function render(){
       return `<button class="${cls.join(" ")}" data-i="${i}"${r.answered?" disabled":""}>${choice.text}</button>`;
     }).join("")}</div>`;
   }
-  if(m.type==="calc") quiz+=formulaHTML(m,handheld);
-  if(m.type==="formula") quiz+=formulaSortHTML(m);
+  if(m.type==="calc") quiz+=`</div>${formulaHTML(m,handheld)}`;
+  else if(m.type==="formula"){
+    const parts=formulaSortHTML(m);
+    quiz+=`${parts.intro}</div>${parts.wrap}${parts.bank}`;
+  }else quiz+=`</div>`;
   const pad=wantsKeypad(m)&&touchPad()&&!r.answered?keypadHTML():"";
   const nextLabel=current===pathMax&&current===farthest?"Voir mon résultat":"Mission suivante →";
   const kind=m.type==="calc"?" is-calc":m.type==="formula"?" is-formula":"";
@@ -397,6 +423,7 @@ function render(){
   }
   syncCalc(m);
   alignFeedback();
+  placeFormulaBar();
   wireCalcToggle();
   $("#nextBtn").onclick=next;
   $("#prevMission").onclick=prev;
