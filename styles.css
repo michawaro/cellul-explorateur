@@ -809,7 +809,30 @@ html.fit.landscape:not(.compact) .mission-side .mission-quiz{
   justify-content:center;
   max-height:100%;
 }
-.quiz-copy{min-width:0}
+.quiz-copy{min-width:0;position:relative}
+.quiz-prompt{display:none}
+html.fit.landscape:not(.compact) .quiz-prompt{
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  position:absolute;
+  left:50%;
+  top:0;
+  transform:translate(-50%,calc(-100% - 4px));
+  width:min(160px,22vw);
+  height:min(148px,22vh);
+  margin:0;
+  pointer-events:none;
+  z-index:2;
+}
+html.fit.landscape:not(.compact) .quiz-prompt img{
+  display:block;
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+}
 .formula-wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .formula-wrap .formula{flex:1 1 220px;margin:0}
 .formula-wrap #calcBtn{flex:0 0 auto}
