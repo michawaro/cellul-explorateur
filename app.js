@@ -292,7 +292,7 @@ function scaleHelp(m){
   return `Glisse le segment bleu pour le comparer à ${m.subject||"l’objet"}.`;
 }
 function scaleLab(m){return `<div class="scale-lab"><div class="cell-stage" id="cellStage"><img src="${m.image}" alt="Support de mesure : ${m.subject}"><div class="scale-tape${m.stretch?"":" fixed"}" id="scaleTape" aria-label="Segment d’échelle déplaçable"><span class="tape-value">${m.scaleReal} µm</span>${m.stretch?'<b class="tape-handle" id="tapeHandle" title="Tirer pour dérouler"></b>':""}</div></div><div class="scale-help"><p class="scale-help-tip"><span class="scale-help-ico" aria-hidden="true">↔️</span>${scaleHelp(m)}</p><button class="secondary mini" id="resetTape" type="button">Recommencer</button></div></div>`}
-function keypadHTML(){return `<div class="keypad" id="keypad" aria-label="Clavier numérique">${["1","2","3","4","5","6","7","8","9",",","0","⌫"].map(k=>`<button type="button" class="key" data-k="${k}">${k}</button>`).join("")}</div>`}
+function keypadHTML(){return `<div class="keypad keypad-off" id="keypad" aria-label="Clavier numérique">${["1","2","3","4","5","6","7","8","9",",","0","⌫"].map(k=>`<button type="button" class="key" data-k="${k}">${k}</button>`).join("")}</div>`}
 function formulaHTML(m,handheld){
   const mode=m.calcMode||"result";
   const im=handheld?"none":"decimal";
@@ -366,9 +366,7 @@ function render(){
   const pad=m.type==="calc"&&handheld&&!r.answered?keypadHTML():"";
   const nextLabel=current===pathMax&&current===farthest?"Voir mon résultat":"Mission suivante →";
   const kind=m.type==="calc"?" is-calc":m.type==="formula"?" is-formula":"";
-  const mNum=current-pathMin+1;
-  const illustLg=mNum>=3&&mNum<=6?" illust-lg":"";
-  $("#missionCard").innerHTML=`<div class="mission-split${hasMedia?" has-media":""}${kind}${illustLg}"><div class="mission-art">${head(m)}${m.type==="scale"?scaleLab(m):image(m)}</div><div class="mission-side"><div class="feedback" id="feedback"></div><div class="mission-quiz">${quiz}</div></div>${pad}</div><div class="actions"><button class="primary hidden" id="nextBtn">${nextLabel}</button></div>`;
+  $("#missionCard").innerHTML=`<div class="mission-split${hasMedia?" has-media":""}${kind}"><div class="mission-art">${head(m)}${m.type==="scale"?scaleLab(m):image(m)}</div><div class="mission-side"><div class="feedback" id="feedback"></div><div class="mission-quiz">${quiz}</div>${pad}</div></div><div class="actions"><button class="primary hidden" id="nextBtn">${nextLabel}</button></div>`;
   document.querySelectorAll(".option").forEach(b=>b.onclick=()=>answerOption(+b.dataset.i));
   if(m.type==="scale") initScaleLab(m);
   if(m.type==="formula") initFormula(m,r);
@@ -418,9 +416,18 @@ function wireCalc(m,handheld){
 function calcBlanks(){
   return [...document.querySelectorAll(".formula input:not([readonly])")];
 }
+function showKeypad(){
+  const pad=$("#keypad");
+  if(pad&&!locked) pad.classList.remove("keypad-off");
+}
+function hideKeypad(){
+  const pad=$("#keypad");
+  if(pad) pad.classList.add("keypad-off");
+}
 function armInput(el,blanks){
   calcTarget=el;
   blanks.forEach(f=>f.classList.toggle("armed",f===el));
+  showKeypad();
 }
 function focusCalcBlank(idx,blanks){
   if(!blanks.length||idx<0||idx>=blanks.length) return false;
@@ -941,13 +948,13 @@ function calcPress(k){
 function placeCalc(){
   const pop=$("#calcPop"), btn=$("#calcToggle");
   if(!pop||pop.hidden||!btn) return;
+  const r=btn.getBoundingClientRect();
   const w=pop.offsetWidth||280;
   const h=pop.offsetHeight||320;
-  const vw=window.innerWidth, vh=window.innerHeight;
-  let left=vw-w-10;
-  let top=vh-h-12;
-  left=Math.max(8,Math.min(left,vw-w-8));
-  top=Math.max(8,Math.min(top,vh-h-8));
+  let left=r.right-w;
+  left=Math.max(8,Math.min(left,window.innerWidth-w-8));
+  let top=r.bottom+8;
+  if(top+h>window.innerHeight-8) top=Math.max(8,r.top-h-8);
   pop.style.top=top+"px";
   pop.style.left=left+"px";
   pop.style.right="auto";
@@ -1019,6 +1026,12 @@ document.addEventListener("pointerdown",e=>{
   if(!$("#calcPop")||$("#calcPop").hidden) return;
   if(e.target.closest("#calcPop, #calcToggle")) return;
   closeCalc();
+});
+document.addEventListener("pointerdown",e=>{
+  const pad=$("#keypad");
+  if(!pad||pad.classList.contains("keypad-off")) return;
+  if(e.target.closest("#keypad, .formula input")) return;
+  hideKeypad();
 });
 function gameActive(){return $("#gameScreen")&&$("#gameScreen").classList.contains("active")}
 function overlayBlocks(){
