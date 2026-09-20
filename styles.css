@@ -640,6 +640,9 @@ html.fit .mission-split,html.handheld .mission-split{
   flex:1 1 auto;
   min-height:0;
 }
+html.fit .is-formula,html.handheld .is-formula{
+  grid-template-columns:minmax(0,1.85fr) minmax(250px,.58fr);
+}
 html.fit .mission-art,html.handheld .mission-art{
   overflow:hidden;
   min-height:0;
@@ -755,6 +758,8 @@ html.fit .is-calc #calcBtn,html.handheld .is-calc #calcBtn{
   position:relative;
   z-index:6;
 }
+html.fit .is-formula .mission-head p,html.handheld .is-formula .mission-head p{display:none}
+html.fit .is-formula .mission-head,html.handheld .is-formula .mission-head{margin-bottom:2px}
 html.fit .is-formula .question,html.handheld .is-formula .question{
   font-size:18px;
   margin:0 0 4px;
