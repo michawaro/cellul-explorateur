@@ -641,7 +641,8 @@ html.fit .mission-split,html.handheld .mission-split{
   min-height:0;
   position:relative;
 }
-html.fit .is-formula,html.handheld .is-formula{
+html.fit .is-formula,html.handheld .is-formula,
+html.fit .is-calc,html.handheld .is-calc{
   grid-template-columns:minmax(0,1.42fr) minmax(340px,.88fr);
 }
 html.fit .mission-art,html.handheld .mission-art{
@@ -771,6 +772,9 @@ html.fit .mission-card>.actions,html.handheld .mission-card>.actions{
   height:auto;
   margin:0;
   justify-content:flex-end;
+  pointer-events:none;
+}
+html.fit .mission-card>.actions #nextBtn:not(.hidden),html.handheld .mission-card>.actions #nextBtn:not(.hidden){
   pointer-events:auto;
 }
 html.fit .mission-card>.actions:has(.hidden),html.handheld .mission-card>.actions:has(.hidden){
@@ -793,35 +797,54 @@ html.fit.landscape:not(.compact) .is-calc .mission-quiz{
 html.fit .is-calc .formula,html.handheld .is-calc .formula{
   margin-bottom:8px;
 }
-html.fit.landscape:not(.compact) .is-calc{
-  grid-template-rows:minmax(0,1fr) auto;
-}
-html.fit.landscape:not(.compact) .is-calc>.formula-wrap{
-  grid-column:1/-1;
-  flex-wrap:nowrap;
+html.fit.landscape:not(.compact) .is-calc .quiz-copy{
+  display:flex;
   flex-direction:column;
   align-items:stretch;
   gap:10px;
-  padding:4px 4px 0;
-}
-html.fit.landscape:not(.compact) .is-calc>.formula-wrap .formula{
-  flex:1 1 auto;
   width:100%;
-  min-height:64px;
-  padding:14px 16px;
-  gap:12px;
-  font-size:18px;
 }
-html.fit.landscape:not(.compact) .is-calc>.formula-wrap .formula input{
+html.fit.landscape:not(.compact) .is-calc .formula-wrap{
+  flex-direction:column;
+  flex-wrap:nowrap;
+  align-items:stretch;
+  width:100%;
+  gap:10px;
+  margin-top:4px;
+}
+html.fit.landscape:not(.compact) .is-calc .formula,
+html.fit.landscape:not(.compact) .is-calc .formula.ratio,
+html.fit.landscape:not(.compact) .is-calc .formula.scale{
+  display:flex;
+  flex-direction:column;
+  flex-wrap:nowrap;
+  align-items:stretch;
+  width:100%;
+  margin:0;
+  padding:10px 12px;
+  gap:8px;
+  grid-template-columns:none;
+}
+html.fit.landscape:not(.compact) .is-calc .formula input{
+  width:100%;
   min-height:48px;
   font-size:20px;
 }
-html.fit.landscape:not(.compact) .is-calc>.formula-wrap #calcBtn{
+html.fit.landscape:not(.compact) .is-calc .formula span{
+  align-self:center;
+  transform:none;
+  font-size:20px;
+}
+html.fit.landscape:not(.compact) .is-calc #calcBtn{
   align-self:flex-end;
   position:relative;
-  z-index:41;
+  z-index:6;
   min-height:44px;
   padding:12px 22px;
+}
+html.fit.landscape:not(.compact) .is-calc #calcBtn.hidden,
+html.fit.landscape:not(.compact) .is-calc #calcBtn:disabled{
+  display:none!important;
 }
 html.fit.landscape:not(.compact) .is-formula .quiz-copy{
   display:flex;

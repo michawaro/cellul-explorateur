@@ -305,7 +305,7 @@ function formulaHTML(m,handheld){
   if(mode==="scale"){
     return `<div class="formula-wrap"><div class="formula scale"><input id="drawSize" value="${v(m.drawSize)}" readonly aria-label="Longueur du dessin"><span>÷</span><input id="scaleDraw" value="${v(m.scaleDraw)}" readonly aria-label="Longueur dessinée du segment"><span>×</span>${blank("scaleRealInput","Valeur réelle du segment en µm","…")}<span>=</span>${blank("calcAnswer","Taille réelle en micromètres","… µm")}</div><button class="primary" id="calcBtn">Vérifier</button></div>`;
   }
-  return `<div class="formula-wrap"><div class="formula"><input id="drawSize" value="${v(m.drawSize)}" readonly aria-label="Longueur du dessin"><span>÷</span><input id="scaleDraw" value="${v(m.scaleDraw)}" readonly aria-label="Longueur dessinée du segment"><span>× ${v(m.scaleReal)} µm =</span>${blank("calcAnswer","Taille réelle en micromètres","Réponse en µm")}</div><button class="primary" id="calcBtn">Vérifier</button></div>`;
+  return `<div class="formula-wrap"><div class="formula">${blank("drawSize","Longueur de la bactérie sur le document","…")}<span>÷</span>${blank("scaleDraw","Longueur dessinée du segment","…")}<span>× ${v(m.scaleReal)} µm =</span>${blank("calcAnswer","Taille réelle en micromètres","Réponse en µm")}</div><button class="primary" id="calcBtn" type="button">Vérifier</button></div>`;
 }
 function shuffleList(list){
   const a=list.slice();
@@ -356,12 +356,7 @@ function placeFormulaBar(){
   const quiz=$(".mission-quiz");
   const bank=$("#formulaBank")||$(".formula-bank");
   if(!split||!wrap||!quiz) return;
-  if(split.classList.contains("is-formula")) return;
-  const roomy=split.classList.contains("is-calc")&&isRoomyLayout();
-  if(roomy){
-    split.appendChild(wrap);
-    return;
-  }
+  if(isRoomyLayout()) return;
   if(bank&&bank.parentNode===quiz) quiz.insertBefore(wrap,bank);
   else quiz.appendChild(wrap);
 }
@@ -392,7 +387,7 @@ function render(){
       return `<button class="${cls.join(" ")}" data-i="${i}"${r.answered?" disabled":""}>${choice.text}</button>`;
     }).join("")}</div>`;
   }
-  if(m.type==="calc") quiz+=`</div>${formulaHTML(m,handheld)}`;
+  if(m.type==="calc") quiz+=`${formulaHTML(m,handheld)}</div>`;
   else if(m.type==="formula"){
     const parts=formulaSortHTML(m);
     quiz+=`${parts.intro}${parts.wrap}${parts.bank}</div>`;
@@ -407,11 +402,13 @@ function render(){
   if(m.type==="calc"){
     if(r.answered){
       if(r.calc){
+        if(r.calc.drawSize!=null&&$("#drawSize")) $("#drawSize").value=r.calc.drawSize;
         if(r.calc.scaleDraw!=null&&$("#scaleDraw")) $("#scaleDraw").value=r.calc.scaleDraw;
         if(r.calc.scaleRealInput!=null&&$("#scaleRealInput")) $("#scaleRealInput").value=r.calc.scaleRealInput;
         if(r.calc.calcAnswer!=null&&$("#calcAnswer")) $("#calcAnswer").value=r.calc.calcAnswer;
       }
       document.querySelectorAll(".formula input, #calcBtn").forEach(el=>el.disabled=true);
+      if(isRoomyLayout()&&$("#calcBtn")) $("#calcBtn").classList.add("hidden");
     }else wireCalc(m,handheld||touchPad());
   }else if($("#keypad")&&!r.answered){
     calcTarget=null;
@@ -807,11 +804,12 @@ function answerCalc(){
     finish(ok,(ok?"":`Tu as écrit ${shown}. `)+m.explain);
     return;
   }
-  const raw=$("#calcAnswer").value.trim().replace(",","."),c=parseFloat(raw);
-  if(Number.isNaN(c)){toast("Saisis ton résultat dans la dernière case.");return}
+  const raw=$("#calcAnswer").value, objRaw=$("#drawSize")?$("#drawSize").value:"", segRaw=$("#scaleDraw")?$("#scaleDraw").value:"";
+  if(!objRaw.trim()||!segRaw.trim()||!raw.trim()){toast("Complète les trois cases : … ÷ … × 2 µm = …");return}
   freeze();
-  const decimals=(raw.split(".")[1]||"").length,exact=Math.abs(c-m.answer)<.0005,rounded=decimals===1&&Math.abs(c-m.roundedAnswer)<.0005,ok=exact||rounded;
-  finish(ok,m.explain+(ok?"":" Reprends : longueur de l’objet ÷ longueur du segment × valeur réelle du segment."));
+  const stepsOk=numOk(objRaw,m.drawSize,m.drawSize)&&numOk(segRaw,m.scaleDraw,m.scaleDraw);
+  const ok=stepsOk&&numOk(raw,m.answer,m.roundedAnswer);
+  finish(ok,(ok?"":`Tu as écrit ${objRaw.trim()||"…"} ÷ ${segRaw.trim()||"…"} × 2 = ${raw.trim()||"…"}. `)+m.explain);
 }
 function finish(ok,text){
   const r=rec(current);
@@ -820,6 +818,7 @@ function finish(ok,text){
     r.answered=true;r.ok=ok;r.explain=text;
     if(missions[current].type==="calc"){
       r.calc={
+        drawSize:$("#drawSize")?$("#drawSize").value:null,
         scaleDraw:$("#scaleDraw")?$("#scaleDraw").value:null,
         scaleRealInput:$("#scaleRealInput")?$("#scaleRealInput").value:null,
         calcAnswer:$("#calcAnswer")?$("#calcAnswer").value:null
@@ -834,6 +833,7 @@ function finish(ok,text){
   $("#nextBtn").classList.remove("hidden");
   const fwd=$("#nextMission");
   if(fwd) fwd.disabled=false;
+  if(isRoomyLayout()&&$("#calcBtn")) $("#calcBtn").classList.add("hidden");
   hideKeypad();
   saveSession();
 }
