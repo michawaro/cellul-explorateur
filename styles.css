@@ -625,7 +625,7 @@ html.handheld .yt-dock{display:none!important}
 .mission-title-row{display:flex;align-items:baseline;gap:10px 14px;flex-wrap:wrap}
 .mission-title-row h1{margin:0}
 .formula-head-hint{font-size:14px;font-weight:750;color:#58707a;line-height:1.25}
-.is-formula .question{display:none}
+.is-formula .question{display:none!important}
 .keypad-off{display:none!important}
 .formula-slot .chip{width:100%;white-space:normal;text-align:center;line-height:1.2}
 
@@ -686,16 +686,20 @@ html.handheld .mission-art .scale-lab .cell-stage img{
   object-fit:contain;
 }
 html.fit .mission-art .scale-help,html.handheld .mission-art .scale-help{
-  position:absolute;
-  left:6px;right:6px;bottom:6px;
-  z-index:5;
-  margin:0;
+  position:static;
+  order:-1;
+  flex:0 0 auto;
+  z-index:2;
+  margin:0 0 4px;
   padding:0;
   background:transparent;
+  gap:6px;
 }
 html.fit .mission-art .scale-help-tip,html.handheld .mission-art .scale-help-tip{
-  font-size:14px;
-  padding:7px 10px;
+  font-size:12px;
+  font-weight:750;
+  line-height:1.2;
+  padding:5px 8px;
 }
 html.fit .mission-side,html.handheld .mission-side{position:relative;overflow:hidden;min-height:0;height:100%}
 html.fit .mission-side .feedback,html.handheld .mission-side .feedback{
@@ -738,33 +742,40 @@ html.fit .is-calc .question,html.handheld .is-calc .question{
   -webkit-line-clamp:unset;
   max-height:none;
 }
-html.fit .is-formula .mission-quiz,html.handheld .is-formula .mission-quiz{overflow:hidden}
+html.fit .is-formula .mission-quiz,html.handheld .is-formula .mission-quiz{overflow:auto}
+html.fit .is-formula .formula-sort,html.handheld .is-formula .formula-sort{gap:6px}
 html.fit .is-formula .formula.formula-drop,html.handheld .is-formula .formula.formula-drop{
   margin:0;
-  padding:8px;
+  padding:6px;
   gap:6px;
+  align-items:center;
+  align-content:flex-start;
 }
 html.fit .is-formula .formula-slot,html.handheld .is-formula .formula-slot{
-  min-width:0;
-  flex:1 1 118px;
-  min-height:52px;
+  flex:0 1 auto;
+  min-width:86px;
+  max-width:150px;
+  min-height:36px;
+  height:auto;
+  align-self:center;
 }
 html.fit .is-formula .chip,html.handheld .is-formula .chip{
   white-space:normal;
   text-align:center;
   line-height:1.15;
-  font-size:12px;
-  padding:6px 8px;
+  font-size:11px;
+  padding:5px 7px;
 }
 html.fit .is-formula .formula-result,html.handheld .is-formula .formula-result{
   white-space:normal;
   font-size:12px;
-  max-width:32%;
+  max-width:none;
+  flex:1 1 110px;
   line-height:1.2;
 }
 html.fit .is-formula .formula-bank,html.handheld .is-formula .formula-bank{
-  margin-top:6px;
-  min-height:52px;
+  margin-top:4px;
+  min-height:0;
 }
 html.portrait .mission-split{
   grid-template-columns:minmax(0,1fr);
