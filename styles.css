@@ -716,7 +716,7 @@ html.handheld .mission-art .image-panel img{
 html.fit.landscape:not(.compact) .mission-art .image-panel--course{
   display:flex!important;
   flex-direction:column;
-  justify-content:flex-start;
+  justify-content:center;
   align-items:center;
   gap:4px;
 }
@@ -727,7 +727,7 @@ html.fit.landscape:not(.compact) .mission-art .image-panel--course img{
   max-width:100%!important;
   max-height:calc(100% - 48px)!important;
   object-fit:contain;
-  object-position:center top;
+  object-position:center;
 }
 html.fit.landscape:not(.compact) .mission-art .image-panel--course .image-caption,
 html.fit.landscape:not(.compact) .mission-art .image-panel--course .course-note{
@@ -742,9 +742,9 @@ html.handheld .mission-art:has(.image-panel--cells) .mission-head{
 html.fit .mission-art .image-panel--cells,
 html.handheld .mission-art .image-panel--cells{
   flex-direction:row;
-  align-items:flex-start;
+  align-items:center;
   justify-content:center;
-  padding-top:6px;
+  padding-top:0;
 }
 html.fit .mission-art .image-panel--cells .cell-figure,
 html.handheld .mission-art .image-panel--cells .cell-figure{
@@ -841,7 +841,7 @@ html.fit.landscape:not(.compact) .quiz-prompt{
   align-items:flex-end;
   justify-content:center;
   width:100%;
-  height:min(168px,24vh);
+  height:min(286px,41vh);
   margin:0 0 6px;
   flex:0 0 auto;
   pointer-events:none;
@@ -852,9 +852,13 @@ html.fit.landscape:not(.compact) .quiz-prompt img{
   display:block;
   width:auto;
   height:auto;
-  max-width:min(168px,22vw);
+  max-width:min(286px,37vw);
   max-height:100%;
   object-fit:contain;
+}
+html.fit.landscape:not(.compact) .is-formula .quiz-prompt,
+html.fit.landscape:not(.compact) .is-calc .quiz-prompt{
+  height:min(286px,22vh);
 }
 html.iphone .quiz-prompt,
 html.handheld.compact .quiz-prompt{
